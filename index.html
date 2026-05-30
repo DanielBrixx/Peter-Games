@@ -154,6 +154,7 @@
       <button class="cat-btn" onclick="setCategory('zelda',this,null)"><span class="cat-icon">🗡️</span> Zelda</button>
       <button class="cat-btn" onclick="setCategory('sports',this,null)"><span class="cat-icon">⚽</span> Sports</button>
       <button class="cat-btn" onclick="setCategory('disney',this,null)"><span class="cat-icon">🦆</span> Disney</button>
+      <button class="cat-btn" onclick="setCategory('other',this,null)"><span class="cat-icon">🟥</span> Roblox</button>
     </div>
     <div class="sidebar-section">
       <span class="sidebar-label">Collections</span>
@@ -259,6 +260,7 @@ const games = [
   { id:16, name:"FIFA Soccer 96",          cat:"sports", emoji:"🥅", bg:"#001200", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96" },
   { id:17, name:"DuckTales",               cat:"disney", emoji:"🦆", bg:"#00101a", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales" },
   { id:18, name:"DuckTales 2",             cat:"disney", emoji:"🎩", bg:"#001018", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2" },
+  { id:19, name:"Roblox",                  cat:"other",  emoji:"🟥", bg:"#1a0000", badge:"hot",     url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true },
 ];
 
 function renderCard(g, delay=0) {
@@ -275,13 +277,19 @@ function renderCard(g, delay=0) {
   </div>`;
 }
 
+function createPopupWin(url, title, w, h) {
+  const left = Math.round((screen.width - w) / 2);
+  const top = Math.round((screen.height - h) / 2);
+  window.open(url, title, `width=${w},height=${h},top=${top},left=${left},resizable=yes,scrollbars=yes`);
+}
+
 function renderHome() {
   document.getElementById('homeView').style.display = '';
   document.getElementById('filteredView').style.display = 'none';
   const pokemon = games.filter(g => g.cat === 'pokemon');
   const mario   = games.filter(g => g.cat === 'mario');
   const zelda   = games.filter(g => g.cat === 'zelda');
-  const other   = games.filter(g => g.cat === 'sports' || g.cat === 'disney');
+  const other   = games.filter(g => g.cat === 'sports' || g.cat === 'disney' || g.cat === 'other');
   document.getElementById('pokemonGrid').innerHTML = pokemon.map((g,i)=>renderCard(g,i*50)).join('');
   document.getElementById('marioGrid').innerHTML   = mario.map((g,i)=>renderCard(g,i*50)).join('');
   document.getElementById('zeldaGrid').innerHTML   = zelda.map((g,i)=>renderCard(g,i*50)).join('');
@@ -291,7 +299,7 @@ function renderHome() {
 const catLabels = {
   all:'🎮 All Games', pokemon:'🔴 Pokemon', mario:'🍄 Mario',
   zelda:'🗡️ Zelda', sports:'⚽ Sports', disney:'🦆 Disney',
-  classic:'🏆 Classics', hot:'🔥 Most Popular'
+  other:'🟥 Roblox', classic:'🏆 Classics', hot:'🔥 Most Popular'
 };
 
 function setCategory(cat, sideBtn, navBtn) {
@@ -345,6 +353,10 @@ function showHome(btn) {
 function openGame(id) {
   const g = games.find(x => x.id === id);
   if (!g) return;
+  if (g.popup) {
+    createPopupWin(g.url, g.name, 1200, 650);
+    return;
+  }
   document.getElementById('modalTitle').textContent = g.name;
   document.getElementById('modalCat').textContent = g.cat;
   document.getElementById('gameFrame').src = g.url;
