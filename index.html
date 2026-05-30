@@ -1,16 +1,692 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Gaming Site</title>
-  <style>
-    body { background: #0d0d0d; color: #fff; font-family: sans-serif; text-align: center; }
-    h1 { color: #00ff88; font-size: 3rem; margin-top: 80px; }
-    p { color: #aaa; font-size: 1.2rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peter Games - Play Free Online Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg2: #13151c;
+    --bg3: #1a1d27;
+    --accent: #00e5ff;
+    --accent2: #ff4d6d;
+    --accent3: #ffe600;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --card: #161923;
+    --border: #23273a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg2); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+  /* NAV */
+  nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--accent2); }
+  .search-wrap {
+    flex: 1;
+    max-width: 420px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px 8px 40px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .nav-links { display: flex; gap: 0.25rem; margin-left: auto; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--bg3); }
+  .nav-links a.active { color: var(--accent); background: rgba(0,229,255,0.08); }
+
+  /* LAYOUT */
+  .layout { display: flex; min-height: calc(100vh - 60px); }
+
+  /* SIDEBAR */
+  sidebar, .sidebar {
+    width: 220px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem 0;
+    flex-shrink: 0;
+    display: block;
+  }
+  .sidebar-section { margin-bottom: 1.5rem; }
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--muted);
+    padding: 0 1.25rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+  .cat-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 1.25rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  .cat-btn:hover { color: var(--text); background: var(--bg3); }
+  .cat-btn.active { color: var(--accent); background: rgba(0,229,255,0.07); border-left-color: var(--accent); }
+  .cat-icon { font-size: 18px; width: 22px; text-align: center; }
+
+  /* MAIN */
+  .main { flex: 1; padding: 2rem; overflow: hidden; }
+
+  /* HERO BANNER */
+  .hero {
+    background: linear-gradient(135deg, #0f1929 0%, #1a0a2e 50%, #0a1f1a 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,77,109,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--muted); font-size: 1rem; max-width: 480px; line-height: 1.6; margin-bottom: 1.5rem; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: #33eeff; transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* SECTION HEADERS */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .see-all {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: 'Nunito', sans-serif;
+  }
+  .see-all:hover { text-decoration: underline; }
+
+  /* GAME GRID */
+  .game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 2.5rem;
+  }
+  .game-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .game-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,229,255,0.12);
+  }
+  .game-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .game-thumb::after {
+    content: '▶ Play';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Nunito', sans-serif;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .game-card:hover .game-thumb::after { opacity: 1; }
+  .game-info { padding: 10px 12px 12px; }
+  .game-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+  }
+  .game-meta { display: flex; align-items: center; justify-content: space-between; }
+  .game-cat {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .game-rating {
+    font-size: 11px;
+    color: var(--accent3);
+    font-weight: 700;
+  }
+  .badge {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-hot { background: var(--accent2); color: #fff; }
+  .badge-new { background: var(--accent); color: #000; }
+  .badge-top { background: var(--accent3); color: #000; }
+
+  /* GAME MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: popIn 0.25s ease;
+  }
+  .modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-title { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; }
+  .modal-close {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+  .modal-close:hover { background: var(--accent2); border-color: var(--accent2); }
+  .modal-body { padding: 1.5rem; }
+  .game-frame {
+    width: 100%;
+    height: 480px;
+    border: none;
+    border-radius: 10px;
+    background: #000;
+    display: block;
+  }
+  .game-desc { margin-top: 1rem; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+  /* CATEGORIES STRIP */
+  .cats-strip {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .cat-pill {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cat-pill:hover, .cat-pill.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 2rem;
+  }
+  footer span { color: var(--accent); font-weight: 700; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+  }
+  .no-results .big { font-size: 3rem; margin-bottom: 1rem; }
+  .no-results p { font-size: 16px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 1rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .nav-links { display: none; }
+  }
+</style>
 </head>
 <body>
-  <h1>⚔️ My Gaming Site</h1>
-  <p>Welcome, gamer. More coming soon.</p>
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">Peter<span>Games</span></a>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search games..." oninput="filterGames()">
+  </div>
+  <div class="nav-links">
+    <a href="#" class="active">Home</a>
+    <a href="#" onclick="scrollToSection('popular')">Popular</a>
+    <a href="#" onclick="scrollToSection('new')">New</a>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Categories</div>
+      <button class="cat-btn active" onclick="setCategory('all', this)"><span class="cat-icon">🎮</span> All Games</button>
+      <button class="cat-btn" onclick="setCategory('action', this)"><span class="cat-icon">⚔️</span> Action</button>
+      <button class="cat-btn" onclick="setCategory('puzzle', this)"><span class="cat-icon">🧩</span> Puzzle</button>
+      <button class="cat-btn" onclick="setCategory('racing', this)"><span class="cat-icon">🏎️</span> Racing</button>
+      <button class="cat-btn" onclick="setCategory('sports', this)"><span class="cat-icon">⚽</span> Sports</button>
+      <button class="cat-btn" onclick="setCategory('horror', this)"><span class="cat-icon">👻</span> Horror</button>
+      <button class="cat-btn" onclick="setCategory('adventure', this)"><span class="cat-icon">🗺️</span> Adventure</button>
+      <button class="cat-btn" onclick="setCategory('shooting', this)"><span class="cat-icon">🎯</span> Shooting</button>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Quick Play</div>
+      <button class="cat-btn" onclick="setCategory('hot', this)"><span class="cat-icon">🔥</span> Hot Now</button>
+      <button class="cat-btn" onclick="setCategory('new', this)"><span class="cat-icon">✨</span> New Games</button>
+      <button class="cat-btn" onclick="setCategory('top', this)"><span class="cat-icon">🏆</span> Top Rated</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- HERO -->
+    <div class="hero">
+      <h1>Play Free Games<br><span>No Download Needed</span></h1>
+      <p>Hundreds of free online games in one place. Action, puzzle, racing, horror and more — play instantly in your browser.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="scrollToSection('popular')">▶ Play Now</button>
+        <button class="btn-secondary" onclick="setCategory('new', null)">✨ New Games</button>
+      </div>
+    </div>
+
+    <!-- CATEGORY PILLS -->
+    <div class="cats-strip" id="catStrip">
+      <div class="cat-pill active" onclick="setCatPill('all', this)">🎮 All</div>
+      <div class="cat-pill" onclick="setCatPill('action', this)">⚔️ Action</div>
+      <div class="cat-pill" onclick="setCatPill('puzzle', this)">🧩 Puzzle</div>
+      <div class="cat-pill" onclick="setCatPill('racing', this)">🏎️ Racing</div>
+      <div class="cat-pill" onclick="setCatPill('sports', this)">⚽ Sports</div>
+      <div class="cat-pill" onclick="setCatPill('horror', this)">👻 Horror</div>
+      <div class="cat-pill" onclick="setCatPill('adventure', this)">🗺️ Adventure</div>
+      <div class="cat-pill" onclick="setCatPill('shooting', this)">🎯 Shooting</div>
+    </div>
+
+    <!-- POPULAR SECTION -->
+    <div id="popular">
+      <div class="section-header">
+        <div class="section-title"><span class="dot"></span> 🔥 Popular Games</div>
+        <button class="see-all" onclick="setCategory('hot', null)">See all →</button>
+      </div>
+      <div class="game-grid" id="popularGrid"></div>
+    </div>
+
+    <!-- NEW GAMES SECTION -->
+    <div id="new">
+      <div class="section-header">
+        <div class="section-title"><span class="dot" style="background:var(--accent2)"></span> ✨ New Games</div>
+        <button class="see-all" onclick="setCategory('new', null)">See all →</button>
+      </div>
+      <div class="game-grid" id="newGrid"></div>
+    </div>
+
+    <!-- ALL / FILTERED GAMES -->
+    <div id="allSection">
+      <div class="section-header">
+        <div class="section-title" id="allTitle"><span class="dot" style="background:var(--accent3)"></span> 🎮 All Games</div>
+      </div>
+      <div class="game-grid" id="allGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- GAME MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Game</div>
+      <button class="modal-close" onclick="closeGameModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <iframe class="game-frame" id="gameFrame" src="" allowfullscreen></iframe>
+      <div class="game-desc" id="gameDesc"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <span>PeterGames</span> · Play free online games · No download required</p>
+</footer>
+
+<script>
+const games = [
+  // ACTION
+  { id:1, name:"Bullet Rush", cat:"action", emoji:"💥", bg:"#1a0a0a", badge:"hot", rating:"4.8", desc:"Fast-paced shooting action — survive as long as you can!", url:"https://www.crazygames.com/embed/bullet-rush", isNew:false },
+  { id:2, name:"Shadow Fighter", cat:"action", emoji:"🥷", bg:"#0a0a1a", badge:"top", rating:"4.7", desc:"Epic martial arts combat game.", url:"https://www.crazygames.com/embed/shadow-fight-online", isNew:false },
+  { id:3, name:"Tank Battle", cat:"action", emoji:"🪖", bg:"#0d1a0a", badge:"", rating:"4.5", desc:"Control your tank and destroy enemies!", url:"https://www.crazygames.com/embed/battle-city-tank", isNew:true },
+  { id:4, name:"Ninja Assault", cat:"action", emoji:"⚔️", bg:"#1a1000", badge:"new", rating:"4.6", desc:"Slice through enemies as a stealthy ninja.", url:"https://www.crazygames.com/embed/ninja-io", isNew:true },
+
+  // PUZZLE
+  { id:5, name:"Block Blast", cat:"puzzle", emoji:"🟦", bg:"#0a1020", badge:"top", rating:"4.9", desc:"Classic block puzzle — how far can you go?", url:"https://www.crazygames.com/embed/block-blast", isNew:false },
+  { id:6, name:"Color Sudoku", cat:"puzzle", emoji:"🎨", bg:"#1a0a15", badge:"", rating:"4.4", desc:"A colorful twist on the classic sudoku.", url:"https://www.crazygames.com/embed/sudoku", isNew:false },
+  { id:7, name:"Word Chain", cat:"puzzle", emoji:"🔤", bg:"#0a1a10", badge:"new", rating:"4.3", desc:"Chain words and beat the clock.", url:"https://www.crazygames.com/embed/word-search", isNew:true },
+  { id:8, name:"2048 Deluxe", cat:"puzzle", emoji:"🔢", bg:"#1a1500", badge:"hot", rating:"4.8", desc:"Swipe tiles and reach 2048!", url:"https://www.crazygames.com/embed/2048", isNew:false },
+
+  // RACING
+  { id:9, name:"Speed Drift", cat:"racing", emoji:"🏎️", bg:"#1a0500", badge:"hot", rating:"4.7", desc:"Drift through sharp corners at insane speeds.", url:"https://www.crazygames.com/embed/madalin-stunt-cars-2", isNew:false },
+  { id:10, name:"Moto Rush", cat:"racing", emoji:"🏍️", bg:"#0a0f1a", badge:"", rating:"4.5", desc:"Ride your motorbike through traffic.", url:"https://www.crazygames.com/embed/moto-x3m", isNew:false },
+  { id:11, name:"Kart Chaos", cat:"racing", emoji:"🛒", bg:"#0a1a1a", badge:"new", rating:"4.6", desc:"Mario-kart style multiplayer racing.", url:"https://www.crazygames.com/embed/kart-rush", isNew:true },
+  { id:12, name:"Truck Mania", cat:"racing", emoji:"🚚", bg:"#100a1a", badge:"top", rating:"4.4", desc:"Drive big trucks through obstacle courses.", url:"https://www.crazygames.com/embed/offroad-thunder", isNew:false },
+
+  // SPORTS
+  { id:13, name:"Head Soccer", cat:"sports", emoji:"⚽", bg:"#001a05", badge:"hot", rating:"4.8", desc:"One-on-one head soccer with power-ups.", url:"https://www.crazygames.com/embed/head-soccer", isNew:false },
+  { id:14, name:"Basketball Pro", cat:"sports", emoji:"🏀", bg:"#1a0a00", badge:"top", rating:"4.6", desc:"Shoot hoops in this addictive basketball game.", url:"https://www.crazygames.com/embed/basketball-stars", isNew:false },
+  { id:15, name:"Tennis Open", cat:"sports", emoji:"🎾", bg:"#0a1a00", badge:"", rating:"4.3", desc:"Play tennis against the AI or a friend.", url:"https://www.crazygames.com/embed/tennis-open", isNew:true },
+  { id:16, name:"Bowling Strike", cat:"sports", emoji:"🎳", bg:"#1a1a00", badge:"new", rating:"4.5", desc:"Bowl a perfect game in 3D bowling.", url:"https://www.crazygames.com/embed/bowling", isNew:true },
+
+  // HORROR
+  { id:17, name:"Granny Escape", cat:"horror", emoji:"👵", bg:"#0d0a1a", badge:"hot", rating:"4.7", desc:"Escape from Granny's scary house — if you dare!", url:"https://www.crazygames.com/embed/granny", isNew:false },
+  { id:18, name:"Five Nights", cat:"horror", emoji:"🐻", bg:"#100008", badge:"top", rating:"4.9", desc:"Survive the night at Freddy's Pizzeria.", url:"https://www.crazygames.com/embed/five-nights-at-freddy-s-2", isNew:false },
+  { id:19, name:"Dark Maze", cat:"horror", emoji:"🌑", bg:"#030308", badge:"new", rating:"4.4", desc:"Navigate through a terrifying dark maze.", url:"https://www.crazygames.com/embed/the-maze", isNew:true },
+  { id:20, name:"Zombie Siege", cat:"horror", emoji:"🧟", bg:"#0a1000", badge:"", rating:"4.6", desc:"Defend your base from the zombie horde.", url:"https://www.crazygames.com/embed/zombie-siege-origin", isNew:false },
+
+  // ADVENTURE
+  { id:21, name:"Dungeon Quest", cat:"adventure", emoji:"🗡️", bg:"#1a1000", badge:"top", rating:"4.8", desc:"Explore dungeons, fight monsters and find treasure.", url:"https://www.crazygames.com/embed/dungeon-quest", isNew:false },
+  { id:22, name:"Sky Explorer", cat:"adventure", emoji:"🌤️", bg:"#001020", badge:"hot", rating:"4.7", desc:"Soar through the skies in this epic adventure.", url:"https://www.crazygames.com/embed/fly-or-die-io", isNew:false },
+  { id:23, name:"Pirate Bay", cat:"adventure", emoji:"🏴‍☠️", bg:"#00100a", badge:"new", rating:"4.5", desc:"Sail the seas and plunder pirate treasure.", url:"https://www.crazygames.com/embed/pirate-attack", isNew:true },
+  { id:24, name:"Lost Island", cat:"adventure", emoji:"🏝️", bg:"#0a1a08", badge:"", rating:"4.4", desc:"Survive alone on a mysterious island.", url:"https://www.crazygames.com/embed/survival-island", isNew:true },
+
+  // SHOOTING
+  { id:25, name:"Pixel Warfare", cat:"shooting", emoji:"🔫", bg:"#001510", badge:"hot", rating:"4.8", desc:"Blocky pixel-art first-person shooter.", url:"https://www.crazygames.com/embed/pixel-warfare", isNew:false },
+  { id:26, name:"Sniper Elite", cat:"shooting", emoji:"🎯", bg:"#100a00", badge:"top", rating:"4.7", desc:"Take out targets with precision sniper shots.", url:"https://www.crazygames.com/embed/sniper-assassin", isNew:false },
+  { id:27, name:"Space Blaster", cat:"shooting", emoji:"🚀", bg:"#000a1a", badge:"new", rating:"4.6", desc:"Defend Earth from alien invaders!", url:"https://www.crazygames.com/embed/space-shooter", isNew:true },
+  { id:28, name:"Gun Masters", cat:"shooting", emoji:"💣", bg:"#0a0005", badge:"", rating:"4.5", desc:"Unlock guns and dominate the arena.", url:"https://www.crazygames.com/embed/gun-mayhem-redux", isNew:false },
+];
+
+let currentCategory = 'all';
+
+function renderCard(g, delay=0) {
+  return `<div class="game-card" onclick="openGame(${g.id})" style="animation-delay:${delay}ms">
+    <div class="game-thumb" style="background:${g.bg}">
+      <span style="position:relative;z-index:1">${g.emoji}</span>
+      ${g.badge ? `<span class="badge badge-${g.badge}">${g.badge}</span>` : ''}
+    </div>
+    <div class="game-info">
+      <div class="game-name">${g.name}</div>
+      <div class="game-meta">
+        <span class="game-cat">${g.cat}</span>
+        <span class="game-rating">★ ${g.rating}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderHome() {
+  const popular = games.filter(g => g.badge === 'hot' || g.badge === 'top').slice(0, 8);
+  const newGames = games.filter(g => g.isNew).slice(0, 8);
+
+  document.getElementById('popularGrid').innerHTML = popular.map((g,i) => renderCard(g, i*40)).join('');
+  document.getElementById('newGrid').innerHTML = newGames.map((g,i) => renderCard(g, i*40)).join('');
+  document.getElementById('allGrid').innerHTML = games.map((g,i) => renderCard(g, i*30)).join('');
+
+  document.getElementById('popular').style.display = '';
+  document.getElementById('new').style.display = '';
+  document.getElementById('allTitle').innerHTML = `<span class="dot" style="background:var(--accent3)"></span> 🎮 All Games`;
+}
+
+function filterGames() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = games.filter(g => g.name.toLowerCase().includes(q) || g.cat.includes(q));
+  document.getElementById('popular').style.display = 'none';
+  document.getElementById('new').style.display = 'none';
+  document.getElementById('allTitle').innerHTML = `<span class="dot"></span> 🔍 Search Results (${filtered.length})`;
+  document.getElementById('allGrid').innerHTML = filtered.length
+    ? filtered.map((g,i) => renderCard(g,i*30)).join('')
+    : `<div class="no-results" style="grid-column:1/-1"><div class="big">🎮</div><p>No games found for "${q}"</p></div>`;
+}
+
+function setCategory(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('searchInput').value = '';
+
+  if (cat === 'all') { renderHome(); return; }
+
+  document.getElementById('popular').style.display = 'none';
+  document.getElementById('new').style.display = 'none';
+
+  let filtered;
+  const catLabels = { hot:'🔥 Hot Now', new:'✨ New Games', top:'🏆 Top Rated', action:'⚔️ Action', puzzle:'🧩 Puzzle', racing:'🏎️ Racing', sports:'⚽ Sports', horror:'👻 Horror', adventure:'🗺️ Adventure', shooting:'🎯 Shooting' };
+
+  if (cat === 'hot') filtered = games.filter(g => g.badge === 'hot');
+  else if (cat === 'new') filtered = games.filter(g => g.isNew);
+  else if (cat === 'top') filtered = games.filter(g => g.badge === 'top');
+  else filtered = games.filter(g => g.cat === cat);
+
+  document.getElementById('allTitle').innerHTML = `<span class="dot"></span> ${catLabels[cat] || cat}`;
+  document.getElementById('allGrid').innerHTML = filtered.map((g,i) => renderCard(g,i*40)).join('');
+}
+
+function setCatPill(cat, pill) {
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  setCategory(cat, null);
+}
+
+function openGame(id) {
+  const g = games.find(x => x.id === id);
+  if (!g) return;
+  document.getElementById('modalTitle').textContent = g.name;
+  document.getElementById('gameFrame').src = g.url;
+  document.getElementById('gameDesc').textContent = g.desc;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGameModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('gameFrame').src = '';
+  document.body.style.overflow = '';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeGameModal();
+}
+
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+}
+
+// Init
+renderHome();
+</script>
 </body>
 </html>
