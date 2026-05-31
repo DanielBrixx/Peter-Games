@@ -4,463 +4,229 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peter Games</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #f0f4ff;
-  --white: #ffffff;
-  --navy: #1b1464;
-  --purple: #6c3ce1;
-  --purple-light: #ede8fb;
-  --pink: #ff3d6e;
-  --text: #1a1a2e;
-  --muted: #7a7a9a;
-  --border: #e2e2f0;
-  --card-radius: 16px;
-  --shadow: 0 2px 12px rgba(108,60,225,0.10);
-  --shadow-hover: 0 8px 32px rgba(108,60,225,0.18);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0f4ff;
+  --white:#ffffff;
+  --purple:#6c3ce1;
+  --purple-l:#ede8fb;
+  --pink:#ff3d6e;
+  --text:#1a1a2e;
+  --muted:#7a7a9a;
+  --border:#e2e2f0;
+  --radius:14px;
+  --shadow:0 2px 12px rgba(108,60,225,.09);
+  --shadow-h:0 8px 28px rgba(108,60,225,.18);
 }
-body { background: var(--bg); color: var(--text); font-family: 'Nunito', 'Segoe UI', sans-serif; min-height: 100vh; }
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
-
-/* NAV */
-.nav {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  height: 64px;
-  display: flex;
-  align-items: center;
-  padding: 0 1.5rem;
-  gap: 1.5rem;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  box-shadow: 0 1px 0 var(--border);
-}
-.logo {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: var(--purple);
-  text-decoration: none;
-  letter-spacing: -0.5px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.logo-dot { color: var(--pink); }
-.search-wrap { flex: 1; max-width: 400px; position: relative; }
-.search-wrap input {
-  width: 100%;
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: 50px;
-  padding: 9px 18px 9px 44px;
-  font-size: 14px;
-  font-family: inherit;
-  font-weight: 600;
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.2s;
-}
-.search-wrap input:focus { border-color: var(--purple); background: var(--white); }
-.search-wrap input::placeholder { color: var(--muted); font-weight: 600; }
-.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--muted); }
-.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-.nav-btn {
-  background: none;
-  border: 2px solid var(--border);
-  border-radius: 50px;
-  padding: 7px 18px;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: inherit;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.nav-btn:hover { border-color: var(--purple); color: var(--purple); }
-.nav-btn.active { background: var(--purple); border-color: var(--purple); color: #fff; }
-.settings-nav-btn {
-  background: none;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 8px;
-  transition: background 0.15s;
-  line-height: 1;
-}
-.settings-nav-btn:hover { background: var(--bg); }
-
-/* LAYOUT */
-.layout { display: flex; max-width: 1280px; margin: 0 auto; padding: 0 1rem; gap: 1.5rem; }
+body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans-serif;min-height:100vh;display:flex}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
 
 /* SIDEBAR */
-.sidebar {
-  width: 200px;
-  flex-shrink: 0;
-  padding: 1.5rem 0;
+.sidebar{
+  width:210px;flex-shrink:0;background:var(--white);
+  border-right:1px solid var(--border);
+  height:100vh;position:sticky;top:0;
+  overflow-y:auto;display:flex;flex-direction:column;
+  padding:1rem 0 2rem;
 }
-.sidebar-label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--muted);
-  text-transform: uppercase;
-  padding: 0 12px;
-  margin-bottom: 6px;
-  display: block;
+.logo{
+  font-size:1.5rem;font-weight:900;color:var(--purple);
+  padding:0 1rem 1.25rem;display:flex;align-items:center;gap:6px;
+  border-bottom:1px solid var(--border);margin-bottom:.75rem;
 }
-.cat-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  padding: 9px 12px;
-  background: none;
-  border: none;
-  border-radius: 12px;
-  color: var(--muted);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s;
-  margin-bottom: 2px;
+.logo-dot{color:var(--pink)}
+.sb-label{
+  font-size:10px;font-weight:800;letter-spacing:1.5px;
+  color:var(--muted);text-transform:uppercase;
+  padding:0 1rem;margin:.75rem 0 .35rem;display:block;
 }
-.cat-btn:hover { background: var(--purple-light); color: var(--purple); }
-.cat-btn.active { background: var(--purple); color: #fff; }
-.cat-icon { font-size: 17px; width: 22px; text-align: center; flex-shrink: 0; }
-.sidebar-divider { height: 1px; background: var(--border); margin: 12px 12px; }
+.sb-divider{height:1px;background:var(--border);margin:.75rem .75rem}
+.cat-btn{
+  display:flex;align-items:center;gap:9px;width:100%;
+  padding:8px 1rem;background:none;border:none;border-radius:10px;
+  color:var(--muted);font-family:inherit;font-size:13px;font-weight:700;
+  cursor:pointer;text-align:left;transition:all .15s;margin-bottom:1px;
+}
+.cat-btn:hover{background:var(--purple-l);color:var(--purple)}
+.cat-btn.active{background:var(--purple);color:#fff}
+.cat-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
 
 /* MAIN */
-.main { flex: 1; padding: 1.5rem 0 3rem; min-width: 0; }
+.main{flex:1;min-width:0;padding:1.5rem;overflow-x:hidden}
+
+/* SEARCH BAR */
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+.search-wrap{flex:1;max-width:480px;position:relative}
+.search-wrap input{
+  width:100%;background:var(--white);border:2px solid var(--border);
+  border-radius:50px;padding:10px 18px 10px 44px;
+  font-size:14px;font-family:inherit;font-weight:700;color:var(--text);
+  outline:none;transition:border-color .2s;
+}
+.search-wrap input:focus{border-color:var(--purple);background:var(--white)}
+.search-wrap input::placeholder{color:var(--muted);font-weight:600}
+.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--muted)}
+.settings-btn{
+  background:var(--white);border:2px solid var(--border);border-radius:50px;
+  padding:9px 18px;font-size:13px;font-weight:800;font-family:inherit;
+  color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+}
+.settings-btn:hover{border-color:var(--purple);color:var(--purple)}
 
 /* HERO */
-.hero {
-  background: linear-gradient(120deg, #6c3ce1 0%, #a259ff 60%, #ff3d6e 100%);
-  border-radius: 20px;
-  padding: 2.5rem 2.5rem;
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
-  color: #fff;
+.hero{
+  background:linear-gradient(120deg,#6c3ce1 0%,#a259ff 60%,#ff3d6e 100%);
+  border-radius:20px;padding:2.25rem 2.5rem;margin-bottom:1.75rem;
+  position:relative;overflow:hidden;color:#fff;
 }
-.hero::after {
-  content: '🎮';
-  position: absolute;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 7rem;
-  opacity: 0.15;
-  pointer-events: none;
+.hero::after{
+  content:'🎮';position:absolute;right:2rem;top:50%;transform:translateY(-50%);
+  font-size:7rem;opacity:.13;pointer-events:none;
 }
-.hero h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.15; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
-.hero p { font-size: 15px; opacity: 0.85; max-width: 420px; line-height: 1.6; margin-bottom: 1.5rem; }
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn-white { background: #fff; color: var(--purple); border: none; padding: 11px 26px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
-.btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
-.btn-outline-white { background: rgba(255,255,255,0.15); color: #fff; border: 2px solid rgba(255,255,255,0.5); padding: 11px 26px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
-.btn-outline-white:hover { background: rgba(255,255,255,0.25); }
+.hero h1{font-size:2rem;font-weight:900;line-height:1.15;margin-bottom:.5rem;letter-spacing:-.5px}
+.hero p{font-size:14px;opacity:.85;max-width:420px;line-height:1.6;margin-bottom:1.25rem}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-w{background:#fff;color:var(--purple);border:none;padding:10px 22px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.btn-w:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.btn-ow{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.5);padding:10px 22px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.btn-ow:hover{background:rgba(255,255,255,.25)}
 
-/* CATEGORY PILLS */
-.pill-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.75rem; }
-.pill {
-  background: var(--white);
-  border: 2px solid var(--border);
-  border-radius: 50px;
-  padding: 7px 18px;
-  font-size: 13px;
-  font-weight: 700;
-  font-family: inherit;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  white-space: nowrap;
+/* PILLS */
+.pill-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.pill{
+  background:var(--white);border:2px solid var(--border);border-radius:50px;
+  padding:6px 16px;font-size:12px;font-weight:800;font-family:inherit;
+  color:var(--muted);cursor:pointer;transition:all .15s;
+  display:flex;align-items:center;gap:5px;white-space:nowrap;
 }
-.pill:hover { border-color: var(--purple); color: var(--purple); }
-.pill.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+.pill:hover{border-color:var(--purple);color:var(--purple)}
+.pill.active{background:var(--purple);border-color:var(--purple);color:#fff}
 
 /* SECTION */
-.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
-.section-title { font-size: 1.15rem; font-weight: 900; color: var(--text); display: flex; align-items: center; gap: 6px; }
-.see-all { font-size: 13px; color: var(--purple); font-weight: 700; background: none; border: none; cursor: pointer; font-family: inherit; }
-.see-all:hover { text-decoration: underline; }
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.sec-title{font-size:1.05rem;font-weight:900;color:var(--text)}
+.see-all{font-size:12px;color:var(--purple);font-weight:800;background:none;border:none;cursor:pointer;font-family:inherit}
+.see-all:hover{text-decoration:underline}
 
 /* GAME GRID */
-.game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-bottom: 2.5rem; }
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;margin-bottom:2rem}
 
-/* GAME CARD — Poki style */
-.game-card {
-  background: var(--white);
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.18s, box-shadow 0.18s;
-  box-shadow: var(--shadow);
-  animation: fadeUp 0.35s ease both;
-  position: relative;
+/* GAME CARD */
+.game-card{
+  background:var(--white);border-radius:var(--radius);overflow:hidden;
+  cursor:pointer;transition:transform .18s,box-shadow .18s;
+  box-shadow:var(--shadow);animation:fadeUp .3s ease both;
 }
-.game-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: var(--shadow-hover); }
-.game-thumb {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  position: relative;
-  overflow: hidden;
-  display: block;
+.game-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:var(--shadow-h)}
+.game-thumb{width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;display:block;background:#eee}
+.game-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.game-card:hover .game-thumb img{transform:scale(1.07)}
+.thumb-fb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem}
+.play-over{
+  position:absolute;inset:0;background:rgba(108,60,225,.55);
+  display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;
 }
-.game-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s;
-}
-.game-card:hover .game-thumb img { transform: scale(1.06); }
-.thumb-fallback {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-}
-.play-btn {
-  position: absolute;
-  inset: 0;
-  background: rgba(108,60,225,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.play-btn span {
-  background: #fff;
-  color: var(--purple);
-  font-weight: 900;
-  font-size: 13px;
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-family: inherit;
-}
-.game-card:hover .play-btn { opacity: 1; }
-.game-info { padding: 10px 10px 12px; }
-.game-name { font-size: 13px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.game-cat-tag { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; text-transform: capitalize; }
-.badge {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  font-size: 10px;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 50px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  z-index: 2;
-}
-.badge-hot { background: var(--pink); color: #fff; }
-.badge-new { background: #00c896; color: #fff; }
-.badge-classic { background: #f5a623; color: #fff; }
+.play-over span{background:#fff;color:var(--purple);font-weight:900;font-size:12px;padding:7px 16px;border-radius:50px;font-family:inherit}
+.game-card:hover .play-over{opacity:1}
+.game-info{padding:8px 10px 10px}
+.game-name{font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.game-cat-tag{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;text-transform:capitalize}
+.badge{position:absolute;top:7px;left:7px;font-size:9px;font-weight:800;padding:2px 7px;border-radius:50px;text-transform:uppercase;letter-spacing:.5px;z-index:2}
+.badge-hot{background:var(--pink);color:#fff}
+.badge-new{background:#00c896;color:#fff}
+.badge-classic{background:#f5a623;color:#fff}
 
-/* GAME MODAL — Poki style */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(10,8,30,0.7);
-  z-index: 1000;
-  display: none;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 1rem;
-  overflow-y: auto;
-  backdrop-filter: blur(4px);
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(10,8,30,.72);z-index:1000;
+  display:none;align-items:flex-start;justify-content:center;
+  padding:1rem;overflow-y:auto;backdrop-filter:blur(4px);
 }
-.modal-overlay.open { display: flex; }
-.modal {
-  background: var(--white);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 960px;
-  margin: auto;
-  animation: popIn 0.22s ease;
-  overflow: hidden;
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:20px;width:100%;max-width:940px;margin:auto;animation:popIn .22s ease;overflow:hidden}
+.modal-top{
+  display:grid;grid-template-columns:1fr auto;align-items:center;
+  padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);gap:1rem;
 }
-.modal-top {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  gap: 1rem;
+.modal-game-info{display:flex;align-items:center;gap:12px}
+.modal-thumb-sm{
+  width:48px;height:48px;border-radius:10px;overflow:hidden;flex-shrink:0;
+  background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:1.6rem;
 }
-.modal-game-info { display: flex; align-items: center; gap: 12px; }
-.modal-thumb {
-  width: 52px;
-  height: 52px;
-  border-radius: 12px;
-  overflow: hidden;
-  flex-shrink: 0;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-}
-.modal-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.modal-title { font-size: 1.2rem; font-weight: 900; }
-.modal-subtitle { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: capitalize; }
-.modal-actions-top { display: flex; gap: 8px; align-items: center; }
-.modal-close {
-  background: var(--bg);
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-  font-weight: 900;
-}
-.modal-close:hover { background: #ffe0e6; color: var(--pink); }
-.modal-fs-btn {
-  background: var(--purple-light);
-  border: none;
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 50px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--purple);
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
-}
-.modal-fs-btn:hover { background: var(--purple); color: #fff; }
-.game-frame-wrap { background: #000; position: relative; }
-.game-frame { width: 100%; height: 540px; border: none; display: block; }
+.modal-thumb-sm img{width:100%;height:100%;object-fit:cover}
+.modal-title{font-size:1.1rem;font-weight:900}
+.modal-sub{font-size:11px;color:var(--muted);font-weight:600;text-transform:capitalize}
+.modal-acts{display:flex;gap:8px;align-items:center}
+.m-close{background:var(--bg);border:none;width:34px;height:34px;border-radius:50%;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;font-weight:900}
+.m-close:hover{background:#ffe0e6;color:var(--pink)}
+.m-fs{background:var(--purple-l);border:none;height:34px;padding:0 14px;border-radius:50px;font-size:12px;font-weight:800;color:var(--purple);cursor:pointer;font-family:inherit;transition:background .15s}
+.m-fs:hover{background:var(--purple);color:#fff}
+.game-frame{width:100%;height:520px;border:none;display:block;background:#000}
+.related-sec{padding:1.1rem 1.4rem 1.4rem}
+.related-title{font-size:13px;font-weight:800;margin-bottom:.85rem;color:var(--text)}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:9px}
+.rel-card{border-radius:10px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;background:var(--white);box-shadow:var(--shadow)}
+.rel-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-h)}
+.rel-thumb{width:100%;aspect-ratio:1;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:#eee}
+.rel-thumb img{width:100%;height:100%;object-fit:cover}
+.rel-name{font-size:10px;font-weight:800;padding:5px 7px 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
 
-/* RELATED GAMES */
-.related-section { padding: 1.25rem 1.5rem 1.5rem; }
-.related-title { font-size: 14px; font-weight: 800; margin-bottom: 1rem; color: var(--text); }
-.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
-.related-card {
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  background: var(--white);
-  box-shadow: var(--shadow);
-}
-.related-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-.related-thumb {
-  width: 100%;
-  aspect-ratio: 1;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-}
-.related-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.related-name { font-size: 11px; font-weight: 800; padding: 6px 8px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
+/* SETTINGS */
+.settings-page{max-width:600px;padding-bottom:3rem}
+.settings-back{background:none;border:none;color:var(--purple);font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:1.25rem;padding:0}
+.settings-back:hover{text-decoration:underline}
+.settings-h1{font-size:1.7rem;font-weight:900;margin-bottom:.2rem}
+.settings-sub{color:var(--muted);font-size:13px;margin-bottom:1.75rem;font-weight:700}
+.s-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:1.4rem;margin-bottom:1.1rem;box-shadow:var(--shadow)}
+.s-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.25rem}
+.s-card-title{font-size:14px;font-weight:900;display:flex;align-items:center;gap:7px}
+.s-card-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:1.1rem;font-weight:600}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:24px;cursor:pointer;transition:.2s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.toggle input:checked+.toggle-slider{background:var(--purple)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+.disguise-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px}
+.d-btn{background:var(--bg);border:2px solid var(--border);border-radius:11px;padding:11px;cursor:pointer;text-align:left;transition:all .15s;font-family:inherit}
+.d-btn:hover{border-color:var(--purple);background:var(--purple-l)}
+.d-btn.active{border-color:var(--purple);background:var(--purple-l)}
+.d-icon{font-size:20px;display:block;margin-bottom:4px}
+.d-name{font-size:12px;font-weight:800;color:var(--text);display:block}
+.d-url{font-size:10px;color:var(--muted);display:block;font-weight:600}
+.key-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:.65rem}
+.k-btn{background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:7px 14px;font-size:12px;font-weight:800;font-family:inherit;color:var(--muted);cursor:pointer;transition:all .15s}
+.k-btn:hover{border-color:var(--purple);color:var(--purple)}
+.k-btn.active{border-color:var(--purple);background:var(--purple);color:#fff}
+.save-btn{background:var(--purple);color:#fff;border:none;padding:11px 30px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;margin-top:.4rem}
+.save-btn:hover{background:#5a2fc7;transform:translateY(-1px)}
+.saved-msg{display:none;color:#00c896;font-size:12px;font-weight:800;margin-left:10px;vertical-align:middle}
 
-/* SETTINGS PAGE */
-.settings-page { max-width: 620px; padding-bottom: 3rem; }
-.settings-back { background: none; border: none; color: var(--purple); font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 1.5rem; padding: 0; }
-.settings-back:hover { text-decoration: underline; }
-.settings-h1 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.25rem; }
-.settings-sub { color: var(--muted); font-size: 14px; margin-bottom: 2rem; font-weight: 600; }
-.s-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--shadow); }
-.s-card-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.25rem; gap: 1rem; }
-.s-card-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-.s-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; font-weight: 600; }
-.toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
-.toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-.toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 26px; cursor: pointer; transition: 0.2s; }
-.toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-.toggle input:checked + .toggle-slider { background: var(--purple); }
-.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
-.disguise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-.d-btn {
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s;
-  font-family: inherit;
-}
-.d-btn:hover { border-color: var(--purple); background: var(--purple-light); }
-.d-btn.active { border-color: var(--purple); background: var(--purple-light); }
-.d-icon { font-size: 22px; display: block; margin-bottom: 5px; }
-.d-name { font-size: 13px; font-weight: 800; color: var(--text); display: block; }
-.d-url { font-size: 11px; color: var(--muted); display: block; font-weight: 600; }
-.key-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0.75rem; }
-.k-btn {
-  background: var(--bg);
-  border: 2px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 800;
-  font-family: inherit;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.k-btn:hover { border-color: var(--purple); color: var(--purple); }
-.k-btn.active { border-color: var(--purple); background: var(--purple); color: #fff; }
-.save-btn { background: var(--purple); color: #fff; border: none; padding: 12px 32px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
-.save-btn:hover { background: #5a2fc7; transform: translateY(-1px); }
-.saved-msg { display: none; color: #00c896; font-size: 13px; font-weight: 700; margin-left: 12px; vertical-align: middle; }
-
-/* PANIC OVERLAY */
-#panicOverlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  background: #fff;
-  cursor: pointer;
-}
-#panicOverlay iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
-#panicOverlay .panic-tip { position: absolute; bottom: 6px; right: 10px; font-size: 11px; color: rgba(0,0,0,0.25); font-family: sans-serif; pointer-events: none; }
+/* PANIC */
+#panicOverlay{display:none;position:fixed;inset:0;z-index:99999;background:#fff;cursor:pointer}
+#panicOverlay iframe{width:100%;height:100%;border:none;pointer-events:none}
+#panicOverlay .p-tip{position:absolute;bottom:6px;right:10px;font-size:10px;color:rgba(0,0,0,.25);font-family:sans-serif;pointer-events:none}
 
 /* NO RESULTS */
-.no-results { grid-column: 1/-1; text-align: center; padding: 4rem 2rem; color: var(--muted); }
-.no-results .big { font-size: 3rem; margin-bottom: 1rem; }
-.no-results p { font-size: 15px; font-weight: 700; }
+.no-results{grid-column:1/-1;text-align:center;padding:3rem 2rem;color:var(--muted)}
+.no-results .big{font-size:2.5rem;margin-bottom:.75rem}
+.no-results p{font-size:14px;font-weight:700}
 
-@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes popIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 
-@media (max-width: 900px) { .sidebar { display: none; } }
-@media (max-width: 600px) {
-  .main { padding: 1rem 0 2rem; }
-  .hero { padding: 1.5rem; }
-  .hero h1 { font-size: 1.5rem; }
-  .hero::after { display: none; }
-  .game-frame { height: 340px; }
-  .nav-btn { display: none; }
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding:1rem}
+  .hero h1{font-size:1.5rem}
+  .hero::after{display:none}
+  .game-frame{height:320px}
 }
 </style>
 </head>
@@ -468,404 +234,489 @@ body { background: var(--bg); color: var(--text); font-family: 'Nunito', 'Segoe 
 
 <!-- PANIC OVERLAY -->
 <div id="panicOverlay" onclick="hidePanic()">
-  <iframe id="panicFrame" src="" title="disguise"></iframe>
-  <div class="panic-tip">Press the same key to go back</div>
+  <iframe id="panicFrame" src="" title="cover"></iframe>
+  <div class="p-tip">Press the same key combo to go back</div>
 </div>
 
-<!-- NAV -->
-<nav class="nav">
-  <a class="logo" href="#" onclick="showMainView()">Peter<span class="logo-dot">.</span>Games</a>
-  <div class="search-wrap">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Search games..." oninput="handleSearch()">
-  </div>
-  <div class="nav-right">
-    <button class="nav-btn active" id="navHome" onclick="showMainView()">Home</button>
-    <button class="nav-btn" id="navPokemon" onclick="setCategory('pokemon',null,this)">Pokémon</button>
-    <button class="nav-btn" id="navMario" onclick="setCategory('mario',null,this)">Mario</button>
-    <button class="nav-btn" id="navZelda" onclick="setCategory('zelda',null,this)">Zelda</button>
-    <button class="settings-nav-btn" onclick="showSettings()" title="Settings">⚙️</button>
-  </div>
-</nav>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="logo">Peter<span class="logo-dot">.</span>Games</div>
 
-<!-- MAIN LAYOUT -->
-<div class="layout">
+  <span class="sb-label">Browse</span>
+  <button class="cat-btn active" id="sb-all" onclick="setCategory('all',this)"><span class="cat-icon">🎮</span>All Games</button>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <span class="sidebar-label">Categories</span>
-    <button class="cat-btn active" id="sb-all" onclick="setCategory('all',this,null)"><span class="cat-icon">🎮</span>All Games</button>
-    <button class="cat-btn" id="sb-pokemon" onclick="setCategory('pokemon',this,null)"><span class="cat-icon">🔴</span>Pokémon</button>
-    <button class="cat-btn" id="sb-mario" onclick="setCategory('mario',this,null)"><span class="cat-icon">🍄</span>Mario</button>
-    <button class="cat-btn" id="sb-zelda" onclick="setCategory('zelda',this,null)"><span class="cat-icon">🗡️</span>Zelda</button>
-    <button class="cat-btn" id="sb-sports" onclick="setCategory('sports',this,null)"><span class="cat-icon">⚽</span>Sports</button>
-    <button class="cat-btn" id="sb-disney" onclick="setCategory('disney',this,null)"><span class="cat-icon">🦆</span>Disney</button>
-    <button class="cat-btn" id="sb-other" onclick="setCategory('other',this,null)"><span class="cat-icon">🟥</span>Roblox</button>
-    <div class="sidebar-divider"></div>
-    <span class="sidebar-label">Discover</span>
-    <button class="cat-btn" id="sb-hot" onclick="setCategory('hot',this,null)"><span class="cat-icon">🔥</span>Most Popular</button>
-    <button class="cat-btn" id="sb-classic" onclick="setCategory('classic',this,null)"><span class="cat-icon">🏆</span>Classics</button>
-    <button class="cat-btn" id="sb-new" onclick="setCategory('new',this,null)"><span class="cat-icon">✨</span>New</button>
-    <div class="sidebar-divider"></div>
-    <button class="cat-btn" onclick="showSettings()"><span class="cat-icon">⚙️</span>Settings</button>
-  </div>
+  <div class="sb-divider"></div>
+  <span class="sb-label">Your Games</span>
+  <button class="cat-btn" id="sb-pokemon" onclick="setCategory('pokemon',this)"><span class="cat-icon">🔴</span>Pokémon</button>
+  <button class="cat-btn" id="sb-mario" onclick="setCategory('mario',this)"><span class="cat-icon">🍄</span>Mario</button>
+  <button class="cat-btn" id="sb-zelda" onclick="setCategory('zelda',this)"><span class="cat-icon">🗡️</span>Zelda</button>
+  <button class="cat-btn" id="sb-sports" onclick="setCategory('sports',this)"><span class="cat-icon">⚽</span>Sports</button>
+  <button class="cat-btn" id="sb-disney" onclick="setCategory('disney',this)"><span class="cat-icon">🦆</span>Disney</button>
+  <button class="cat-btn" id="sb-roblox" onclick="setCategory('roblox',this)"><span class="cat-icon">🟥</span>Roblox</button>
 
-  <!-- MAIN CONTENT -->
-  <div class="main" id="mainContent">
+  <div class="sb-divider"></div>
+  <span class="sb-label">Online Games</span>
+  <button class="cat-btn" id="sb-action" onclick="setCategory('action',this)"><span class="cat-icon">💥</span>Action</button>
+  <button class="cat-btn" id="sb-racing" onclick="setCategory('racing',this)"><span class="cat-icon">🏎️</span>Racing</button>
+  <button class="cat-btn" id="sb-puzzle" onclick="setCategory('puzzle',this)"><span class="cat-icon">🧩</span>Puzzle</button>
+  <button class="cat-btn" id="sb-shooting" onclick="setCategory('shooting',this)"><span class="cat-icon">🎯</span>Shooting</button>
+  <button class="cat-btn" id="sb-survival" onclick="setCategory('survival',this)"><span class="cat-icon">🏕️</span>Survival</button>
+  <button class="cat-btn" id="sb-horror" onclick="setCategory('horror',this)"><span class="cat-icon">👻</span>Horror</button>
+  <button class="cat-btn" id="sb-simulator" onclick="setCategory('simulator',this)"><span class="cat-icon">🚗</span>Simulator</button>
+  <button class="cat-btn" id="sb-io" onclick="setCategory('io',this)"><span class="cat-icon">🌐</span>IO Games</button>
+  <button class="cat-btn" id="sb-2player" onclick="setCategory('2player',this)"><span class="cat-icon">👥</span>2 Player</button>
+  <button class="cat-btn" id="sb-stickman" onclick="setCategory('stickman',this)"><span class="cat-icon">🏃</span>Stickman</button>
+  <button class="cat-btn" id="sb-minecraft" onclick="setCategory('minecraft',this)"><span class="cat-icon">⛏️</span>Minecraft</button>
+  <button class="cat-btn" id="sb-clicker" onclick="setCategory('clicker',this)"><span class="cat-icon">👆</span>Clicker</button>
 
-    <!-- HOME VIEW -->
-    <div id="homeView">
-      <div class="hero">
-        <h1>Play Free Games<br>Right in Your Browser</h1>
-        <p>Pokémon, Mario, Zelda, FIFA and more — no download, no sign-up. Just click and play.</p>
-        <div class="hero-btns">
-          <button class="btn-white" onclick="openGame(0)">▶ Play Now</button>
-          <button class="btn-outline-white" onclick="setCategory('pokemon',null,null)">🔴 Pokémon Games</button>
-        </div>
-      </div>
+  <div class="sb-divider"></div>
+  <span class="sb-label">Discover</span>
+  <button class="cat-btn" id="sb-hot" onclick="setCategory('hot',this)"><span class="cat-icon">🔥</span>Most Popular</button>
+  <button class="cat-btn" id="sb-new" onclick="setCategory('new',this)"><span class="cat-icon">✨</span>New Games</button>
 
-      <div class="pill-strip" id="pillStrip">
-        <button class="pill active" onclick="setCatPill('all',this)">🎮 All</button>
-        <button class="pill" onclick="setCatPill('pokemon',this)">🔴 Pokémon</button>
-        <button class="pill" onclick="setCatPill('mario',this)">🍄 Mario</button>
-        <button class="pill" onclick="setCatPill('zelda',this)">🗡️ Zelda</button>
-        <button class="pill" onclick="setCatPill('sports',this)">⚽ Sports</button>
-        <button class="pill" onclick="setCatPill('disney',this)">🦆 Disney</button>
-        <button class="pill" onclick="setCatPill('other',this)">🟥 Roblox</button>
-      </div>
-
-      <div class="section-header">
-        <div class="section-title">🔴 Pokémon</div>
-        <button class="see-all" onclick="setCategory('pokemon',null,null)">See all →</button>
-      </div>
-      <div class="game-grid" id="gridPokemon"></div>
-
-      <div class="section-header">
-        <div class="section-title">🍄 Mario</div>
-        <button class="see-all" onclick="setCategory('mario',null,null)">See all →</button>
-      </div>
-      <div class="game-grid" id="gridMario"></div>
-
-      <div class="section-header">
-        <div class="section-title">🗡️ Zelda</div>
-        <button class="see-all" onclick="setCategory('zelda',null,null)">See all →</button>
-      </div>
-      <div class="game-grid" id="gridZelda"></div>
-
-      <div class="section-header">
-        <div class="section-title">⚽ Sports & More</div>
-      </div>
-      <div class="game-grid" id="gridOther"></div>
-    </div>
-
-    <!-- FILTERED VIEW -->
-    <div id="filteredView" style="display:none">
-      <div class="section-header" style="margin-bottom:1.25rem">
-        <div class="section-title" id="filteredTitle">Games</div>
-      </div>
-      <div class="game-grid" id="filteredGrid"></div>
-    </div>
-
-    <!-- SETTINGS VIEW -->
-    <div id="settingsView" style="display:none" class="settings-page">
-      <button class="settings-back" onclick="showMainView()">← Back to games</button>
-      <div class="settings-h1">⚙️ Settings</div>
-      <div class="settings-sub">Customize your PeterGames experience</div>
-
-      <!-- TAB CLOAKING -->
-      <div class="s-card">
-        <div class="s-card-head">
-          <div>
-            <div class="s-card-title">🎭 Tab Cloaking</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="cloakToggle" onchange="toggleCloak()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        <div class="s-card-desc">Makes your browser tab look like a different website so nobody knows you're playing games.</div>
-        <div class="disguise-grid" id="disguiseGrid">
-          <button class="d-btn active" onclick="selectDisguise(this,'Google','https://www.google.com','🔍','Google','google.com')">
-            <span class="d-icon">🔍</span><span class="d-name">Google</span><span class="d-url">google.com</span>
-          </button>
-          <button class="d-btn" onclick="selectDisguise(this,'Google Docs','https://docs.google.com','📄','Google Docs','docs.google.com')">
-            <span class="d-icon">📄</span><span class="d-name">Google Docs</span><span class="d-url">docs.google.com</span>
-          </button>
-          <button class="d-btn" onclick="selectDisguise(this,'Google Classroom','https://classroom.google.com','🏫','Google Classroom','classroom.google.com')">
-            <span class="d-icon">🏫</span><span class="d-name">Classroom</span><span class="d-url">classroom.google.com</span>
-          </button>
-          <button class="d-btn" onclick="selectDisguise(this,'Khan Academy','https://www.khanacademy.org','🎓','Khan Academy','khanacademy.org')">
-            <span class="d-icon">🎓</span><span class="d-name">Khan Academy</span><span class="d-url">khanacademy.org</span>
-          </button>
-          <button class="d-btn" onclick="selectDisguise(this,'Skolestudio','https://www.skolestudio.no','📚','Skolestudio','skolestudio.no')">
-            <span class="d-icon">📚</span><span class="d-name">Skolestudio</span><span class="d-url">skolestudio.no</span>
-          </button>
-          <button class="d-btn" onclick="selectDisguise(this,'Wikipedia','https://www.wikipedia.org','📖','Wikipedia','wikipedia.org')">
-            <span class="d-icon">📖</span><span class="d-name">Wikipedia</span><span class="d-url">wikipedia.org</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- PANIC KEY -->
-      <div class="s-card">
-        <div class="s-card-head">
-          <div>
-            <div class="s-card-title">🚨 Panic Key</div>
-          </div>
-          <label class="toggle">
-            <input type="checkbox" id="panicToggle" onchange="savePanicSettings()">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        <div class="s-card-desc">Press a key combo to instantly cover your screen with a fake website (like Google or Skolestudio). Click anywhere to go back. Choose your disguise above first.</div>
-        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;">Choose your panic key:</div>
-        <div class="key-row" id="keyRow">
-          <button class="k-btn active" onclick="selectKey(this,'x')">Ctrl + X</button>
-          <button class="k-btn" onclick="selectKey(this,'q')">Ctrl + Q</button>
-          <button class="k-btn" onclick="selectKey(this,'z')">Ctrl + Z</button>
-          <button class="k-btn" onclick="selectKey(this,'e')">Ctrl + E</button>
-          <button class="k-btn" onclick="selectKey(this,'1')">Ctrl + 1</button>
-          <button class="k-btn" onclick="selectKey(this,'2')">Ctrl + 2</button>
-        </div>
-      </div>
-
-      <button class="save-btn" onclick="saveAllSettings()">Save Settings</button>
-      <span class="saved-msg" id="savedMsg">✓ Saved!</span>
-    </div>
-
-  </div>
+  <div class="sb-divider"></div>
+  <button class="cat-btn" onclick="showSettings()"><span class="cat-icon">⚙️</span>Settings</button>
 </div>
 
-<!-- GAME MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeOnBg(event)">
+<!-- MAIN -->
+<div class="main" id="mainArea">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search games..." oninput="handleSearch()">
+    </div>
+    <button class="settings-btn" onclick="showSettings()">⚙️ Settings</button>
+  </div>
+
+  <!-- HOME VIEW -->
+  <div id="homeView">
+    <div class="hero">
+      <h1>Play Free Games<br>Right in Your Browser</h1>
+      <p>Pokémon, Mario, Zelda, racing, shooting and more — no download, no sign-up. Just click and play!</p>
+      <div class="hero-btns">
+        <button class="btn-w" onclick="openGame(0)">▶ Play Now</button>
+        <button class="btn-ow" onclick="setCategory('pokemon',null)">🔴 Pokémon Games</button>
+      </div>
+    </div>
+
+    <div class="pill-strip" id="pillStrip">
+      <button class="pill active" onclick="setCatPill('all',this)">🎮 All</button>
+      <button class="pill" onclick="setCatPill('pokemon',this)">🔴 Pokémon</button>
+      <button class="pill" onclick="setCatPill('mario',this)">🍄 Mario</button>
+      <button class="pill" onclick="setCatPill('zelda',this)">🗡️ Zelda</button>
+      <button class="pill" onclick="setCatPill('action',this)">💥 Action</button>
+      <button class="pill" onclick="setCatPill('racing',this)">🏎️ Racing</button>
+      <button class="pill" onclick="setCatPill('shooting',this)">🎯 Shooting</button>
+      <button class="pill" onclick="setCatPill('puzzle',this)">🧩 Puzzle</button>
+      <button class="pill" onclick="setCatPill('io',this)">🌐 IO Games</button>
+      <button class="pill" onclick="setCatPill('2player',this)">👥 2 Player</button>
+    </div>
+
+    <div class="sec-header"><div class="sec-title">🔴 Pokémon</div><button class="see-all" onclick="setCategory('pokemon',null)">See all →</button></div>
+    <div class="game-grid" id="g-pokemon"></div>
+
+    <div class="sec-header"><div class="sec-title">🍄 Mario</div><button class="see-all" onclick="setCategory('mario',null)">See all →</button></div>
+    <div class="game-grid" id="g-mario"></div>
+
+    <div class="sec-header"><div class="sec-title">🗡️ Zelda</div><button class="see-all" onclick="setCategory('zelda',null)">See all →</button></div>
+    <div class="game-grid" id="g-zelda"></div>
+
+    <div class="sec-header"><div class="sec-title">💥 Action Games</div><button class="see-all" onclick="setCategory('action',null)">See all →</button></div>
+    <div class="game-grid" id="g-action"></div>
+
+    <div class="sec-header"><div class="sec-title">🏎️ Racing Games</div><button class="see-all" onclick="setCategory('racing',null)">See all →</button></div>
+    <div class="game-grid" id="g-racing"></div>
+
+    <div class="sec-header"><div class="sec-title">🎯 Shooting Games</div><button class="see-all" onclick="setCategory('shooting',null)">See all →</button></div>
+    <div class="game-grid" id="g-shooting"></div>
+
+    <div class="sec-header"><div class="sec-title">🌐 IO Games</div><button class="see-all" onclick="setCategory('io',null)">See all →</button></div>
+    <div class="game-grid" id="g-io"></div>
+
+    <div class="sec-header"><div class="sec-title">🧩 Puzzle Games</div><button class="see-all" onclick="setCategory('puzzle',null)">See all →</button></div>
+    <div class="game-grid" id="g-puzzle"></div>
+
+    <div class="sec-header"><div class="sec-title">⚽ Sports & More</div></div>
+    <div class="game-grid" id="g-sports"></div>
+  </div>
+
+  <!-- FILTERED VIEW -->
+  <div id="filteredView" style="display:none">
+    <div class="sec-header" style="margin-bottom:1.1rem">
+      <div class="sec-title" id="filteredTitle">Games</div>
+    </div>
+    <div class="game-grid" id="filteredGrid"></div>
+  </div>
+
+  <!-- SETTINGS VIEW -->
+  <div id="settingsView" style="display:none" class="settings-page">
+    <button class="settings-back" onclick="showMainView()">← Back to games</button>
+    <div class="settings-h1">⚙️ Settings</div>
+    <div class="settings-sub">Customize your PeterGames experience</div>
+
+    <div class="s-card">
+      <div class="s-card-head">
+        <div><div class="s-card-title">🎭 Tab Cloaking</div></div>
+        <label class="toggle"><input type="checkbox" id="cloakToggle" onchange="toggleCloak()"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="s-card-desc">Makes your browser tab look like a different website. Nobody will know you're playing games!</div>
+      <div class="disguise-grid">
+        <button class="d-btn active" onclick="selectDisguise(this,'Google','https://www.google.com','🔍','Google')">
+          <span class="d-icon">🔍</span><span class="d-name">Google</span><span class="d-url">google.com</span>
+        </button>
+        <button class="d-btn" onclick="selectDisguise(this,'Google Docs','https://docs.google.com','📄','Google Docs')">
+          <span class="d-icon">📄</span><span class="d-name">Google Docs</span><span class="d-url">docs.google.com</span>
+        </button>
+        <button class="d-btn" onclick="selectDisguise(this,'Google Classroom','https://classroom.google.com','🏫','Google Classroom')">
+          <span class="d-icon">🏫</span><span class="d-name">Classroom</span><span class="d-url">classroom.google.com</span>
+        </button>
+        <button class="d-btn" onclick="selectDisguise(this,'Khan Academy','https://www.khanacademy.org','🎓','Khan Academy')">
+          <span class="d-icon">🎓</span><span class="d-name">Khan Academy</span><span class="d-url">khanacademy.org</span>
+        </button>
+        <button class="d-btn" onclick="selectDisguise(this,'Skolestudio','https://www.skolestudio.no','📚','Skolestudio')">
+          <span class="d-icon">📚</span><span class="d-name">Skolestudio</span><span class="d-url">skolestudio.no</span>
+        </button>
+        <button class="d-btn" onclick="selectDisguise(this,'Wikipedia','https://www.wikipedia.org','📖','Wikipedia')">
+          <span class="d-icon">📖</span><span class="d-name">Wikipedia</span><span class="d-url">wikipedia.org</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="s-card">
+      <div class="s-card-head">
+        <div><div class="s-card-title">🚨 Panic Key</div></div>
+        <label class="toggle"><input type="checkbox" id="panicToggle"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="s-card-desc">Press a key combo to instantly cover your screen with the disguise website above. Click anywhere to return. Choose your disguise first!</div>
+      <div style="font-size:12px;font-weight:800;color:var(--text);margin-bottom:6px">Choose your panic key:</div>
+      <div class="key-row" id="keyRow">
+        <button class="k-btn active" onclick="selectKey(this,'x')">Ctrl+X</button>
+        <button class="k-btn" onclick="selectKey(this,'q')">Ctrl+Q</button>
+        <button class="k-btn" onclick="selectKey(this,'z')">Ctrl+Z</button>
+        <button class="k-btn" onclick="selectKey(this,'e')">Ctrl+E</button>
+        <button class="k-btn" onclick="selectKey(this,'1')">Ctrl+1</button>
+        <button class="k-btn" onclick="selectKey(this,'2')">Ctrl+2</button>
+      </div>
+    </div>
+
+    <button class="save-btn" onclick="saveSettings()">Save Settings</button>
+    <span class="saved-msg" id="savedMsg">✓ Saved!</span>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeBg(event)">
   <div class="modal">
     <div class="modal-top">
       <div class="modal-game-info">
-        <div class="modal-thumb" id="modalThumb"></div>
-        <div>
-          <div class="modal-title" id="modalTitle"></div>
-          <div class="modal-subtitle" id="modalSubtitle"></div>
-        </div>
+        <div class="modal-thumb-sm" id="mThumb"></div>
+        <div><div class="modal-title" id="mTitle"></div><div class="modal-sub" id="mSub"></div></div>
       </div>
-      <div class="modal-actions-top">
-        <button class="modal-fs-btn" onclick="goFullscreen()">⛶ Fullscreen</button>
-        <button class="modal-close" onclick="closeGameModal()">✕</button>
+      <div class="modal-acts">
+        <button class="m-fs" onclick="goFS()">⛶ Fullscreen</button>
+        <button class="m-close" onclick="closeModal()">✕</button>
       </div>
     </div>
-    <div class="game-frame-wrap">
-      <iframe class="game-frame" id="gameFrame" src="" allowfullscreen></iframe>
-    </div>
-    <div class="related-section">
+    <iframe class="game-frame" id="gameFrame" src="" allowfullscreen></iframe>
+    <div class="related-sec">
       <div class="related-title">More games you might like</div>
-      <div class="related-grid" id="relatedGrid"></div>
+      <div class="related-grid" id="relGrid"></div>
     </div>
   </div>
 </div>
 
 <script>
-// ─── GAMES DATA ───────────────────────────────────────────────────────────────
-const games = [
-  { id:0,  name:"Pokémon Emerald",         cat:"pokemon", emoji:"🌿", color:"#1a4a1a",
-    thumb:"https://www.igdb.com/games/pokemon-emerald-version--1/cover/image",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Pokemon_Emerald_box_art.png/220px-Pokemon_Emerald_box_art.png",
-    badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-emeraid" },
-  { id:1,  name:"Pokémon Fire Red",         cat:"pokemon", emoji:"🔥", color:"#4a1a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6f/Pokemon_FireRed_box.png/220px-Pokemon_FireRed_box.png",
-    badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1" },
-  { id:2,  name:"Pokémon Stadium 2",        cat:"pokemon", emoji:"🏟️", color:"#1a1a4a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Pokemon_Stadium_2.png/220px-Pokemon_Stadium_2.png",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=pokemon-stadium-2" },
-  { id:3,  name:"Pokémon Fusion Origins",   cat:"pokemon", emoji:"🧬", color:"#3a1a4a",
-    img:"https://i.imgur.com/7QkFcFf.png",
-    badge:"new", url:"https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501" },
-  { id:4,  name:"Mario Kart 64",            cat:"mario",   emoji:"🏎️", color:"#4a2a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Mario_Kart_64box.jpg/220px-Mario_Kart_64box.jpg",
-    badge:"hot", url:"https://classicjoy.games/embed?slug=mario-kart-64" },
-  { id:5,  name:"Super Mario 64",           cat:"mario",   emoji:"⭐", color:"#4a3a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/Super_Mario_64_box_cover.jpg/220px-Super_Mario_64_box_cover.jpg",
-    badge:"hot", url:"https://classicjoy.games/embed?slug=super-mario-64" },
-  { id:6,  name:"Super Mario All-Stars",    cat:"mario",   emoji:"🍄", color:"#4a1a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/SuperMarioAllStars.jpg/220px-SuperMarioAllStars.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=super-mario-all-stars" },
-  { id:7,  name:"Yoshi's Story",            cat:"mario",   emoji:"🦕", color:"#1a4a2a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Yoshis_Story_NA.jpg/220px-Yoshis_Story_NA.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=yoshis-story" },
-  { id:8,  name:"Zelda: Ocarina of Time",   cat:"zelda",   emoji:"🎵", color:"#3a2a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/5/57/The_Legend_of_Zelda_Ocarina_of_Time.jpg/220px-The_Legend_of_Zelda_Ocarina_of_Time.jpg",
-    badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time" },
-  { id:9,  name:"Zelda: Majora's Mask",     cat:"zelda",   emoji:"🌕", color:"#2a1a4a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/60/The_Legend_of_Zelda_-_Majora%27s_Mask_Box_Art.jpg/220px-The_Legend_of_Zelda_-_Majora%27s_Mask_Box_Art.jpg",
-    badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask" },
-  { id:10, name:"Zelda: A Link to the Past",cat:"zelda",   emoji:"🗡️", color:"#1a3a2a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/The_Legend_of_Zelda_-_A_Link_to_the_Past_SNES_Game_Cover.jpg/220px-The_Legend_of_Zelda_-_A_Link_to_the_Past_SNES_Game_Cover.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-link-to-the-past" },
-  { id:11, name:"Zelda: The Minish Cap",    cat:"zelda",   emoji:"🎩", color:"#1a4a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/The_Legend_of_Zelda_-_The_Minish_Cap.jpg/220px-The_Legend_of_Zelda_-_The_Minish_Cap.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap" },
-  { id:12, name:"Zelda II: Adventure of Link",cat:"zelda", emoji:"🛡️", color:"#3a1a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/2/21/Zelda_II_-_The_Adventure_of_Link_-_NES_-_USA.jpg/220px-Zelda_II_-_The_Adventure_of_Link_-_NES_-_USA.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link" },
-  { id:13, name:"The Legend of Zelda",      cat:"zelda",   emoji:"🏺", color:"#4a3a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Legend_of_zelda_cover_%28with_cartridge%29_gold.png/220px-Legend_of_zelda_cover_%28with_cartridge%29_gold.png",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda" },
-  { id:14, name:"FIFA Soccer 07",           cat:"sports",  emoji:"⚽", color:"#1a3a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Fifa07_psp_cover.jpg/220px-Fifa07_psp_cover.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-07" },
-  { id:15, name:"FIFA 2000",                cat:"sports",  emoji:"🏆", color:"#1a2a1a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/FIFA_2000_cover.jpg/220px-FIFA_2000_cover.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer" },
-  { id:16, name:"FIFA Soccer 96",           cat:"sports",  emoji:"🥅", color:"#1a1a3a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/99/FIFA_Soccer_96_cover.jpg/220px-FIFA_Soccer_96_cover.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96" },
-  { id:17, name:"DuckTales",                cat:"disney",  emoji:"🦆", color:"#1a2a3a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/96/DuckTales_NES_cover.jpg/220px-DuckTales_NES_cover.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales" },
-  { id:18, name:"DuckTales 2",              cat:"disney",  emoji:"🎩", color:"#1a1a3a",
-    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/DuckTales_2_NES.jpg/220px-DuckTales_2_NES.jpg",
-    badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2" },
-  { id:19, name:"Roblox",                   cat:"other",   emoji:"🟥", color:"#3a1a1a",
-    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/220px-Roblox_player_icon_black.svg.png",
-    badge:"hot", url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true },
+// ── GAMES DATA ────────────────────────────────────────────────────────────────
+const YOUR_GAMES = [
+  {id:0, name:"Pokémon Emerald", cat:"pokemon", img:"/mnt/user-data/uploads/1780166125019_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-emeraid"},
+  {id:1, name:"Pokémon Fire Red", cat:"pokemon", img:"/mnt/user-data/uploads/1780215018138_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1"},
+  {id:2, name:"Pokémon Stadium 2", cat:"pokemon", img:"/mnt/user-data/uploads/1780215267289_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=pokemon-stadium-2"},
+  {id:3, name:"Pokémon Fusion Origins", cat:"pokemon", img:"/mnt/user-data/uploads/1780215678000_image.png", badge:"new", url:"https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501"},
+  {id:4, name:"Mario Kart 64", cat:"mario", img:"/mnt/user-data/uploads/1780215019138_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=mario-kart-64"},
+  {id:5, name:"Super Mario 64", cat:"mario", img:"/mnt/user-data/uploads/1780215206568_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=super-mario-64"},
+  {id:6, name:"Super Mario All-Stars", cat:"mario", img:"/mnt/user-data/uploads/1780215249620_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=super-mario-all-stars"},
+  {id:7, name:"Yoshi's Story", cat:"mario", img:"/mnt/user-data/uploads/1780215101494_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=yoshis-story"},
+  {id:8, name:"Zelda: Ocarina of Time", cat:"zelda", img:"/mnt/user-data/uploads/1780215438929_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time"},
+  {id:9, name:"Zelda: Majora's Mask", cat:"zelda", img:"/mnt/user-data/uploads/1780215332276_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask"},
+  {id:10, name:"Zelda: A Link to the Past", cat:"zelda", img:"/mnt/user-data/uploads/1780215392619_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-link-to-the-past"},
+  {id:11, name:"Zelda: The Minish Cap", cat:"zelda", img:"/mnt/user-data/uploads/1780215363427_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap"},
+  {id:12, name:"Zelda II: Adventure of Link", cat:"zelda", img:"/mnt/user-data/uploads/1780215489024_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link"},
+  {id:13, name:"The Legend of Zelda", cat:"zelda", img:"/mnt/user-data/uploads/1780215510523_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda"},
+  {id:14, name:"FIFA Soccer 07", cat:"sports", img:"/mnt/user-data/uploads/1780215529780_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-07"},
+  {id:15, name:"FIFA 2000", cat:"sports", img:"/mnt/user-data/uploads/1780215592169_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer"},
+  {id:16, name:"FIFA Soccer 96", cat:"sports", img:"/mnt/user-data/uploads/1780215154789_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96"},
+  {id:17, name:"DuckTales", cat:"disney", img:"/mnt/user-data/uploads/1780215185015_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales"},
+  {id:18, name:"DuckTales 2", cat:"disney", img:"/mnt/user-data/uploads/1780215041836_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2"},
+  {id:19, name:"Roblox", cat:"roblox", img:"/mnt/user-data/uploads/1780215748804_image.png", badge:"hot", url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true},
 ];
 
-// ─── SETTINGS STATE ───────────────────────────────────────────────────────────
-let settings = {
-  cloakEnabled: false,
-  cloakTitle: 'Google',
-  cloakFavicon: '🔍',
-  cloakUrl: 'https://www.google.com',
-  panicEnabled: false,
-  panicKey: 'x',
-};
+const OG_GAMES = [
+  {name:"CS Online",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/434/responsive/CS-Online-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity2/cs-online/index.html"},
+  {name:"Stickman GTA City",cat:"action",img:"https://www.onlinegames.io/media/posts/900/responsive/stickman-gta-city-free-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/stickman-gta-city/index-og.html"},
+  {name:"Masked Special Forces",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/310/responsive/Masked-Special-Forces-FPS-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity2/masked-special-forces/index.html"},
+  {name:"WarStrike",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/870/responsive/WarStrike-Online-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/warstrike/index-og.html"},
+  {name:"FPS Strike",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/902/responsive/fps-strike-online-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity2/fps-strike/index-og.html"},
+  {name:"Crazy Strike Force",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/366/responsive/Crazy-Strike-Force-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/crazy-strike-force/index.html"},
+  {name:"ArmedForces.io",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/234/responsive/Armed-Forces-io-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/armedforces-io/index.html"},
+  {name:"Wasteland Shooters",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/218/responsive/Wasteland-Shooters-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity2/wasteland-shooters/index.html"},
+  {name:"Mob City",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/418/responsive/Mob-City-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/mob-city/index.html"},
+  {name:"Battle Royale Simulator",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/633/responsive/Battle-Royale-Simulator-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/battle-royale-simulator/index.html"},
+  {name:"Rome Simulator",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/634/responsive/Rome-Simulator-2-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity/rome-simulator/index.html"},
+  {name:"Army Combat",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/664/responsive/Army-Combat-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity/army-combat/index.html"},
+  {name:"Guerrillas io",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/423/responsive/Guerillas-io-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity2/guerrillas-io/index.html"},
+  {name:"CobraZ.io Classic",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/546/responsive/Cobraz.io-Classic-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/cobraz-io-classic/index.html"},
+  {name:"Legends Arena",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/608/responsive/Legends-Arena-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity2/legends-arena/index.html"},
+  {name:"Mech Shooter",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/649/responsive/Mech-Shooter-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/mech-shooter/index.html"},
+  {name:"Dark Ninja Hanjo",cat:"action",img:"https://www.onlinegames.io/media/posts/451/responsive/Dark-Ninja-Hanjo-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/dark-ninja-hanjo/index.html"},
+  {name:"Agent Smith",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/189/responsive/Agent-Smith-2-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity/agent-smith/index.html"},
+  {name:"Funny Shooter Bro",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/735/responsive/Funny-Shooter-Bro-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/funny-shooter-bro/index.html"},
+  {name:"Kawaii Shooter",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/844/responsive/Kawaii-Shooter-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity/kawaii-shooter/index-og.html"},
+  {name:"Jacks Village",cat:"action",img:"https://www.onlinegames.io/media/posts/493/responsive/Jacks-Village-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity/jacks-village/index.html"},
+  {name:"Legendary Sniper",cat:"shooting action",img:"https://www.onlinegames.io/media/posts/596/responsive/Legendary-Sniper-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/legendary-sniper/index.html"},
+  {name:"Urban Sniper",cat:"shooting action",img:"https://www.onlinegames.io/media/posts/322/responsive/Urban-Sniper-Game-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity2/urban-sniper/index.html"},
+  {name:"Sniper Elite",cat:"shooting",img:"https://www.onlinegames.io/media/posts/127/responsive/Sniper-Elite-Online-xs.jpg",url:"https://www.onlinegames.io/games/2021/1/sniper-elite/index.html"},
+  {name:"Galactic Sniper",cat:"shooting",img:"https://www.onlinegames.io/media/posts/719/responsive/Galactic-Sniper-xs.jpg",url:"https://www.onlinegames.io/games/2021/2/galactic-sniper/index.html"},
+  {name:"Zombie Sniper",cat:"shooting horror",img:"https://www.onlinegames.io/media/posts/745/responsive/Zombie-Sniper-xs.jpg",url:"https://www.onlinegames.io/games/2022/construct/116/zombie-sniper/index.html"},
+  {name:"Deer Hunter",cat:"shooting",img:"https://www.onlinegames.io/media/posts/591/responsive/Deer-Hunter-xs.jpg",url:"https://www.onlinegames.io/games/2021/1/deer-hunter/index.html"},
+  {name:"Secret Sniper Agent",cat:"shooting",img:"https://www.onlinegames.io/media/posts/753/responsive/Secret-Sniper-Agent-xs.jpg",url:"https://www.onlinegames.io/games/2022/construct/129/secret-sniper-agent/index.html"},
+  {name:"Mr Space Bullet",cat:"shooting",img:"https://www.onlinegames.io/media/posts/707/responsive/Mr-Space-Bullet-xs.jpg",url:"https://www.onlinegames.io/games/2021/4/mr-space-bullet/index.html"},
+  {name:"Drift King",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/729/responsive/Drift-King-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/drift-king/index.html"},
+  {name:"Highway Traffic",cat:"racing",img:"https://www.onlinegames.io/media/posts/32/responsive/Highway-Traffic-2-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/highway-traffic/index.html"},
+  {name:"Madalin Stunt Cars Pro",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/401/responsive/Madalin-Stunt-Cars-Pro-Game-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/madalin-stunt-cars-pro/index.html"},
+  {name:"Drift Hunters Pro",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/397/responsive/Drift-Hunters-Pro-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/drift-hunters-pro/index.html"},
+  {name:"Highway Racer Pro",cat:"racing",img:"https://www.onlinegames.io/media/posts/822/responsive/Highway-Racer-Pro-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/highway-racer-pro/index.html"},
+  {name:"Burnout City",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/861/responsive/burnoutcity-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity/burnout-city/index-og.html"},
+  {name:"Super Car Driving",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/854/responsive/supercardriving-2-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity2/super-car-driving/index-og.html"},
+  {name:"City Stunts",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/629/responsive/City-Stunts-Game-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity3/city-stunts/index.html"},
+  {name:"Drift Fury",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/650/responsive/Drift-Fury-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/drift-fury/index.html"},
+  {name:"Drift Rider",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/553/responsive/Drift-Rider-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity3/drift-rider/index.html"},
+  {name:"Crazy Drifter",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/314/responsive/Crazy-Drifter-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/crazy-drifter/index.html"},
+  {name:"Highway Racer 2",cat:"racing",img:"https://www.onlinegames.io/media/posts/323/responsive/Highway-Racer-2-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity2/highway-racer-2/index.html"},
+  {name:"Stunt Simulator 2",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/765/responsive/Stunt-simulator-2-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/stunt-simulator-2/index.html"},
+  {name:"Edys Car Simulator",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/238/responsive/Edys-Car-Simulator-Online-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/edys-car-simulator/index.html"},
+  {name:"Escape Car",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/1000/responsive/Escape-Car-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity2/escape-car/index-og.html"},
+  {name:"Velocity Rush",cat:"racing",img:"https://www.onlinegames.io/media/posts/1265/responsive/velocity-rush-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/velocity-rush/game.html"},
+  {name:"Taxi Simulator",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/465/responsive/Taxi-Simulator-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/taxi-simulator/index.html"},
+  {name:"GTA Simulator",cat:"racing action simulator",img:"https://www.onlinegames.io/media/posts/416/responsive/GTA-Simulator-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity2/gta-simulator/index.html"},
+  {name:"Motorbike Stunt Simulator",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/1045/responsive/motorbike_stunt_simulator_game-2-xs.webp",url:"https://cloud.onlinegames.io/games/2021/unity/motorbike-stunt-simulator/index-og.html"},
+  {name:"Supercars Drift",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/628/responsive/SuperCars-Drift-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity3/supercars-drift/index.html"},
+  {name:"Crazy Parking Fury",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/643/responsive/Crazy-Parking-Fury-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/crazy-parking-fury/index.html"},
+  {name:"Highway Cars",cat:"racing",img:"https://www.onlinegames.io/media/posts/598/responsive/Highway-Cars-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/211/highway-cars/index.html"},
+  {name:"Mini Cars Racing",cat:"racing 2player",img:"https://www.onlinegames.io/media/posts/1010/responsive/Mini-Cars-Racing-xs.jpg",url:"https://cloud.onlinegames.io/games/2021/unity/mini-cars-racing/index-og.html"},
+  {name:"Burnout Drift Hunter",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/327/responsive/Burnout-Drift-Hunter-Online-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity4/burnout-drift-hunter/index.html"},
+  {name:"Car Football",cat:"racing sports 2player",img:"https://www.onlinegames.io/media/posts/405/responsive/Car-Football-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/198/car-football/index.html"},
+  {name:"Survival Karts",cat:"racing io",img:"https://www.onlinegames.io/media/posts/887/responsive/survival-karts-play-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/survival-karts/index-og.html"},
+  {name:"Crazy Karts",cat:"racing io",img:"https://www.onlinegames.io/media/posts/740/responsive/Crazy-Karts-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/crazy-karts/index.html"},
+  {name:"Stunt Rider",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/674/responsive/Stunt-Rider-Online-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/stunt-rider/index.html"},
+  {name:"Offroad Rally",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/461/responsive/Offroad-Rally-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity2/offroad-rally/index.html"},
+  {name:"Futuristic Racer",cat:"racing",img:"https://www.onlinegames.io/media/posts/1051/responsive/futuristic_racer_game-xs.webp",url:"https://cloud.onlinegames.io/games/2021/2/futuristic-racer/index-og.html"},
+  {name:"Masked Forces Zombie Survival",cat:"action shooting horror survival",img:"https://www.onlinegames.io/media/posts/225/responsive/Masked-Forces-Zombie-Survival-Online-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/masked-forces-zombie-survival/index.html"},
+  {name:"Five Nights at Poppy",cat:"horror survival",img:"https://www.onlinegames.io/media/posts/992/responsive/Five-Nights-at-Poppy-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity2/five-nights-at-poppy/index-og.html"},
+  {name:"99 Nights in the Forest",cat:"survival",img:"https://www.onlinegames.io/media/posts/1190/responsive/99-nights-in-the-forest-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/99-nights-in-the-forest-survival/game.html"},
+  {name:"CubeCraft Survival",cat:"survival minecraft",img:"https://www.onlinegames.io/media/posts/1113/responsive/cubecraft-survival-xs.webp",url:"https://cloud.onlinegames.io/games/2025/unity4/cubecraft-survival/index-og.html"},
+  {name:"Survival Island",cat:"survival",img:"https://www.onlinegames.io/media/posts/970/responsive/Survival-Island-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity2/survival-island/index-og.html"},
+  {name:"Survival Craft",cat:"survival minecraft",img:"https://www.onlinegames.io/media/posts/593/responsive/Survival-Craft-Game-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/survival-craft/index.html"},
+  {name:"Cube Worlds",cat:"survival minecraft",img:"https://www.onlinegames.io/media/posts/986/responsive/Cube-Worlds-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/html/cube-worlds/index-og.html"},
+  {name:"Voxel World",cat:"minecraft survival",img:"https://www.onlinegames.io/media/posts/937/responsive/voxel-world-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/voxel-world/index-og.html"},
+  {name:"Pixelmon Town",cat:"minecraft",img:"https://www.onlinegames.io/media/posts/1214/responsive/pixelmon-town-xs.webp",url:"https://cloud.onlinegames.io/games/2025/html/pixelmon-town/game.html"},
+  {name:"Blocky Parkour Ninja",cat:"minecraft action",img:"https://www.onlinegames.io/media/posts/440/responsive/Blocky-Parkour-Ninja-xs.jpg",url:"https://www.onlinegames.io/games/2022/construct/156/blocky-parkour-ninja/index.html"},
+  {name:"Nova Craft",cat:"minecraft puzzle clicker",img:"https://www.onlinegames.io/media/posts/841/responsive/Nova-Craft-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/more2/nova-craft/index.html"},
+  {name:"Stickman Parkour",cat:"stickman action",img:"https://www.onlinegames.io/media/posts/871/responsive/stickman-parkour-OG-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/construct/219/stickman-parkour/index-og.html"},
+  {name:"Stickman Destruction",cat:"stickman",img:"https://www.onlinegames.io/media/posts/233/responsive/Stickman-Destruction-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/stickman-destruction/index.html"},
+  {name:"Get On Top",cat:"stickman 2player",img:"https://www.onlinegames.io/media/posts/697/responsive/Get-on-Top-xs.jpg",url:"https://www.onlinegames.io/games/2024/code/6/get-on-top/index.html"},
+  {name:"Drunken Duel",cat:"stickman 2player",img:"https://www.onlinegames.io/media/posts/698/responsive/Drunken-Duel-xs.jpg",url:"https://www.onlinegames.io/games/2024/code/2/drunken-duel/index.html"},
+  {name:"Crazy Stickman Physics",cat:"stickman",img:"https://www.onlinegames.io/media/posts/715/responsive/Crazy-Stickman-Physics-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/185/crazy-stickman-physics/index.html"},
+  {name:"Davo",cat:"stickman action",img:"https://www.onlinegames.io/media/posts/1115/responsive/davo-xs.webp",url:"https://cloud.onlinegames.io/games/2025/construct/302/davo/index-og.html"},
+  {name:"Block Blast",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/876/responsive/block-blast-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/block-blast/index-og.html"},
+  {name:"Chess FreezeNova",cat:"puzzle 2player",img:"https://www.onlinegames.io/media/posts/1116/responsive/chess-freezenova-xs.webp",url:"https://cloud.onlinegames.io/games/2025/unity3/chess/index-og.html"},
+  {name:"Geometry Dash FreezeNova",cat:"puzzle action",img:"https://www.onlinegames.io/media/posts/510/responsive/Geometry-Dash-FreezeNova-xs.jpg",url:"https://www.onlinegames.io/games/2023/q2/geometry-dash-freezenova/index.html"},
+  {name:"Draw Here",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/567/responsive/Draw-Here-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity2/draw-here/index.html"},
+  {name:"Nuts and Bolts Puzzle",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/965/responsive/nuts-and-bolts-puzzle-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/nuts-and-bolts-puzzle/index-og.html"},
+  {name:"Geometry Vector",cat:"puzzle action",img:"https://www.onlinegames.io/media/posts/1246/responsive/geometry-vector-xs.webp",url:"https://cloud.onlinegames.io/games/2026/construct/329/geometry-vector/game.html"},
+  {name:"Geometry Escape",cat:"puzzle action",img:"https://www.onlinegames.io/media/posts/905/responsive/Geometry-Escape-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/construct/299/geometry-escape/index-og.html"},
+  {name:"Geometry Rash",cat:"puzzle action",img:"https://www.onlinegames.io/media/posts/616/responsive/Geometry-Rash-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/279/geometry-rash/index.html"},
+  {name:"Tile Match",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/939/responsive/tile-match-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/tile-match/index-og.html"},
+  {name:"2048",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/916/responsive/2048-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/html/2048/index.html"},
+  {name:"Mahjong",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/966/responsive/Mahjong-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/mahjong/index-og.html"},
+  {name:"Solitaire",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/1007/responsive/solitaire-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/html/solitaire/index-og.html"},
+  {name:"Draw the Car Path",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/936/responsive/draw-the-car-path-xs.jpg",url:"https://cloud.onlinegames.io/games/2021/4/draw-the-car-path/index-og.html"},
+  {name:"Draw The Bridge",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/164/responsive/Draw-the-Bridge-Game-xs.jpg",url:"https://www.onlinegames.io/games/2021/4/draw-the-bridge/index.html"},
+  {name:"Snaker io",cat:"io",img:"https://www.onlinegames.io/media/posts/1261/responsive/snaker-io-xs.webp",url:"https://cloud.onlinegames.io/games/2026/more/snaker-io/game.html"},
+  {name:"Dont Fall io",cat:"io",img:"https://www.onlinegames.io/media/posts/182/responsive/Dont-Fall-io-2-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity/dont-fall-io/index.html"},
+  {name:"Mini Shooters",cat:"io action shooting",img:"https://www.onlinegames.io/media/posts/206/responsive/Mini-Shooters-Online-xs.jpg",url:"https://www.onlinegames.io/games/2021/5/mini-shooters/index.html"},
+  {name:"War of Ships io",cat:"io action",img:"https://www.onlinegames.io/media/posts/509/responsive/War-of-Ships-io-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/war-of-ships-io/index.html"},
+  {name:"State io Wars",cat:"io",img:"https://www.onlinegames.io/media/posts/685/responsive/State-io-Wars-xs.jpg",url:"https://www.onlinegames.io/games/2024/construct/233/state-io-wars/index.html"},
+  {name:"Snake Wars",cat:"io",img:"https://www.onlinegames.io/media/posts/638/responsive/Snake-Wars-Free-Game-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/snake-wars/index.html"},
+  {name:"Skibidi Toilet io",cat:"io 2player",img:"https://www.onlinegames.io/media/posts/540/responsive/Skibidi-Toilet-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/242/skibidi-toilet-io/index.html"},
+  {name:"Kings io",cat:"io",img:"https://www.onlinegames.io/media/posts/952/responsive/Kings-io-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/construct/208/kings-io/index-og.html"},
+  {name:"ToonZ io",cat:"io action shooting",img:"https://www.onlinegames.io/media/posts/230/responsive/Toonz-io-Game-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/toonz-io/index.html"},
+  {name:"Trains io",cat:"io",img:"https://www.onlinegames.io/media/posts/470/responsive/Trains-io-Game-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/235/trains-io/index.html"},
+  {name:"Dublix",cat:"io",img:"https://www.onlinegames.io/media/posts/1126/responsive/dublix-xs.webp",url:"https://cloud.onlinegames.io/games/2025/unity4/dublix/game-og.html"},
+  {name:"Fall Brainrots",cat:"io action",img:"https://www.onlinegames.io/media/posts/1194/responsive/fall-brainrots-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/fall-brainrots/game.html"},
+  {name:"Capybara Clicker Pro",cat:"clicker",img:"https://www.onlinegames.io/media/posts/554/responsive/Capybara-Clicker-Pro-xs.jpg",url:"https://www.onlinegames.io/games/2023/q2/capybara-clicker-pro/index.html"},
+  {name:"Cookie Clicker Pro",cat:"clicker",img:"https://www.onlinegames.io/media/posts/971/responsive/Cookie-Clicker-Pro-Game-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/cookie-clicker-pro/index-og.html"},
+  {name:"Poop Clicker",cat:"clicker",img:"https://www.onlinegames.io/media/posts/742/responsive/Poop-Clicker-xs.jpg",url:"https://www.onlinegames.io/games/2024/construct/292/poop-clicker/index.html"},
+  {name:"Cool Brainrot Clicker",cat:"clicker",img:"https://www.onlinegames.io/media/posts/1104/responsive/cool-brainrot-clicker-xs.webp",url:"https://cloud.onlinegames.io/games/2025/construct/335/cool-brainrot-clicker/index-og.html"},
+  {name:"Nova Clicker",cat:"clicker",img:"https://www.onlinegames.io/media/posts/981/responsive/Nova-Clicker-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/construct/314/nova-clicker/index-og.html"},
+  {name:"Basket Hoop",cat:"sports",img:"https://www.onlinegames.io/media/posts/843/responsive/Basket-Hoop-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/construct/311/basket-hoop/index-og.html"},
+  {name:"Basketball io",cat:"sports io",img:"https://www.onlinegames.io/media/posts/302/responsive/Basketball-io-2-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/basketball-io/index.html"},
+  {name:"Head Soccer 2022",cat:"sports 2player",img:"https://www.onlinegames.io/media/posts/624/responsive/Head-Soccer-2022-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/280/head-soccer-2022/index.html"},
+  {name:"Head Basketball",cat:"sports",img:"https://www.onlinegames.io/media/posts/486/responsive/Head-Basketball-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/head-basketball/index.html"},
+  {name:"8 Ball Pool Billiard",cat:"sports",img:"https://www.onlinegames.io/media/posts/442/responsive/8-Ball-Pool-Billiard-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/8-ball-pool-billiard/index.html"},
+  {name:"Football King",cat:"sports 2player",img:"https://www.onlinegames.io/media/posts/739/responsive/Football-King-xs.jpg",url:"https://www.onlinegames.io/games/2024/construct/226/football-king/index.html"},
+  {name:"Golf Bit",cat:"sports",img:"https://www.onlinegames.io/media/posts/1289/responsive/golf-bit-xs.webp",url:"https://cloud.onlinegames.io/games/2026/construct/328/golf-bit/game.html"},
+  {name:"Basketball Slam Dunk",cat:"sports 2player",img:"https://www.onlinegames.io/media/posts/200/responsive/Basketball-Slam-Dunk-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity2/basketball-slam-dunk/index.html"},
+  {name:"Basketball King",cat:"sports 2player",img:"https://www.onlinegames.io/media/posts/907/responsive/basketball-king-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/construct/316/basketball-king/index-og.html"},
+  {name:"Rooftop Duel",cat:"action 2player",img:"https://www.onlinegames.io/media/posts/1002/responsive/Rooftop-Duel-Online-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/construct/213/rooftop-duel/index-og.html"},
+  {name:"SpartaHoppers",cat:"action 2player",img:"https://www.onlinegames.io/media/posts/949/responsive/sparta-hoppers-game-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/construct/227/spartahoppers/index-og.html"},
+  {name:"Tank Arena",cat:"action 2player",img:"https://www.onlinegames.io/media/posts/956/responsive/Tank-Arena-Online-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/construct/293/tank-arena/index-og.html"},
+  {name:"Fire and Water",cat:"action 2player",img:"https://www.onlinegames.io/media/posts/469/responsive/Fire-and-Water-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/179/fire-and-water/index.html"},
+  {name:"2 Player Crazy Racer",cat:"racing 2player",img:"https://www.onlinegames.io/media/posts/617/responsive/2-Player-Crazy-Racer-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/2-player-crazy-racer/index.html"},
+  {name:"Airplane Racer",cat:"racing 2player simulator",img:"https://www.onlinegames.io/media/posts/268/responsive/Airplane-Racer-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/airplane-racer/index.html"},
+  {name:"Real Flight Simulator",cat:"simulator",img:"https://www.onlinegames.io/media/posts/342/responsive/Real-Flight-Simulator-2-xs.jpg",url:"https://cloud.onlinegames.io/games/2023/unity2/real-flight-simulator/index.html"},
+  {name:"Cat Simulator",cat:"simulator",img:"https://www.onlinegames.io/media/posts/330/responsive/Cat-Simulator-Online-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity4/cat-simulator/index.html"},
+  {name:"Checkout Frenzy",cat:"simulator",img:"https://www.onlinegames.io/media/posts/974/responsive/checkout-frenzy-cashier-game-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/checkout-frenzy/index-og.html"},
+  {name:"Fast Food Rush",cat:"simulator",img:"https://www.onlinegames.io/media/posts/979/responsive/fast-food-rush-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/fast-food-rush/index-og.html"},
+  {name:"Farming Island",cat:"simulator",img:"https://www.onlinegames.io/media/posts/988/responsive/farming-island-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/farming-island/index-og.html"},
+  {name:"Run FreezeNova",cat:"action",img:"https://www.onlinegames.io/media/posts/1181/responsive/run-freezenova-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/run-3/game.html"},
+  {name:"Bus Subway Runner",cat:"action",img:"https://www.onlinegames.io/media/posts/235/responsive/Bus-Subway-Runner-Game-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/bus-subway-runner/index.html"},
+  {name:"Crazy Cattle 3D",cat:"action io",img:"https://www.onlinegames.io/media/posts/1004/responsive/Crazy-Cattle-3D-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity3/crazy-cattle-3d/index-og.html"},
+  {name:"Global Guesser",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/972/responsive/global-guesser-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/html/global-guesser/index-og.html"},
+  {name:"Dinosaur Game",cat:"action",img:"https://www.onlinegames.io/media/posts/417/responsive/Dinosaur-Game-Online-xs.jpg",url:"https://www.onlinegames.io/games/2023/q2/dinosaur-game/index.html"},
+  {name:"Troll Level",cat:"action puzzle",img:"https://www.onlinegames.io/media/posts/857/responsive/troll-level-online-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity2/troll-level/index-og.html"},
+  {name:"Bandits Multiplayer PvP",cat:"action io",img:"https://www.onlinegames.io/media/posts/487/responsive/Bandits-Multiplayer-PvP-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity2/bandits-multiplayer-pvp/index.html"},
+  {name:"Steal Brainrot Heist",cat:"action io",img:"https://www.onlinegames.io/media/posts/1180/responsive/steal-brainrot-heist-2-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/steal-brainrot-heist/game.html"},
+  {name:"Zombie Road",cat:"horror action racing",img:"https://www.onlinegames.io/media/posts/631/responsive/Zombie-Road-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity2/zombie-road/index.html"},
+  {name:"Zombie War Defense",cat:"horror action",img:"https://www.onlinegames.io/media/posts/466/responsive/Zombie-War-Defense-Game-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/zombie-war-defense/index.html"},
+  {name:"Kingdom Attack",cat:"action",img:"https://www.onlinegames.io/media/posts/371/responsive/Kingdom-Attack-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity3/kingdom-attack/index.html"},
+  {name:"Kingdom Battle 3D",cat:"action",img:"https://www.onlinegames.io/media/posts/991/responsive/Kingdom-Battle-3D-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity2/kingdom-battle-3d/index-og.html"},
+  {name:"Age Of Battle",cat:"action",img:"https://www.onlinegames.io/media/posts/1201/responsive/age-of-battle-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/age-of-battle/game.html"},
+  {name:"FNF Funk 3D",cat:"action",img:"https://www.onlinegames.io/media/posts/613/responsive/FNF-Funk-3D-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity/fnf-funk-3d/index.html"},
+  {name:"Cross the Road",cat:"action",img:"https://www.onlinegames.io/media/posts/734/responsive/Cross-the-Road-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/cross-the-road/index.html"},
+  {name:"Shortcut Race",cat:"action racing",img:"https://www.onlinegames.io/media/posts/492/responsive/Shortcut-Race-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/237/shortcut-race/index.html"},
+];
 
+// Assign IDs and combine
+let allGames = [];
+YOUR_GAMES.forEach((g,i) => { g.id = i; g.source = 'yours'; allGames.push(g); });
+let ogId = YOUR_GAMES.length;
+OG_GAMES.forEach(g => { g.id = ogId++; g.source = 'og'; g.badge = g.badge || ''; allGames.push(g); });
+
+// ── SETTINGS ──────────────────────────────────────────────────────────────────
+let settings = { cloakEnabled:false, cloakTitle:'Google', cloakFavicon:'🔍', cloakUrl:'https://www.google.com', panicEnabled:false, panicKey:'x' };
 function loadSettings() {
-  try {
-    const s = JSON.parse(localStorage.getItem('pg_settings') || '{}');
-    Object.assign(settings, s);
-    if (settings.cloakEnabled) applyCloak();
-  } catch(e) {}
+  try { Object.assign(settings, JSON.parse(localStorage.getItem('pg_s')||'{}')); if(settings.cloakEnabled) applyCloak(); } catch(e){}
 }
-
 function applyCloak() {
   document.title = settings.cloakTitle;
-  const favicon = document.querySelector('link[rel="icon"]');
-  if (favicon) favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${settings.cloakFavicon}</text></svg>`;
+  document.getElementById('favicon').href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${settings.cloakFavicon}</text></svg>`;
 }
-
 function removeCloak() {
   document.title = 'Peter Games';
-  const favicon = document.querySelector('link[rel="icon"]');
-  if (favicon) favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>`;
+  document.getElementById('favicon').href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>`;
 }
 
-// ─── PANIC KEY ────────────────────────────────────────────────────────────────
-let panicVisible = false;
+// ── PANIC ─────────────────────────────────────────────────────────────────────
+let panicOn = false;
 document.addEventListener('keydown', e => {
   if (!settings.panicEnabled) return;
-  if (e.ctrlKey && e.key === settings.panicKey) {
-    e.preventDefault();
-    panicVisible ? hidePanic() : showPanic();
-  }
+  if (e.ctrlKey && e.key === settings.panicKey) { e.preventDefault(); panicOn ? hidePanic() : showPanic(); }
 });
-
 function showPanic() {
-  panicVisible = true;
-  const overlay = document.getElementById('panicOverlay');
-  const frame = document.getElementById('panicFrame');
-  frame.src = settings.cloakUrl || 'https://www.google.com';
-  overlay.style.display = 'block';
+  panicOn = true;
+  document.getElementById('panicFrame').src = settings.cloakUrl || 'https://www.google.com';
+  document.getElementById('panicOverlay').style.display = 'block';
 }
-
 function hidePanic() {
-  panicVisible = false;
+  panicOn = false;
   document.getElementById('panicOverlay').style.display = 'none';
   document.getElementById('panicFrame').src = '';
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function imgHtml(g, cls='') {
+  const fb = `<div class="thumb-fb" style="background:${g.color||'#e8e8f0'}">${g.emoji||'🎮'}</div>`;
+  if (!g.img) return fb;
+  return `<img src="${g.img}" alt="${g.name}" loading="lazy" onerror="this.parentElement.innerHTML='${fb.replace(/'/g,"\\'")}'" ${cls}>`;
+}
 function renderCard(g, delay=0) {
-  const imgHtml = g.img
-    ? `<img src="${g.img}" alt="${g.name}" onerror="this.parentElement.innerHTML='<div class=thumb-fallback style=background:${g.color}>${g.emoji}</div>'">`
-    : `<div class="thumb-fallback" style="background:${g.color}">${g.emoji}</div>`;
   return `<div class="game-card" onclick="openGame(${g.id})" style="animation-delay:${delay}ms">
-    <div class="game-thumb">
-      ${imgHtml}
-      <div class="play-btn"><span>▶ Play</span></div>
-      ${g.badge ? `<span class="badge badge-${g.badge}">${g.badge}</span>` : ''}
-    </div>
-    <div class="game-info">
-      <div class="game-name">${g.name}</div>
-      <div class="game-cat-tag">${g.cat}</div>
-    </div>
+    <div class="game-thumb">${imgHtml(g)}<div class="play-over"><span>▶ Play</span></div>${g.badge?`<span class="badge badge-${g.badge}">${g.badge}</span>`:''}</div>
+    <div class="game-info"><div class="game-name">${g.name}</div><div class="game-cat-tag">${g.cat.split(' ')[0]}</div></div>
   </div>`;
 }
-
-function renderRelated(currentGame) {
-  const related = games.filter(g => g.cat === currentGame.cat && g.id !== currentGame.id).slice(0, 8);
-  return related.map(g => {
-    const imgHtml = g.img
-      ? `<img src="${g.img}" alt="${g.name}" onerror="this.parentElement.innerHTML='<div style=width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:${g.color}>${g.emoji}</div>'">`
-      : `<div style="width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:${g.color}">${g.emoji}</div>`;
-    return `<div class="related-card" onclick="openGame(${g.id})">
-      <div class="related-thumb">${imgHtml}</div>
-      <div class="related-name">${g.name}</div>
-    </div>`;
-  }).join('');
+function renderRelated(g) {
+  const mainCat = g.cat.split(' ')[0];
+  const rel = allGames.filter(x => x.id!==g.id && x.cat.includes(mainCat)).slice(0,10);
+  return rel.map(r => `<div class="rel-card" onclick="openGame(${r.id})">
+    <div class="rel-thumb">${imgHtml(r)}</div>
+    <div class="rel-name">${r.name}</div>
+  </div>`).join('');
 }
 
 function renderHome() {
   document.getElementById('homeView').style.display = '';
   document.getElementById('filteredView').style.display = 'none';
   document.getElementById('settingsView').style.display = 'none';
-  const pokemon = games.filter(g => g.cat === 'pokemon');
-  const mario   = games.filter(g => g.cat === 'mario');
-  const zelda   = games.filter(g => g.cat === 'zelda');
-  const other   = games.filter(g => ['sports','disney','other'].includes(g.cat));
-  document.getElementById('gridPokemon').innerHTML = pokemon.map((g,i) => renderCard(g, i*40)).join('');
-  document.getElementById('gridMario').innerHTML   = mario.map((g,i) => renderCard(g, i*40)).join('');
-  document.getElementById('gridZelda').innerHTML   = zelda.map((g,i) => renderCard(g, i*40)).join('');
-  document.getElementById('gridOther').innerHTML   = other.map((g,i) => renderCard(g, i*40)).join('');
+  const grids = {
+    pokemon: allGames.filter(g=>g.cat.includes('pokemon')),
+    mario:   allGames.filter(g=>g.cat.includes('mario')),
+    zelda:   allGames.filter(g=>g.cat.includes('zelda')),
+    action:  allGames.filter(g=>g.cat.includes('action') && !g.cat.includes('pokemon')&&!g.cat.includes('mario')&&!g.cat.includes('zelda')).slice(0,12),
+    racing:  allGames.filter(g=>g.cat.includes('racing')).slice(0,12),
+    shooting:allGames.filter(g=>g.cat.includes('shooting')).slice(0,10),
+    io:      allGames.filter(g=>g.cat.includes('io')).slice(0,10),
+    puzzle:  allGames.filter(g=>g.cat.includes('puzzle')).slice(0,10),
+    sports:  allGames.filter(g=>g.cat.includes('sports')||g.cat.includes('disney')||g.cat.includes('roblox')||g.cat.includes('simulator')||g.cat.includes('clicker')).slice(0,10),
+  };
+  Object.entries(grids).forEach(([k,arr]) => {
+    const el = document.getElementById('g-'+k);
+    if (el) el.innerHTML = arr.map((g,i)=>renderCard(g,i*35)).join('');
+  });
 }
 
-// ─── CATEGORY / NAV ───────────────────────────────────────────────────────────
-const catLabels = {
-  all:'🎮 All Games', pokemon:'🔴 Pokémon', mario:'🍄 Mario',
-  zelda:'🗡️ Zelda', sports:'⚽ Sports', disney:'🦆 Disney',
-  other:'🟥 Roblox', hot:'🔥 Most Popular', classic:'🏆 Classics', new:'✨ New Games'
+// ── CATEGORY ─────────────────────────────────────────────────────────────────
+const CAT_LABELS = {
+  all:'🎮 All Games', pokemon:'🔴 Pokémon', mario:'🍄 Mario', zelda:'🗡️ Zelda',
+  sports:'⚽ Sports', disney:'🦆 Disney', roblox:'🟥 Roblox', action:'💥 Action',
+  racing:'🏎️ Racing', puzzle:'🧩 Puzzle', shooting:'🎯 Shooting', survival:'🏕️ Survival',
+  horror:'👻 Horror', simulator:'🚗 Simulator', io:'🌐 IO Games', '2player':'👥 2 Player',
+  stickman:'🏃 Stickman', minecraft:'⛏️ Minecraft', clicker:'👆 Clicker',
+  hot:'🔥 Most Popular', new:'✨ New Games'
 };
 
-function setCategory(cat, sideBtn, navBtn) {
-  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
+function setCategory(cat, sideBtn) {
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));
   if (sideBtn) sideBtn.classList.add('active');
-  if (navBtn) navBtn.classList.add('active');
   document.getElementById('searchInput').value = '';
   if (cat === 'all') { showMainView(); return; }
   let filtered;
-  if (cat === 'hot')     filtered = games.filter(g => g.badge === 'hot');
-  else if (cat === 'classic') filtered = games.filter(g => g.badge === 'classic');
-  else if (cat === 'new') filtered = games.filter(g => g.badge === 'new');
-  else filtered = games.filter(g => g.cat === cat);
+  if (cat==='hot') filtered = allGames.filter(g=>g.badge==='hot');
+  else if (cat==='new') filtered = allGames.filter(g=>g.badge==='new');
+  else filtered = allGames.filter(g=>g.cat.includes(cat));
   document.getElementById('homeView').style.display = 'none';
   document.getElementById('settingsView').style.display = 'none';
   document.getElementById('filteredView').style.display = '';
-  document.getElementById('filteredTitle').textContent = catLabels[cat] || cat;
+  document.getElementById('filteredTitle').textContent = CAT_LABELS[cat]||cat;
   document.getElementById('filteredGrid').innerHTML = filtered.length
-    ? filtered.map((g,i) => renderCard(g,i*40)).join('')
-    : `<div class="no-results"><div class="big">🎮</div><p>No games found</p></div>`;
+    ? filtered.map((g,i)=>renderCard(g,i*30)).join('')
+    : `<div class="no-results"><div class="big">🎮</div><p>No games in this category yet</p></div>`;
 }
 
 function setCatPill(cat, pill) {
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
   pill.classList.add('active');
-  if (cat === 'all') { renderHome(); return; }
-  setCategory(cat, null, null);
+  if (cat==='all') { showMainView(); return; }
+  setCategory(cat, null);
 }
 
 function showMainView() {
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('navHome').classList.add('active');
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sb-all').classList.add('active');
   document.getElementById('searchInput').value = '';
   renderHome();
 }
@@ -873,110 +724,87 @@ function showMainView() {
 function handleSearch() {
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
   if (!q) { renderHome(); return; }
-  const filtered = games.filter(g => g.name.toLowerCase().includes(q) || g.cat.includes(q));
+  const f = allGames.filter(g=>g.name.toLowerCase().includes(q)||g.cat.includes(q));
   document.getElementById('homeView').style.display = 'none';
   document.getElementById('settingsView').style.display = 'none';
   document.getElementById('filteredView').style.display = '';
-  document.getElementById('filteredTitle').textContent = `🔍 "${q}" — ${filtered.length} game${filtered.length !== 1 ? 's' : ''}`;
-  document.getElementById('filteredGrid').innerHTML = filtered.length
-    ? filtered.map((g,i) => renderCard(g,i*40)).join('')
+  document.getElementById('filteredTitle').textContent = `🔍 "${q}" — ${f.length} game${f.length!==1?'s':''}`;
+  document.getElementById('filteredGrid').innerHTML = f.length
+    ? f.map((g,i)=>renderCard(g,i*30)).join('')
     : `<div class="no-results"><div class="big">🎮</div><p>No games found for "${q}"</p></div>`;
 }
 
-// ─── GAME MODAL ───────────────────────────────────────────────────────────────
+// ── MODAL ─────────────────────────────────────────────────────────────────────
 function openGame(id) {
-  const g = games.find(x => x.id === id);
+  const g = allGames.find(x=>x.id===id);
   if (!g) return;
-  if (g.popup) { createPopupWin(g.url, g.name, 1200, 650); return; }
-  document.getElementById('modalTitle').textContent = g.name;
-  document.getElementById('modalSubtitle').textContent = g.cat;
-  const thumb = document.getElementById('modalThumb');
-  if (g.img) {
-    thumb.innerHTML = `<img src="${g.img}" alt="${g.name}" onerror="this.parentElement.innerHTML='${g.emoji}'" style="width:100%;height:100%;object-fit:cover">`;
-  } else {
-    thumb.textContent = g.emoji;
-  }
+  if (g.popup) { createPopup(g.url, g.name, 1200, 650); return; }
+  document.getElementById('mTitle').textContent = g.name;
+  document.getElementById('mSub').textContent = g.cat.split(' ')[0];
+  const t = document.getElementById('mThumb');
+  t.innerHTML = g.img ? `<img src="${g.img}" alt="${g.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.textContent='🎮'">` : '🎮';
   document.getElementById('gameFrame').src = g.url;
-  document.getElementById('relatedGrid').innerHTML = renderRelated(g);
+  document.getElementById('relGrid').innerHTML = renderRelated(g);
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
-function closeGameModal() {
+function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.getElementById('gameFrame').src = '';
   document.body.style.overflow = '';
 }
-
-function closeOnBg(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeGameModal();
-}
-
-function goFullscreen() {
+function closeBg(e) { if(e.target===document.getElementById('modalOverlay')) closeModal(); }
+function goFS() {
   const f = document.getElementById('gameFrame');
-  if (f.requestFullscreen) f.requestFullscreen();
-  else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+  if(f.requestFullscreen) f.requestFullscreen();
+  else if(f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+}
+function createPopup(url, title, w, h) {
+  const l=Math.round((screen.width-w)/2), t=Math.round((screen.height-h)/2);
+  window.open(url, title, `width=${w},height=${h},top=${t},left=${l},resizable=yes,scrollbars=yes`);
 }
 
-function createPopupWin(url, title, w, h) {
-  const left = Math.round((screen.width - w) / 2);
-  const top  = Math.round((screen.height - h) / 2);
-  window.open(url, title, `width=${w},height=${h},top=${top},left=${left},resizable=yes,scrollbars=yes`);
-}
-
-// ─── SETTINGS ─────────────────────────────────────────────────────────────────
+// ── SETTINGS ─────────────────────────────────────────────────────────────────
 function showSettings() {
   document.getElementById('homeView').style.display = 'none';
   document.getElementById('filteredView').style.display = 'none';
   document.getElementById('settingsView').style.display = '';
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   syncSettingsUI();
 }
-
 function syncSettingsUI() {
   document.getElementById('cloakToggle').checked = settings.cloakEnabled;
   document.getElementById('panicToggle').checked = settings.panicEnabled;
   document.querySelectorAll('#keyRow .k-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.endsWith(settings.panicKey.toUpperCase()) ||
-      b.onclick.toString().includes(`'${settings.panicKey}'`));
+    b.classList.toggle('active', b.onclick.toString().includes(`'${settings.panicKey}'`));
   });
 }
-
 function toggleCloak() {
   settings.cloakEnabled = document.getElementById('cloakToggle').checked;
-  if (settings.cloakEnabled) applyCloak(); else removeCloak();
+  if(settings.cloakEnabled) applyCloak(); else removeCloak();
 }
-
-function selectDisguise(btn, title, url, icon, name, urlShort) {
-  document.querySelectorAll('.d-btn').forEach(b => b.classList.remove('active'));
+function selectDisguise(btn, title, url, icon, name) {
+  document.querySelectorAll('.d-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  settings.cloakTitle  = title;
-  settings.cloakUrl    = url;
-  settings.cloakFavicon = icon;
-  if (settings.cloakEnabled) applyCloak();
+  settings.cloakTitle=title; settings.cloakUrl=url; settings.cloakFavicon=icon;
+  if(settings.cloakEnabled) applyCloak();
 }
-
 function selectKey(btn, key) {
-  document.querySelectorAll('.k-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.k-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   settings.panicKey = key;
 }
-
-function savePanicSettings() {
-  settings.panicEnabled = document.getElementById('panicToggle').checked;
-}
-
-function saveAllSettings() {
+function saveSettings() {
   settings.cloakEnabled = document.getElementById('cloakToggle').checked;
   settings.panicEnabled = document.getElementById('panicToggle').checked;
-  try { localStorage.setItem('pg_settings', JSON.stringify(settings)); } catch(e) {}
-  if (settings.cloakEnabled) applyCloak(); else removeCloak();
-  const msg = document.getElementById('savedMsg');
-  msg.style.display = 'inline';
-  setTimeout(() => msg.style.display = 'none', 2000);
+  try { localStorage.setItem('pg_s', JSON.stringify(settings)); } catch(e) {}
+  if(settings.cloakEnabled) applyCloak(); else removeCloak();
+  const m = document.getElementById('savedMsg');
+  m.style.display = 'inline';
+  setTimeout(()=>m.style.display='none', 2000);
 }
 
-// ─── INIT ─────────────────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────────────────────
 loadSettings();
 renderHome();
 </script>
