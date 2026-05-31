@@ -255,6 +255,13 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
   <button class="cat-btn" id="sb-roblox" onclick="setCategory('roblox',this)"><span class="cat-icon">🟥</span>Roblox</button>
 
   <div class="sb-divider"></div>
+  <span class="sb-label">CrazyGames 🔥</span>
+  <button class="cat-btn" id="sb-crazy" onclick="setCategory('crazy',this)"><span class="cat-icon">🎮</span>All CrazyGames</button>
+  <button class="cat-btn" onclick="setCategory('crazy racing',this)"><span class="cat-icon">🏎️</span>CG Racing</button>
+  <button class="cat-btn" onclick="setCategory('crazy shooting',this)"><span class="cat-icon">🎯</span>CG Shooting</button>
+  <button class="cat-btn" onclick="setCategory('crazy io',this)"><span class="cat-icon">🌐</span>CG IO Games</button>
+
+  <div class="sb-divider"></div>
   <span class="sb-label">Online Games</span>
   <button class="cat-btn" id="sb-action" onclick="setCategory('action',this)"><span class="cat-icon">💥</span>Action</button>
   <button class="cat-btn" id="sb-racing" onclick="setCategory('racing',this)"><span class="cat-icon">🏎️</span>Racing</button>
@@ -313,6 +320,9 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
       <button class="pill" onclick="setCatPill('io',this)">🌐 IO Games</button>
       <button class="pill" onclick="setCatPill('2player',this)">👥 2 Player</button>
     </div>
+
+    <div class="sec-header"><div class="sec-title">🔥 CrazyGames <span style="font-size:11px;background:#ff3d6e;color:#fff;padding:2px 8px;border-radius:50px;margin-left:6px;font-weight:700">Via Proxy</span></div><button class="see-all" onclick="setCategory('crazy',null)">See all →</button></div>
+    <div class="game-grid" id="g-crazy"></div>
 
     <div class="sec-header"><div class="sec-title">🔴 Pokémon</div><button class="see-all" onclick="setCategory('pokemon',null)">See all →</button></div>
     <div class="game-grid" id="g-pokemon"></div>
@@ -431,29 +441,50 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 <script>
 // ── GAMES DATA ────────────────────────────────────────────────────────────────
 const YOUR_GAMES = [
-  {id:0, name:"Pokémon Emerald", cat:"pokemon", img:"/mnt/user-data/uploads/1780166125019_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-emeraid"},
-  {id:1, name:"Pokémon Fire Red", cat:"pokemon", img:"/mnt/user-data/uploads/1780215018138_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1"},
-  {id:2, name:"Pokémon Stadium 2", cat:"pokemon", img:"/mnt/user-data/uploads/1780215267289_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=pokemon-stadium-2"},
-  {id:3, name:"Pokémon Fusion Origins", cat:"pokemon", img:"/mnt/user-data/uploads/1780215678000_image.png", badge:"new", url:"https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501"},
-  {id:4, name:"Mario Kart 64", cat:"mario", img:"/mnt/user-data/uploads/1780215019138_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=mario-kart-64"},
-  {id:5, name:"Super Mario 64", cat:"mario", img:"/mnt/user-data/uploads/1780215206568_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=super-mario-64"},
-  {id:6, name:"Super Mario All-Stars", cat:"mario", img:"/mnt/user-data/uploads/1780215249620_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=super-mario-all-stars"},
-  {id:7, name:"Yoshi's Story", cat:"mario", img:"/mnt/user-data/uploads/1780215101494_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=yoshis-story"},
-  {id:8, name:"Zelda: Ocarina of Time", cat:"zelda", img:"/mnt/user-data/uploads/1780215438929_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time"},
-  {id:9, name:"Zelda: Majora's Mask", cat:"zelda", img:"/mnt/user-data/uploads/1780215332276_image.png", badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask"},
-  {id:10, name:"Zelda: A Link to the Past", cat:"zelda", img:"/mnt/user-data/uploads/1780215392619_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-link-to-the-past"},
-  {id:11, name:"Zelda: The Minish Cap", cat:"zelda", img:"/mnt/user-data/uploads/1780215363427_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap"},
-  {id:12, name:"Zelda II: Adventure of Link", cat:"zelda", img:"/mnt/user-data/uploads/1780215489024_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link"},
-  {id:13, name:"The Legend of Zelda", cat:"zelda", img:"/mnt/user-data/uploads/1780215510523_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda"},
-  {id:14, name:"FIFA Soccer 07", cat:"sports", img:"/mnt/user-data/uploads/1780215529780_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-07"},
-  {id:15, name:"FIFA 2000", cat:"sports", img:"/mnt/user-data/uploads/1780215592169_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer"},
-  {id:16, name:"FIFA Soccer 96", cat:"sports", img:"/mnt/user-data/uploads/1780215154789_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96"},
-  {id:17, name:"DuckTales", cat:"disney", img:"/mnt/user-data/uploads/1780215185015_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales"},
-  {id:18, name:"DuckTales 2", cat:"disney", img:"/mnt/user-data/uploads/1780215041836_image.png", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2"},
-  {id:19, name:"Roblox", cat:"roblox", img:"/mnt/user-data/uploads/1780215748804_image.png", badge:"hot", url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true},
+  {id:0, name:"Pokémon Emerald", cat:"pokemon", img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Pokemon_Emerald_box_art.png/220px-Pokemon_Emerald_box_art.png", badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-emeraid"},
+  {id:1, name:"Pokémon Fire Red", cat:"pokemon", img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6f/Pokemon_FireRed_box.png/220px-Pokemon_FireRed_box.png", badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1"},
+  {id:2, name:"Pokémon Stadium 2", cat:"pokemon", img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Pokemon_Stadium_2.png/220px-Pokemon_Stadium_2.png", badge:"classic", url:"https://classicjoy.games/embed?slug=pokemon-stadium-2"},
+  {id:3, name:"Pokémon Fusion Origins", cat:"pokemon", img:"https://i.imgur.com/7QkFcFf.png", badge:"new", url:"https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501"},
+  {id:4, name:"Mario Kart 64", cat:"mario", img:"https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Mario_Kart_64box.jpg/220px-Mario_Kart_64box.jpg", badge:"hot", url:"https://classicjoy.games/embed?slug=mario-kart-64"},
+  {id:5, name:"Super Mario 64", cat:"mario", img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/Super_Mario_64_box_cover.jpg/220px-Super_Mario_64_box_cover.jpg", badge:"hot", url:"https://classicjoy.games/embed?slug=super-mario-64"},
+  {id:6, name:"Super Mario All-Stars", cat:"mario", img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/SuperMarioAllStars.jpg/220px-SuperMarioAllStars.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=super-mario-all-stars"},
+  {id:7, name:"Yoshi's Story", cat:"mario", img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Yoshis_Story_NA.jpg/220px-Yoshis_Story_NA.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=yoshis-story"},
+  {id:8, name:"Zelda: Ocarina of Time", cat:"zelda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/5/57/The_Legend_of_Zelda_Ocarina_of_Time.jpg/220px-The_Legend_of_Zelda_Ocarina_of_Time.jpg", badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time"},
+  {id:9, name:"Zelda: Majora's Mask", cat:"zelda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/60/The_Legend_of_Zelda_-_Majora%27s_Mask_Box_Art.jpg/220px-The_Legend_of_Zelda_-_Majora%27s_Mask_Box_Art.jpg", badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask"},
+  {id:10, name:"Zelda: A Link to the Past", cat:"zelda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/The_Legend_of_Zelda_-_A_Link_to_the_Past_SNES_Game_Cover.jpg/220px-The_Legend_of_Zelda_-_A_Link_to_the_Past_SNES_Game_Cover.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-link-to-the-past"},
+  {id:11, name:"Zelda: The Minish Cap", cat:"zelda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/The_Legend_of_Zelda_-_The_Minish_Cap.jpg/220px-The_Legend_of_Zelda_-_The_Minish_Cap.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap"},
+  {id:12, name:"Zelda II: Adventure of Link", cat:"zelda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/2/21/Zelda_II_-_The_Adventure_of_Link_-_NES_-_USA.jpg/220px-Zelda_II_-_The_Adventure_of_Link_-_NES_-_USA.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link"},
+  {id:13, name:"The Legend of Zelda", cat:"zelda", img:"https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Legend_of_zelda_cover_%28with_cartridge%29_gold.png/220px-Legend_of_zelda_cover_%28with_cartridge%29_gold.png", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda"},
+  {id:14, name:"FIFA Soccer 07", cat:"sports", img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Fifa07_psp_cover.jpg/220px-Fifa07_psp_cover.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-07"},
+  {id:15, name:"FIFA 2000", cat:"sports", img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/FIFA_2000_cover.jpg/220px-FIFA_2000_cover.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer"},
+  {id:16, name:"FIFA Soccer 96", cat:"sports", img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/99/FIFA_Soccer_96_cover.jpg/220px-FIFA_Soccer_96_cover.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96"},
+  {id:17, name:"DuckTales", cat:"disney", img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/96/DuckTales_NES_cover.jpg/220px-DuckTales_NES_cover.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales"},
+  {id:18, name:"DuckTales 2", cat:"disney", img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/DuckTales_2_NES.jpg/220px-DuckTales_2_NES.jpg", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2"},
+  {id:19, name:"Roblox", cat:"roblox", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/220px-Roblox_player_icon_black.svg.png", badge:"hot", url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true},
 ];
 
-const OG_GAMES = [
+const CRAZY_GAMES = [
+  {name:"Moto X3M",cat:"racing crazy",img:"https://images.crazygames.com/motox3m_16x9/20230822115534/motox3m_16x9-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/moto-x3m",proxy:true},
+  {name:"Slope",cat:"action crazy",img:"https://images.crazygames.com/slope/20230822115534/slope-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/slope",proxy:true},
+  {name:"1v1.LOL",cat:"action shooting crazy",img:"https://images.crazygames.com/1v1-lol/20230822115534/1v1-lol-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/1v1-lol",proxy:true},
+  {name:"Subway Surfers",cat:"action crazy",img:"https://images.crazygames.com/subway-surfers/20230822115534/subway-surfers-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/subway-surfers",proxy:true},
+  {name:"Smash Karts",cat:"racing crazy io",img:"https://images.crazygames.com/smash-karts/20230822115534/smash-karts-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/smash-karts",proxy:true},
+  {name:"Shell Shockers",cat:"shooting crazy io",img:"https://images.crazygames.com/shellshock-io/20230822115534/shellshock-io-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/shellshock-io",proxy:true},
+  {name:"Krunker.io",cat:"shooting crazy io",img:"https://images.crazygames.com/krunker/20230822115534/krunker-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/krunker",proxy:true},
+  {name:"Drift Hunters",cat:"racing crazy",img:"https://images.crazygames.com/drift-hunters/20230822115534/drift-hunters-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/drift-hunters",proxy:true},
+  {name:"Madalin Stunt Cars 2",cat:"racing crazy",img:"https://images.crazygames.com/madalin-stunt-cars-2/20230822115534/madalin-stunt-cars-2-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/madalin-stunt-cars-2",proxy:true},
+  {name:"Among Us Online",cat:"action crazy io",img:"https://images.crazygames.com/among-us-online-edition/20230822115534/among-us-online-edition-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/among-us-online-edition",proxy:true},
+  {name:"Pixel Combat 2",cat:"shooting crazy",img:"https://images.crazygames.com/pixel-combat-2/20230822115534/pixel-combat-2-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/pixel-combat-2",proxy:true},
+  {name:"Venge.io",cat:"shooting crazy io",img:"https://images.crazygames.com/venge-io/20230822115534/venge-io-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/venge-io",proxy:true},
+  {name:"Getaway Shootout",cat:"action crazy 2player",img:"https://images.crazygames.com/getaway-shootout/20230822115534/getaway-shootout-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/getaway-shootout",proxy:true},
+  {name:"Narrow.one",cat:"action crazy io",img:"https://images.crazygames.com/narrow-one/20230822115534/narrow-one-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/narrow-one",proxy:true},
+  {name:"Stickman Hook",cat:"action crazy",img:"https://images.crazygames.com/stickman-hook/20230822115534/stickman-hook-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/stickman-hook",proxy:true},
+  {name:"Cut the Rope",cat:"puzzle crazy",img:"https://images.crazygames.com/cut-the-rope-remastered/20230822115534/cut-the-rope-remastered-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/cut-the-rope-remastered",proxy:true},
+  {name:"Retro Bowl",cat:"sports crazy",img:"https://images.crazygames.com/retro-bowl/20230822115534/retro-bowl-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/retro-bowl",proxy:true},
+  {name:"Basketball Stars",cat:"sports crazy",img:"https://images.crazygames.com/basketball-stars/20230822115534/basketball-stars-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/basketball-stars",proxy:true},
+  {name:"Crossy Road",cat:"action crazy",img:"https://images.crazygames.com/crossy-road-castle/20230822115534/crossy-road-castle-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/crossy-road-castle",proxy:true},
+  {name:"Rooftop Snipers",cat:"shooting crazy 2player",img:"https://images.crazygames.com/rooftop-snipers/20230822115534/rooftop-snipers-cover?auto=format&fit=crop&h=300",url:"https://www.crazygames.com/embed/rooftop-snipers",proxy:true},
+];
   {name:"CS Online",cat:"action shooting",img:"https://www.onlinegames.io/media/posts/434/responsive/CS-Online-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity2/cs-online/index.html"},
   {name:"Stickman GTA City",cat:"action",img:"https://www.onlinegames.io/media/posts/900/responsive/stickman-gta-city-free-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/stickman-gta-city/index-og.html"},
   {name:"Masked Special Forces",cat:"action shooting io",img:"https://www.onlinegames.io/media/posts/310/responsive/Masked-Special-Forces-FPS-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity2/masked-special-forces/index.html"},
@@ -602,8 +633,16 @@ const OG_GAMES = [
 // Assign IDs and combine
 let allGames = [];
 YOUR_GAMES.forEach((g,i) => { g.id = i; g.source = 'yours'; allGames.push(g); });
-let ogId = YOUR_GAMES.length;
+CRAZY_GAMES.forEach(g => { g.id = ogId++; g.source = 'crazy'; g.badge = g.badge||'hot'; allGames.push(g); });
+let ogId = YOUR_GAMES.length + CRAZY_GAMES.length;
 OG_GAMES.forEach(g => { g.id = ogId++; g.source = 'og'; g.badge = g.badge || ''; allGames.push(g); });
+
+// ── PROXY ─────────────────────────────────────────────────────────────────────
+const PROXY = 'https://pg-proxy-production-d6a8.up.railway.app/proxy?url=';
+
+function proxyUrl(url) {
+  return PROXY + encodeURIComponent(url);
+}
 
 // ── SETTINGS ──────────────────────────────────────────────────────────────────
 let settings = { cloakEnabled:false, cloakTitle:'Google', cloakFavicon:'🔍', cloakUrl:'https://www.google.com', panicEnabled:false, panicKey:'x' };
@@ -662,6 +701,7 @@ function renderHome() {
   document.getElementById('filteredView').style.display = 'none';
   document.getElementById('settingsView').style.display = 'none';
   const grids = {
+    crazy:   allGames.filter(g=>g.source==='crazy'),
     pokemon: allGames.filter(g=>g.cat.includes('pokemon')),
     mario:   allGames.filter(g=>g.cat.includes('mario')),
     zelda:   allGames.filter(g=>g.cat.includes('zelda')),
@@ -739,11 +779,12 @@ function openGame(id) {
   const g = allGames.find(x=>x.id===id);
   if (!g) return;
   if (g.popup) { createPopup(g.url, g.name, 1200, 650); return; }
+  const gameUrl = g.proxy ? proxyUrl(g.url) : g.url;
   document.getElementById('mTitle').textContent = g.name;
   document.getElementById('mSub').textContent = g.cat.split(' ')[0];
   const t = document.getElementById('mThumb');
   t.innerHTML = g.img ? `<img src="${g.img}" alt="${g.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.textContent='🎮'">` : '🎮';
-  document.getElementById('gameFrame').src = g.url;
+  document.getElementById('gameFrame').src = gameUrl;
   document.getElementById('relGrid').innerHTML = renderRelated(g);
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
