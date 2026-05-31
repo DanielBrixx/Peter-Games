@@ -3,332 +3,871 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peter Games - Play Free Online Games</title>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Peter Games</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
 <style>
-  :root {
-    --bg: #0b0c10;
-    --bg2: #13151c;
-    --bg3: #1a1d27;
-    --accent: #00e5ff;
-    --accent2: #ff4d6d;
-    --accent3: #ffe600;
-    --text: #e8eaf0;
-    --muted: #6b7280;
-    --card: #161923;
-    --border: #23273a;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg2); }
-  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f0f4ff;
+  --white: #ffffff;
+  --navy: #1b1464;
+  --purple: #6c3ce1;
+  --purple-light: #ede8fb;
+  --pink: #ff3d6e;
+  --text: #1a1a2e;
+  --muted: #7a7a9a;
+  --border: #e2e2f0;
+  --card-radius: 16px;
+  --shadow: 0 2px 12px rgba(108,60,225,0.10);
+  --shadow-hover: 0 8px 32px rgba(108,60,225,0.18);
+}
+body { background: var(--bg); color: var(--text); font-family: 'Nunito', 'Segoe UI', sans-serif; min-height: 100vh; }
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
 
-  nav {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo { font-family: 'Rajdhani', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--accent); letter-spacing: 1px; text-decoration: none; white-space: nowrap; }
-  .logo span { color: var(--accent2); }
-  .search-wrap { flex: 1; max-width: 440px; position: relative; }
-  .search-wrap input { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 9px 16px 9px 42px; color: var(--text); font-family: 'Nunito', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
-  .search-wrap input:focus { border-color: var(--accent); }
-  .search-wrap input::placeholder { color: var(--muted); }
-  .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; }
-  .nav-links { display: flex; gap: 0.25rem; margin-left: auto; }
-  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; padding: 6px 14px; border-radius: 6px; transition: all 0.2s; cursor: pointer; }
-  .nav-links a:hover { color: var(--text); background: var(--bg3); }
-  .nav-links a.active { color: var(--accent); background: rgba(0,229,255,0.08); }
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
 
-  .layout { display: flex; min-height: calc(100vh - 64px); }
+/* NAV */
+.nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 1px 0 var(--border);
+}
+.logo {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--purple);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.logo-dot { color: var(--pink); }
+.search-wrap { flex: 1; max-width: 400px; position: relative; }
+.search-wrap input {
+  width: 100%;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  padding: 9px 18px 9px 44px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(--purple); background: var(--white); }
+.search-wrap input::placeholder { color: var(--muted); font-weight: 600; }
+.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 15px; color: var(--muted); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.nav-btn {
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav-btn:hover { border-color: var(--purple); color: var(--purple); }
+.nav-btn.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+.settings-nav-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.settings-nav-btn:hover { background: var(--bg); }
 
-  .sidebar { width: 220px; background: var(--bg2); border-right: 1px solid var(--border); padding: 1.5rem 0; flex-shrink: 0; }
-  .sidebar-section { margin-bottom: 1.5rem; }
-  .sidebar-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--muted); padding: 0 1.25rem; margin-bottom: 0.5rem; text-transform: uppercase; display: block; }
-  .cat-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 1.25rem; background: none; border: none; border-left: 3px solid transparent; color: var(--muted); font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.15s; }
-  .cat-btn:hover { color: var(--text); background: var(--bg3); }
-  .cat-btn.active { color: var(--accent); background: rgba(0,229,255,0.07); border-left-color: var(--accent); }
-  .cat-icon { font-size: 18px; width: 22px; text-align: center; }
+/* LAYOUT */
+.layout { display: flex; max-width: 1280px; margin: 0 auto; padding: 0 1rem; gap: 1.5rem; }
 
-  .main { flex: 1; padding: 2rem; overflow: hidden; }
+/* SIDEBAR */
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  padding: 1.5rem 0;
+}
+.sidebar-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 0 12px;
+  margin-bottom: 6px;
+  display: block;
+}
+.cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  background: none;
+  border: none;
+  border-radius: 12px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+}
+.cat-btn:hover { background: var(--purple-light); color: var(--purple); }
+.cat-btn.active { background: var(--purple); color: #fff; }
+.cat-icon { font-size: 17px; width: 22px; text-align: center; flex-shrink: 0; }
+.sidebar-divider { height: 1px; background: var(--border); margin: 12px 12px; }
 
-  .hero { background: linear-gradient(135deg, #0f1929 0%, #1a0a2e 50%, #0a1f1a 100%); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -60px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,229,255,0.12) 0%, transparent 70%); pointer-events: none; }
-  .hero h1 { font-family: 'Rajdhani', sans-serif; font-size: 2.8rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.75rem; }
-  .hero h1 span { color: var(--accent); }
-  .hero p { color: var(--muted); font-size: 1rem; max-width: 500px; line-height: 1.6; margin-bottom: 1.5rem; }
-  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn-primary { background: var(--accent); color: #000; border: none; padding: 10px 24px; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-  .btn-primary:hover { background: #33eeff; transform: translateY(-1px); }
-  .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 10px 24px; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+/* MAIN */
+.main { flex: 1; padding: 1.5rem 0 3rem; min-width: 0; }
 
-  .cats-strip { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem; }
-  .cat-pill { background: var(--bg3); border: 1px solid var(--border); color: var(--muted); padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 6px; }
-  .cat-pill:hover, .cat-pill.active { background: var(--accent); color: #000; border-color: var(--accent); }
+/* HERO */
+.hero {
+  background: linear-gradient(120deg, #6c3ce1 0%, #a259ff 60%, #ff3d6e 100%);
+  border-radius: 20px;
+  padding: 2.5rem 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+.hero::after {
+  content: '🎮';
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 7rem;
+  opacity: 0.15;
+  pointer-events: none;
+}
+.hero h1 { font-size: 2.2rem; font-weight: 900; line-height: 1.15; margin-bottom: 0.6rem; letter-spacing: -0.5px; }
+.hero p { font-size: 15px; opacity: 0.85; max-width: 420px; line-height: 1.6; margin-bottom: 1.5rem; }
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-white { background: #fff; color: var(--purple); border: none; padding: 11px 26px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+.btn-outline-white { background: rgba(255,255,255,0.15); color: #fff; border: 2px solid rgba(255,255,255,0.5); padding: 11px 26px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s; }
+.btn-outline-white:hover { background: rgba(255,255,255,0.25); }
 
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
-  .section-title { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
-  .see-all { font-size: 13px; color: var(--accent); background: none; border: none; font-weight: 600; cursor: pointer; font-family: 'Nunito', sans-serif; }
-  .see-all:hover { text-decoration: underline; }
+/* CATEGORY PILLS */
+.pill-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.75rem; }
+.pill {
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.pill:hover { border-color: var(--purple); color: var(--purple); }
+.pill.active { background: var(--purple); border-color: var(--purple); color: #fff; }
 
-  .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 14px; margin-bottom: 2.5rem; }
-  .game-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.2s; animation: fadeUp 0.4s ease both; }
-  .game-card:hover { border-color: var(--accent); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,229,255,0.12); }
-  .game-thumb { width: 100%; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; position: relative; overflow: hidden; }
-  .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: var(--accent); font-family: 'Nunito', sans-serif; opacity: 0; transition: opacity 0.2s; }
-  .game-card:hover .play-overlay { opacity: 1; }
-  .game-info { padding: 10px 12px 12px; }
-  .game-name { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-  .game-meta { display: flex; align-items: center; justify-content: space-between; }
-  .game-cat { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: capitalize; }
-  .badge { position: absolute; top: 8px; left: 8px; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .badge-hot { background: var(--accent2); color: #fff; }
-  .badge-new { background: var(--accent); color: #000; }
-  .badge-classic { background: var(--accent3); color: #000; }
+/* SECTION */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.section-title { font-size: 1.15rem; font-weight: 900; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.see-all { font-size: 13px; color: var(--purple); font-weight: 700; background: none; border: none; cursor: pointer; font-family: inherit; }
+.see-all:hover { text-decoration: underline; }
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 1rem; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 860px; max-height: 92vh; overflow-y: auto; animation: popIn 0.25s ease; }
-  .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .modal-title { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; }
-  .modal-cat { font-size: 12px; color: var(--muted); font-weight: 600; background: var(--bg3); padding: 3px 10px; border-radius: 20px; margin-left: 10px; text-transform: capitalize; }
-  .modal-close { background: var(--bg3); border: 1px solid var(--border); color: var(--text); width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-  .modal-close:hover { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-  .modal-body { padding: 1.5rem; }
-  .game-frame { width: 100%; height: 500px; border: none; border-radius: 10px; background: #000; display: block; }
-  .modal-actions { display: flex; gap: 10px; margin-top: 1rem; }
-  .fullscreen-btn { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 8px 18px; border-radius: 8px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-  .fullscreen-btn:hover { border-color: var(--accent); color: var(--accent); }
+/* GAME GRID */
+.game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-bottom: 2.5rem; }
 
-  .no-results { text-align: center; padding: 4rem 2rem; color: var(--muted); grid-column: 1/-1; }
-  .no-results .big { font-size: 3rem; margin-bottom: 1rem; }
+/* GAME CARD — Poki style */
+.game-card {
+  background: var(--white);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.35s ease both;
+  position: relative;
+}
+.game-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: var(--shadow-hover); }
+.game-thumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+.game-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s;
+}
+.game-card:hover .game-thumb img { transform: scale(1.06); }
+.thumb-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+.play-btn {
+  position: absolute;
+  inset: 0;
+  background: rgba(108,60,225,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.play-btn span {
+  background: #fff;
+  color: var(--purple);
+  font-weight: 900;
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-family: inherit;
+}
+.game-card:hover .play-btn { opacity: 1; }
+.game-info { padding: 10px 10px 12px; }
+.game-name { font-size: 13px; font-weight: 800; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.game-cat-tag { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; text-transform: capitalize; }
+.badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+.badge-hot { background: var(--pink); color: #fff; }
+.badge-new { background: #00c896; color: #fff; }
+.badge-classic { background: #f5a623; color: #fff; }
 
-  footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 1.5rem 2rem; text-align: center; color: var(--muted); font-size: 13px; margin-top: 1rem; }
-  footer span { color: var(--accent); font-weight: 700; }
+/* GAME MODAL — Poki style */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,8,30,0.7);
+  z-index: 1000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 960px;
+  margin: auto;
+  animation: popIn 0.22s ease;
+  overflow: hidden;
+}
+.modal-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+.modal-game-info { display: flex; align-items: center; gap: 12px; }
+.modal-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+.modal-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.modal-title { font-size: 1.2rem; font-weight: 900; }
+.modal-subtitle { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: capitalize; }
+.modal-actions-top { display: flex; gap: 8px; align-items: center; }
+.modal-close {
+  background: var(--bg);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  font-weight: 900;
+}
+.modal-close:hover { background: #ffe0e6; color: var(--pink); }
+.modal-fs-btn {
+  background: var(--purple-light);
+  border: none;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+.modal-fs-btn:hover { background: var(--purple); color: #fff; }
+.game-frame-wrap { background: #000; position: relative; }
+.game-frame { width: 100%; height: 540px; border: none; display: block; }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes popIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+/* RELATED GAMES */
+.related-section { padding: 1.25rem 1.5rem 1.5rem; }
+.related-title { font-size: 14px; font-weight: 800; margin-bottom: 1rem; color: var(--text); }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+.related-card {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+.related-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.related-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+}
+.related-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.related-name { font-size: 11px; font-weight: 800; padding: 6px 8px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); }
 
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { padding: 1rem; }
-    .hero h1 { font-size: 1.8rem; }
-    .nav-links { display: none; }
-    .game-frame { height: 320px; }
-  }
+/* SETTINGS PAGE */
+.settings-page { max-width: 620px; padding-bottom: 3rem; }
+.settings-back { background: none; border: none; color: var(--purple); font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 1.5rem; padding: 0; }
+.settings-back:hover { text-decoration: underline; }
+.settings-h1 { font-size: 1.8rem; font-weight: 900; margin-bottom: 0.25rem; }
+.settings-sub { color: var(--muted); font-size: 14px; margin-bottom: 2rem; font-weight: 600; }
+.s-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--shadow); }
+.s-card-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.25rem; gap: 1rem; }
+.s-card-title { font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.s-card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; font-weight: 600; }
+.toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 26px; cursor: pointer; transition: 0.2s; }
+.toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+.toggle input:checked + .toggle-slider { background: var(--purple); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+.disguise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.d-btn {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.d-btn:hover { border-color: var(--purple); background: var(--purple-light); }
+.d-btn.active { border-color: var(--purple); background: var(--purple-light); }
+.d-icon { font-size: 22px; display: block; margin-bottom: 5px; }
+.d-name { font-size: 13px; font-weight: 800; color: var(--text); display: block; }
+.d-url { font-size: 11px; color: var(--muted); display: block; font-weight: 600; }
+.key-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0.75rem; }
+.k-btn {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.k-btn:hover { border-color: var(--purple); color: var(--purple); }
+.k-btn.active { border-color: var(--purple); background: var(--purple); color: #fff; }
+.save-btn { background: var(--purple); color: #fff; border: none; padding: 12px 32px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: all 0.2s; margin-top: 0.5rem; }
+.save-btn:hover { background: #5a2fc7; transform: translateY(-1px); }
+.saved-msg { display: none; color: #00c896; font-size: 13px; font-weight: 700; margin-left: 12px; vertical-align: middle; }
+
+/* PANIC OVERLAY */
+#panicOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #fff;
+  cursor: pointer;
+}
+#panicOverlay iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
+#panicOverlay .panic-tip { position: absolute; bottom: 6px; right: 10px; font-size: 11px; color: rgba(0,0,0,0.25); font-family: sans-serif; pointer-events: none; }
+
+/* NO RESULTS */
+.no-results { grid-column: 1/-1; text-align: center; padding: 4rem 2rem; color: var(--muted); }
+.no-results .big { font-size: 3rem; margin-bottom: 1rem; }
+.no-results p { font-size: 15px; font-weight: 700; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+@media (max-width: 900px) { .sidebar { display: none; } }
+@media (max-width: 600px) {
+  .main { padding: 1rem 0 2rem; }
+  .hero { padding: 1.5rem; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero::after { display: none; }
+  .game-frame { height: 340px; }
+  .nav-btn { display: none; }
+}
 </style>
 </head>
 <body>
 
-<nav>
-  <a class="logo" href="#">Peter<span>Games</span></a>
+<!-- PANIC OVERLAY -->
+<div id="panicOverlay" onclick="hidePanic()">
+  <iframe id="panicFrame" src="" title="disguise"></iframe>
+  <div class="panic-tip">Press the same key to go back</div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="logo" href="#" onclick="showMainView()">Peter<span class="logo-dot">.</span>Games</a>
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
     <input type="text" id="searchInput" placeholder="Search games..." oninput="handleSearch()">
   </div>
-  <div class="nav-links">
-    <a class="active" onclick="showHome(this)">Home</a>
-    <a onclick="setCategory('pokemon',null,this)">Pokemon</a>
-    <a onclick="setCategory('mario',null,this)">Mario</a>
-    <a onclick="setCategory('zelda',null,this)">Zelda</a>
+  <div class="nav-right">
+    <button class="nav-btn active" id="navHome" onclick="showMainView()">Home</button>
+    <button class="nav-btn" id="navPokemon" onclick="setCategory('pokemon',null,this)">Pokémon</button>
+    <button class="nav-btn" id="navMario" onclick="setCategory('mario',null,this)">Mario</button>
+    <button class="nav-btn" id="navZelda" onclick="setCategory('zelda',null,this)">Zelda</button>
+    <button class="settings-nav-btn" onclick="showSettings()" title="Settings">⚙️</button>
   </div>
 </nav>
 
+<!-- MAIN LAYOUT -->
 <div class="layout">
-  <div class="sidebar">
-    <div class="sidebar-section">
-      <span class="sidebar-label">Categories</span>
-      <button class="cat-btn active" onclick="setCategory('all',this,null)"><span class="cat-icon">🎮</span> All Games</button>
-      <button class="cat-btn" onclick="setCategory('pokemon',this,null)"><span class="cat-icon">🔴</span> Pokemon</button>
-      <button class="cat-btn" onclick="setCategory('mario',this,null)"><span class="cat-icon">🍄</span> Mario</button>
-      <button class="cat-btn" onclick="setCategory('zelda',this,null)"><span class="cat-icon">🗡️</span> Zelda</button>
-      <button class="cat-btn" onclick="setCategory('sports',this,null)"><span class="cat-icon">⚽</span> Sports</button>
-      <button class="cat-btn" onclick="setCategory('disney',this,null)"><span class="cat-icon">🦆</span> Disney</button>
-      <button class="cat-btn" onclick="setCategory('other',this,null)"><span class="cat-icon">🟥</span> Roblox</button>
-    </div>
-    <div class="sidebar-section">
-      <span class="sidebar-label">Collections</span>
-      <button class="cat-btn" onclick="setCategory('classic',this,null)"><span class="cat-icon">🏆</span> Classics</button>
-      <button class="cat-btn" onclick="setCategory('hot',this,null)"><span class="cat-icon">🔥</span> Most Popular</button>
-    </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <span class="sidebar-label">Categories</span>
+    <button class="cat-btn active" id="sb-all" onclick="setCategory('all',this,null)"><span class="cat-icon">🎮</span>All Games</button>
+    <button class="cat-btn" id="sb-pokemon" onclick="setCategory('pokemon',this,null)"><span class="cat-icon">🔴</span>Pokémon</button>
+    <button class="cat-btn" id="sb-mario" onclick="setCategory('mario',this,null)"><span class="cat-icon">🍄</span>Mario</button>
+    <button class="cat-btn" id="sb-zelda" onclick="setCategory('zelda',this,null)"><span class="cat-icon">🗡️</span>Zelda</button>
+    <button class="cat-btn" id="sb-sports" onclick="setCategory('sports',this,null)"><span class="cat-icon">⚽</span>Sports</button>
+    <button class="cat-btn" id="sb-disney" onclick="setCategory('disney',this,null)"><span class="cat-icon">🦆</span>Disney</button>
+    <button class="cat-btn" id="sb-other" onclick="setCategory('other',this,null)"><span class="cat-icon">🟥</span>Roblox</button>
+    <div class="sidebar-divider"></div>
+    <span class="sidebar-label">Discover</span>
+    <button class="cat-btn" id="sb-hot" onclick="setCategory('hot',this,null)"><span class="cat-icon">🔥</span>Most Popular</button>
+    <button class="cat-btn" id="sb-classic" onclick="setCategory('classic',this,null)"><span class="cat-icon">🏆</span>Classics</button>
+    <button class="cat-btn" id="sb-new" onclick="setCategory('new',this,null)"><span class="cat-icon">✨</span>New</button>
+    <div class="sidebar-divider"></div>
+    <button class="cat-btn" onclick="showSettings()"><span class="cat-icon">⚙️</span>Settings</button>
   </div>
 
-  <div class="main">
-    <div class="hero">
-      <h1>Welcome to<br><span>Peter Games</span></h1>
-      <p>Play classic retro games for free — Pokemon, Mario, Zelda, FIFA and more. No download, no signup, just play!</p>
-      <div class="hero-btns">
-        <button class="btn-primary" onclick="openGame(0)">▶ Play Now</button>
-        <button class="btn-secondary" onclick="setCategory('pokemon',null,null)">🔴 Pokemon Games</button>
-      </div>
-    </div>
+  <!-- MAIN CONTENT -->
+  <div class="main" id="mainContent">
 
-    <div class="cats-strip">
-      <div class="cat-pill active" onclick="setCatPill('all',this)">🎮 All</div>
-      <div class="cat-pill" onclick="setCatPill('pokemon',this)">🔴 Pokemon</div>
-      <div class="cat-pill" onclick="setCatPill('mario',this)">🍄 Mario</div>
-      <div class="cat-pill" onclick="setCatPill('zelda',this)">🗡️ Zelda</div>
-      <div class="cat-pill" onclick="setCatPill('sports',this)">⚽ Sports</div>
-      <div class="cat-pill" onclick="setCatPill('disney',this)">🦆 Disney</div>
-    </div>
-
+    <!-- HOME VIEW -->
     <div id="homeView">
+      <div class="hero">
+        <h1>Play Free Games<br>Right in Your Browser</h1>
+        <p>Pokémon, Mario, Zelda, FIFA and more — no download, no sign-up. Just click and play.</p>
+        <div class="hero-btns">
+          <button class="btn-white" onclick="openGame(0)">▶ Play Now</button>
+          <button class="btn-outline-white" onclick="setCategory('pokemon',null,null)">🔴 Pokémon Games</button>
+        </div>
+      </div>
+
+      <div class="pill-strip" id="pillStrip">
+        <button class="pill active" onclick="setCatPill('all',this)">🎮 All</button>
+        <button class="pill" onclick="setCatPill('pokemon',this)">🔴 Pokémon</button>
+        <button class="pill" onclick="setCatPill('mario',this)">🍄 Mario</button>
+        <button class="pill" onclick="setCatPill('zelda',this)">🗡️ Zelda</button>
+        <button class="pill" onclick="setCatPill('sports',this)">⚽ Sports</button>
+        <button class="pill" onclick="setCatPill('disney',this)">🦆 Disney</button>
+        <button class="pill" onclick="setCatPill('other',this)">🟥 Roblox</button>
+      </div>
+
       <div class="section-header">
-        <div class="section-title"><span class="dot" style="background:var(--accent2)"></span> 🔴 Pokemon Games</div>
+        <div class="section-title">🔴 Pokémon</div>
         <button class="see-all" onclick="setCategory('pokemon',null,null)">See all →</button>
       </div>
-      <div class="game-grid" id="pokemonGrid"></div>
+      <div class="game-grid" id="gridPokemon"></div>
 
       <div class="section-header">
-        <div class="section-title"><span class="dot"></span> 🍄 Mario Games</div>
+        <div class="section-title">🍄 Mario</div>
         <button class="see-all" onclick="setCategory('mario',null,null)">See all →</button>
       </div>
-      <div class="game-grid" id="marioGrid"></div>
+      <div class="game-grid" id="gridMario"></div>
 
       <div class="section-header">
-        <div class="section-title"><span class="dot" style="background:var(--accent3)"></span> 🗡️ Zelda Games</div>
+        <div class="section-title">🗡️ Zelda</div>
         <button class="see-all" onclick="setCategory('zelda',null,null)">See all →</button>
       </div>
-      <div class="game-grid" id="zeldaGrid"></div>
+      <div class="game-grid" id="gridZelda"></div>
 
       <div class="section-header">
-        <div class="section-title"><span class="dot" style="background:#00ff88"></span> ⚽ Sports & More</div>
+        <div class="section-title">⚽ Sports & More</div>
       </div>
-      <div class="game-grid" id="otherGrid"></div>
+      <div class="game-grid" id="gridOther"></div>
     </div>
 
+    <!-- FILTERED VIEW -->
     <div id="filteredView" style="display:none">
-      <div class="section-header">
-        <div class="section-title" id="filteredTitle"><span class="dot"></span> Games</div>
+      <div class="section-header" style="margin-bottom:1.25rem">
+        <div class="section-title" id="filteredTitle">Games</div>
       </div>
       <div class="game-grid" id="filteredGrid"></div>
     </div>
+
+    <!-- SETTINGS VIEW -->
+    <div id="settingsView" style="display:none" class="settings-page">
+      <button class="settings-back" onclick="showMainView()">← Back to games</button>
+      <div class="settings-h1">⚙️ Settings</div>
+      <div class="settings-sub">Customize your PeterGames experience</div>
+
+      <!-- TAB CLOAKING -->
+      <div class="s-card">
+        <div class="s-card-head">
+          <div>
+            <div class="s-card-title">🎭 Tab Cloaking</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="cloakToggle" onchange="toggleCloak()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="s-card-desc">Makes your browser tab look like a different website so nobody knows you're playing games.</div>
+        <div class="disguise-grid" id="disguiseGrid">
+          <button class="d-btn active" onclick="selectDisguise(this,'Google','https://www.google.com','🔍','Google','google.com')">
+            <span class="d-icon">🔍</span><span class="d-name">Google</span><span class="d-url">google.com</span>
+          </button>
+          <button class="d-btn" onclick="selectDisguise(this,'Google Docs','https://docs.google.com','📄','Google Docs','docs.google.com')">
+            <span class="d-icon">📄</span><span class="d-name">Google Docs</span><span class="d-url">docs.google.com</span>
+          </button>
+          <button class="d-btn" onclick="selectDisguise(this,'Google Classroom','https://classroom.google.com','🏫','Google Classroom','classroom.google.com')">
+            <span class="d-icon">🏫</span><span class="d-name">Classroom</span><span class="d-url">classroom.google.com</span>
+          </button>
+          <button class="d-btn" onclick="selectDisguise(this,'Khan Academy','https://www.khanacademy.org','🎓','Khan Academy','khanacademy.org')">
+            <span class="d-icon">🎓</span><span class="d-name">Khan Academy</span><span class="d-url">khanacademy.org</span>
+          </button>
+          <button class="d-btn" onclick="selectDisguise(this,'Skolestudio','https://www.skolestudio.no','📚','Skolestudio','skolestudio.no')">
+            <span class="d-icon">📚</span><span class="d-name">Skolestudio</span><span class="d-url">skolestudio.no</span>
+          </button>
+          <button class="d-btn" onclick="selectDisguise(this,'Wikipedia','https://www.wikipedia.org','📖','Wikipedia','wikipedia.org')">
+            <span class="d-icon">📖</span><span class="d-name">Wikipedia</span><span class="d-url">wikipedia.org</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PANIC KEY -->
+      <div class="s-card">
+        <div class="s-card-head">
+          <div>
+            <div class="s-card-title">🚨 Panic Key</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="panicToggle" onchange="savePanicSettings()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="s-card-desc">Press a key combo to instantly cover your screen with a fake website (like Google or Skolestudio). Click anywhere to go back. Choose your disguise above first.</div>
+        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:8px;">Choose your panic key:</div>
+        <div class="key-row" id="keyRow">
+          <button class="k-btn active" onclick="selectKey(this,'x')">Ctrl + X</button>
+          <button class="k-btn" onclick="selectKey(this,'q')">Ctrl + Q</button>
+          <button class="k-btn" onclick="selectKey(this,'z')">Ctrl + Z</button>
+          <button class="k-btn" onclick="selectKey(this,'e')">Ctrl + E</button>
+          <button class="k-btn" onclick="selectKey(this,'1')">Ctrl + 1</button>
+          <button class="k-btn" onclick="selectKey(this,'2')">Ctrl + 2</button>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="saveAllSettings()">Save Settings</button>
+      <span class="saved-msg" id="savedMsg">✓ Saved!</span>
+    </div>
+
   </div>
 </div>
 
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+<!-- GAME MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeOnBg(event)">
   <div class="modal">
-    <div class="modal-header">
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="modal-title" id="modalTitle"></div>
-        <span class="modal-cat" id="modalCat"></span>
+    <div class="modal-top">
+      <div class="modal-game-info">
+        <div class="modal-thumb" id="modalThumb"></div>
+        <div>
+          <div class="modal-title" id="modalTitle"></div>
+          <div class="modal-subtitle" id="modalSubtitle"></div>
+        </div>
       </div>
-      <button class="modal-close" onclick="closeGameModal()">✕</button>
+      <div class="modal-actions-top">
+        <button class="modal-fs-btn" onclick="goFullscreen()">⛶ Fullscreen</button>
+        <button class="modal-close" onclick="closeGameModal()">✕</button>
+      </div>
     </div>
-    <div class="modal-body">
+    <div class="game-frame-wrap">
       <iframe class="game-frame" id="gameFrame" src="" allowfullscreen></iframe>
-      <div class="modal-actions">
-        <button class="fullscreen-btn" onclick="goFullscreen()">⛶ Fullscreen</button>
-        <button class="fullscreen-btn" onclick="closeGameModal()">✕ Close</button>
-      </div>
+    </div>
+    <div class="related-section">
+      <div class="related-title">More games you might like</div>
+      <div class="related-grid" id="relatedGrid"></div>
     </div>
   </div>
 </div>
-
-<footer>
-  <p>© 2025 <span>PeterGames</span> · Free Classic Retro Games · Play Instantly in Browser</p>
-</footer>
 
 <script>
+// ─── GAMES DATA ───────────────────────────────────────────────────────────────
 const games = [
-  { id:0,  name:"Pokemon Emerald",      cat:"pokemon", emoji:"🌿", bg:"#0a1a00", badge:"hot",     url:"https://classicjoy.games/embed?slug=pokemon-emeraid" },
-  { id:1,  name:"Pokemon Fire Red",     cat:"pokemon", emoji:"🔥", bg:"#1a0500", badge:"hot",     url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1" },
-  { id:2,  name:"Pokemon Stadium 2",    cat:"pokemon", emoji:"🏟️", bg:"#0a0a1a", badge:"classic", url:"https://classicjoy.games/embed?slug=pokemon-stadium-2" },
-  { id:3,  name:"Pokemon Fusion Origins", cat:"pokemon", emoji:"🧬", bg:"#1a001a", badge:"new",     url:"https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501" },
-  { id:4,  name:"Mario Kart 64",        cat:"mario",   emoji:"🏎️", bg:"#1a0800", badge:"hot",     url:"https://classicjoy.games/embed?slug=mario-kart-64" },
-  { id:5,  name:"Super Mario 64",       cat:"mario",   emoji:"⭐", bg:"#1a1000", badge:"hot",     url:"https://classicjoy.games/embed?slug=super-mario-64" },
-  { id:6,  name:"Super Mario All-Stars",cat:"mario",   emoji:"🍄", bg:"#1a0500", badge:"classic", url:"https://classicjoy.games/embed?slug=super-mario-all-stars" },
-  { id:7,  name:"Yoshi's Story",        cat:"mario",   emoji:"🦕", bg:"#001a08", badge:"classic", url:"https://classicjoy.games/embed?slug=yoshis-story" },
-  { id:8,  name:"Zelda: Ocarina of Time",  cat:"zelda", emoji:"🎵", bg:"#0a0800", badge:"hot",    url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time" },
-  { id:9,  name:"Zelda: Majora's Mask",    cat:"zelda", emoji:"🌕", bg:"#0d0a1a", badge:"hot",    url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask" },
-  { id:10, name:"Zelda: A Link to the Past",cat:"zelda",emoji:"🗡️", bg:"#001508", badge:"classic",url:"https://classicjoy.games/embed?slug=zelda-link-to-the-past" },
-  { id:11, name:"Zelda: The Minish Cap",   cat:"zelda", emoji:"🎩", bg:"#001a05", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap" },
-  { id:12, name:"Zelda II: Adventure of Link",cat:"zelda",emoji:"🛡️",bg:"#1a0500",badge:"classic",url:"https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link" },
-  { id:13, name:"The Legend of Zelda",     cat:"zelda", emoji:"🏺", bg:"#100800", badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda" },
-  { id:14, name:"FIFA Soccer 07",          cat:"sports", emoji:"⚽", bg:"#001a00", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-07" },
-  { id:15, name:"FIFA 2000",               cat:"sports", emoji:"🏆", bg:"#001500", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer" },
-  { id:16, name:"FIFA Soccer 96",          cat:"sports", emoji:"🥅", bg:"#001200", badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96" },
-  { id:17, name:"DuckTales",               cat:"disney", emoji:"🦆", bg:"#00101a", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales" },
-  { id:18, name:"DuckTales 2",             cat:"disney", emoji:"🎩", bg:"#001018", badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2" },
-  { id:19, name:"Roblox",                  cat:"other",  emoji:"🟥", bg:"#1a0000", badge:"hot",     url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true },
+  { id:0,  name:"Pokémon Emerald",         cat:"pokemon", emoji:"🌿", color:"#1a4a1a",
+    thumb:"https://www.igdb.com/games/pokemon-emerald-version--1/cover/image",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Pokemon_Emerald_box_art.png/220px-Pokemon_Emerald_box_art.png",
+    badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-emeraid" },
+  { id:1,  name:"Pokémon Fire Red",         cat:"pokemon", emoji:"🔥", color:"#4a1a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6f/Pokemon_FireRed_box.png/220px-Pokemon_FireRed_box.png",
+    badge:"hot", url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1" },
+  { id:2,  name:"Pokémon Stadium 2",        cat:"pokemon", emoji:"🏟️", color:"#1a1a4a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/92/Pokemon_Stadium_2.png/220px-Pokemon_Stadium_2.png",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=pokemon-stadium-2" },
+  { id:3,  name:"Pokémon Fusion Origins",   cat:"pokemon", emoji:"🧬", color:"#3a1a4a",
+    img:"https://i.imgur.com/7QkFcFf.png",
+    badge:"new", url:"https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501" },
+  { id:4,  name:"Mario Kart 64",            cat:"mario",   emoji:"🏎️", color:"#4a2a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Mario_Kart_64box.jpg/220px-Mario_Kart_64box.jpg",
+    badge:"hot", url:"https://classicjoy.games/embed?slug=mario-kart-64" },
+  { id:5,  name:"Super Mario 64",           cat:"mario",   emoji:"⭐", color:"#4a3a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/Super_Mario_64_box_cover.jpg/220px-Super_Mario_64_box_cover.jpg",
+    badge:"hot", url:"https://classicjoy.games/embed?slug=super-mario-64" },
+  { id:6,  name:"Super Mario All-Stars",    cat:"mario",   emoji:"🍄", color:"#4a1a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/SuperMarioAllStars.jpg/220px-SuperMarioAllStars.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=super-mario-all-stars" },
+  { id:7,  name:"Yoshi's Story",            cat:"mario",   emoji:"🦕", color:"#1a4a2a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/93/Yoshis_Story_NA.jpg/220px-Yoshis_Story_NA.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=yoshis-story" },
+  { id:8,  name:"Zelda: Ocarina of Time",   cat:"zelda",   emoji:"🎵", color:"#3a2a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/5/57/The_Legend_of_Zelda_Ocarina_of_Time.jpg/220px-The_Legend_of_Zelda_Ocarina_of_Time.jpg",
+    badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time" },
+  { id:9,  name:"Zelda: Majora's Mask",     cat:"zelda",   emoji:"🌕", color:"#2a1a4a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/60/The_Legend_of_Zelda_-_Majora%27s_Mask_Box_Art.jpg/220px-The_Legend_of_Zelda_-_Majora%27s_Mask_Box_Art.jpg",
+    badge:"hot", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask" },
+  { id:10, name:"Zelda: A Link to the Past",cat:"zelda",   emoji:"🗡️", color:"#1a3a2a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/The_Legend_of_Zelda_-_A_Link_to_the_Past_SNES_Game_Cover.jpg/220px-The_Legend_of_Zelda_-_A_Link_to_the_Past_SNES_Game_Cover.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-link-to-the-past" },
+  { id:11, name:"Zelda: The Minish Cap",    cat:"zelda",   emoji:"🎩", color:"#1a4a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/0/0d/The_Legend_of_Zelda_-_The_Minish_Cap.jpg/220px-The_Legend_of_Zelda_-_The_Minish_Cap.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap" },
+  { id:12, name:"Zelda II: Adventure of Link",cat:"zelda", emoji:"🛡️", color:"#3a1a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/2/21/Zelda_II_-_The_Adventure_of_Link_-_NES_-_USA.jpg/220px-Zelda_II_-_The_Adventure_of_Link_-_NES_-_USA.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link" },
+  { id:13, name:"The Legend of Zelda",      cat:"zelda",   emoji:"🏺", color:"#4a3a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Legend_of_zelda_cover_%28with_cartridge%29_gold.png/220px-Legend_of_zelda_cover_%28with_cartridge%29_gold.png",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=the-legend-of-zelda" },
+  { id:14, name:"FIFA Soccer 07",           cat:"sports",  emoji:"⚽", color:"#1a3a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b6/Fifa07_psp_cover.jpg/220px-Fifa07_psp_cover.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-07" },
+  { id:15, name:"FIFA 2000",                cat:"sports",  emoji:"🏆", color:"#1a2a1a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/9a/FIFA_2000_cover.jpg/220px-FIFA_2000_cover.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer" },
+  { id:16, name:"FIFA Soccer 96",           cat:"sports",  emoji:"🥅", color:"#1a1a3a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/99/FIFA_Soccer_96_cover.jpg/220px-FIFA_Soccer_96_cover.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=fifa-soccer-96" },
+  { id:17, name:"DuckTales",                cat:"disney",  emoji:"🦆", color:"#1a2a3a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/9/96/DuckTales_NES_cover.jpg/220px-DuckTales_NES_cover.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales" },
+  { id:18, name:"DuckTales 2",              cat:"disney",  emoji:"🎩", color:"#1a1a3a",
+    img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/bf/DuckTales_2_NES.jpg/220px-DuckTales_2_NES.jpg",
+    badge:"classic", url:"https://classicjoy.games/embed?slug=disneys-ducktales-2" },
+  { id:19, name:"Roblox",                   cat:"other",   emoji:"🟥", color:"#3a1a1a",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Roblox_player_icon_black.svg/220px-Roblox_player_icon_black.svg.png",
+    badge:"hot", url:"https://web.cloudmoonapp.com/game/com.roblox.client/", popup:true },
 ];
 
+// ─── SETTINGS STATE ───────────────────────────────────────────────────────────
+let settings = {
+  cloakEnabled: false,
+  cloakTitle: 'Google',
+  cloakFavicon: '🔍',
+  cloakUrl: 'https://www.google.com',
+  panicEnabled: false,
+  panicKey: 'x',
+};
+
+function loadSettings() {
+  try {
+    const s = JSON.parse(localStorage.getItem('pg_settings') || '{}');
+    Object.assign(settings, s);
+    if (settings.cloakEnabled) applyCloak();
+  } catch(e) {}
+}
+
+function applyCloak() {
+  document.title = settings.cloakTitle;
+  const favicon = document.querySelector('link[rel="icon"]');
+  if (favicon) favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${settings.cloakFavicon}</text></svg>`;
+}
+
+function removeCloak() {
+  document.title = 'Peter Games';
+  const favicon = document.querySelector('link[rel="icon"]');
+  if (favicon) favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>`;
+}
+
+// ─── PANIC KEY ────────────────────────────────────────────────────────────────
+let panicVisible = false;
+document.addEventListener('keydown', e => {
+  if (!settings.panicEnabled) return;
+  if (e.ctrlKey && e.key === settings.panicKey) {
+    e.preventDefault();
+    panicVisible ? hidePanic() : showPanic();
+  }
+});
+
+function showPanic() {
+  panicVisible = true;
+  const overlay = document.getElementById('panicOverlay');
+  const frame = document.getElementById('panicFrame');
+  frame.src = settings.cloakUrl || 'https://www.google.com';
+  overlay.style.display = 'block';
+}
+
+function hidePanic() {
+  panicVisible = false;
+  document.getElementById('panicOverlay').style.display = 'none';
+  document.getElementById('panicFrame').src = '';
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
 function renderCard(g, delay=0) {
+  const imgHtml = g.img
+    ? `<img src="${g.img}" alt="${g.name}" onerror="this.parentElement.innerHTML='<div class=thumb-fallback style=background:${g.color}>${g.emoji}</div>'">`
+    : `<div class="thumb-fallback" style="background:${g.color}">${g.emoji}</div>`;
   return `<div class="game-card" onclick="openGame(${g.id})" style="animation-delay:${delay}ms">
-    <div class="game-thumb" style="background:${g.bg}">
-      <span style="position:relative;z-index:1">${g.emoji}</span>
-      <div class="play-overlay">▶ Play</div>
+    <div class="game-thumb">
+      ${imgHtml}
+      <div class="play-btn"><span>▶ Play</span></div>
       ${g.badge ? `<span class="badge badge-${g.badge}">${g.badge}</span>` : ''}
     </div>
     <div class="game-info">
       <div class="game-name">${g.name}</div>
-      <div class="game-meta"><span class="game-cat">${g.cat}</span></div>
+      <div class="game-cat-tag">${g.cat}</div>
     </div>
   </div>`;
 }
 
-function createPopupWin(url, title, w, h) {
-  const left = Math.round((screen.width - w) / 2);
-  const top = Math.round((screen.height - h) / 2);
-  window.open(url, title, `width=${w},height=${h},top=${top},left=${left},resizable=yes,scrollbars=yes`);
+function renderRelated(currentGame) {
+  const related = games.filter(g => g.cat === currentGame.cat && g.id !== currentGame.id).slice(0, 8);
+  return related.map(g => {
+    const imgHtml = g.img
+      ? `<img src="${g.img}" alt="${g.name}" onerror="this.parentElement.innerHTML='<div style=width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:${g.color}>${g.emoji}</div>'">`
+      : `<div style="width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:${g.color}">${g.emoji}</div>`;
+    return `<div class="related-card" onclick="openGame(${g.id})">
+      <div class="related-thumb">${imgHtml}</div>
+      <div class="related-name">${g.name}</div>
+    </div>`;
+  }).join('');
 }
 
 function renderHome() {
   document.getElementById('homeView').style.display = '';
   document.getElementById('filteredView').style.display = 'none';
+  document.getElementById('settingsView').style.display = 'none';
   const pokemon = games.filter(g => g.cat === 'pokemon');
   const mario   = games.filter(g => g.cat === 'mario');
   const zelda   = games.filter(g => g.cat === 'zelda');
-  const other   = games.filter(g => g.cat === 'sports' || g.cat === 'disney' || g.cat === 'other');
-  document.getElementById('pokemonGrid').innerHTML = pokemon.map((g,i)=>renderCard(g,i*50)).join('');
-  document.getElementById('marioGrid').innerHTML   = mario.map((g,i)=>renderCard(g,i*50)).join('');
-  document.getElementById('zeldaGrid').innerHTML   = zelda.map((g,i)=>renderCard(g,i*50)).join('');
-  document.getElementById('otherGrid').innerHTML   = other.map((g,i)=>renderCard(g,i*50)).join('');
+  const other   = games.filter(g => ['sports','disney','other'].includes(g.cat));
+  document.getElementById('gridPokemon').innerHTML = pokemon.map((g,i) => renderCard(g, i*40)).join('');
+  document.getElementById('gridMario').innerHTML   = mario.map((g,i) => renderCard(g, i*40)).join('');
+  document.getElementById('gridZelda').innerHTML   = zelda.map((g,i) => renderCard(g, i*40)).join('');
+  document.getElementById('gridOther').innerHTML   = other.map((g,i) => renderCard(g, i*40)).join('');
 }
 
+// ─── CATEGORY / NAV ───────────────────────────────────────────────────────────
 const catLabels = {
-  all:'🎮 All Games', pokemon:'🔴 Pokemon', mario:'🍄 Mario',
+  all:'🎮 All Games', pokemon:'🔴 Pokémon', mario:'🍄 Mario',
   zelda:'🗡️ Zelda', sports:'⚽ Sports', disney:'🦆 Disney',
-  other:'🟥 Roblox', classic:'🏆 Classics', hot:'🔥 Most Popular'
+  other:'🟥 Roblox', hot:'🔥 Most Popular', classic:'🏆 Classics', new:'✨ New Games'
 };
 
 function setCategory(cat, sideBtn, navBtn) {
-  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.nav-links a').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
   if (sideBtn) sideBtn.classList.add('active');
   if (navBtn) navBtn.classList.add('active');
   document.getElementById('searchInput').value = '';
-
-  if (cat === 'all') { renderHome(); return; }
-
+  if (cat === 'all') { showMainView(); return; }
   let filtered;
   if (cat === 'hot')     filtered = games.filter(g => g.badge === 'hot');
   else if (cat === 'classic') filtered = games.filter(g => g.badge === 'classic');
+  else if (cat === 'new') filtered = games.filter(g => g.badge === 'new');
   else filtered = games.filter(g => g.cat === cat);
-
   document.getElementById('homeView').style.display = 'none';
+  document.getElementById('settingsView').style.display = 'none';
   document.getElementById('filteredView').style.display = '';
-  document.getElementById('filteredTitle').innerHTML = `<span class="dot"></span> ${catLabels[cat] || cat}`;
+  document.getElementById('filteredTitle').textContent = catLabels[cat] || cat;
   document.getElementById('filteredGrid').innerHTML = filtered.length
-    ? filtered.map((g,i)=>renderCard(g,i*50)).join('')
+    ? filtered.map((g,i) => renderCard(g,i*40)).join('')
     : `<div class="no-results"><div class="big">🎮</div><p>No games found</p></div>`;
 }
 
 function setCatPill(cat, pill) {
-  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   pill.classList.add('active');
+  if (cat === 'all') { renderHome(); return; }
   setCategory(cat, null, null);
+}
+
+function showMainView() {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('navHome').classList.add('active');
+  document.getElementById('searchInput').value = '';
+  renderHome();
 }
 
 function handleSearch() {
@@ -336,30 +875,29 @@ function handleSearch() {
   if (!q) { renderHome(); return; }
   const filtered = games.filter(g => g.name.toLowerCase().includes(q) || g.cat.includes(q));
   document.getElementById('homeView').style.display = 'none';
+  document.getElementById('settingsView').style.display = 'none';
   document.getElementById('filteredView').style.display = '';
-  document.getElementById('filteredTitle').innerHTML = `<span class="dot"></span> 🔍 Results for "${q}" (${filtered.length})`;
+  document.getElementById('filteredTitle').textContent = `🔍 "${q}" — ${filtered.length} game${filtered.length !== 1 ? 's' : ''}`;
   document.getElementById('filteredGrid').innerHTML = filtered.length
-    ? filtered.map((g,i)=>renderCard(g,i*40)).join('')
+    ? filtered.map((g,i) => renderCard(g,i*40)).join('')
     : `<div class="no-results"><div class="big">🎮</div><p>No games found for "${q}"</p></div>`;
 }
 
-function showHome(btn) {
-  document.querySelectorAll('.nav-links a').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('searchInput').value = '';
-  renderHome();
-}
-
+// ─── GAME MODAL ───────────────────────────────────────────────────────────────
 function openGame(id) {
   const g = games.find(x => x.id === id);
   if (!g) return;
-  if (g.popup) {
-    createPopupWin(g.url, g.name, 1200, 650);
-    return;
-  }
+  if (g.popup) { createPopupWin(g.url, g.name, 1200, 650); return; }
   document.getElementById('modalTitle').textContent = g.name;
-  document.getElementById('modalCat').textContent = g.cat;
+  document.getElementById('modalSubtitle').textContent = g.cat;
+  const thumb = document.getElementById('modalThumb');
+  if (g.img) {
+    thumb.innerHTML = `<img src="${g.img}" alt="${g.name}" onerror="this.parentElement.innerHTML='${g.emoji}'" style="width:100%;height:100%;object-fit:cover">`;
+  } else {
+    thumb.textContent = g.emoji;
+  }
   document.getElementById('gameFrame').src = g.url;
+  document.getElementById('relatedGrid').innerHTML = renderRelated(g);
   document.getElementById('modalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -370,16 +908,76 @@ function closeGameModal() {
   document.body.style.overflow = '';
 }
 
-function closeModal(e) {
+function closeOnBg(e) {
   if (e.target === document.getElementById('modalOverlay')) closeGameModal();
 }
 
 function goFullscreen() {
-  const frame = document.getElementById('gameFrame');
-  if (frame.requestFullscreen) frame.requestFullscreen();
-  else if (frame.webkitRequestFullscreen) frame.webkitRequestFullscreen();
+  const f = document.getElementById('gameFrame');
+  if (f.requestFullscreen) f.requestFullscreen();
+  else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen();
 }
 
+function createPopupWin(url, title, w, h) {
+  const left = Math.round((screen.width - w) / 2);
+  const top  = Math.round((screen.height - h) / 2);
+  window.open(url, title, `width=${w},height=${h},top=${top},left=${left},resizable=yes,scrollbars=yes`);
+}
+
+// ─── SETTINGS ─────────────────────────────────────────────────────────────────
+function showSettings() {
+  document.getElementById('homeView').style.display = 'none';
+  document.getElementById('filteredView').style.display = 'none';
+  document.getElementById('settingsView').style.display = '';
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  syncSettingsUI();
+}
+
+function syncSettingsUI() {
+  document.getElementById('cloakToggle').checked = settings.cloakEnabled;
+  document.getElementById('panicToggle').checked = settings.panicEnabled;
+  document.querySelectorAll('#keyRow .k-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.endsWith(settings.panicKey.toUpperCase()) ||
+      b.onclick.toString().includes(`'${settings.panicKey}'`));
+  });
+}
+
+function toggleCloak() {
+  settings.cloakEnabled = document.getElementById('cloakToggle').checked;
+  if (settings.cloakEnabled) applyCloak(); else removeCloak();
+}
+
+function selectDisguise(btn, title, url, icon, name, urlShort) {
+  document.querySelectorAll('.d-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  settings.cloakTitle  = title;
+  settings.cloakUrl    = url;
+  settings.cloakFavicon = icon;
+  if (settings.cloakEnabled) applyCloak();
+}
+
+function selectKey(btn, key) {
+  document.querySelectorAll('.k-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  settings.panicKey = key;
+}
+
+function savePanicSettings() {
+  settings.panicEnabled = document.getElementById('panicToggle').checked;
+}
+
+function saveAllSettings() {
+  settings.cloakEnabled = document.getElementById('cloakToggle').checked;
+  settings.panicEnabled = document.getElementById('panicToggle').checked;
+  try { localStorage.setItem('pg_settings', JSON.stringify(settings)); } catch(e) {}
+  if (settings.cloakEnabled) applyCloak(); else removeCloak();
+  const msg = document.getElementById('savedMsg');
+  msg.style.display = 'inline';
+  setTimeout(() => msg.style.display = 'none', 2000);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+loadSettings();
 renderHome();
 </script>
 </body>
