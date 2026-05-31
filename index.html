@@ -6,13 +6,16 @@
 <title>Peter Games</title>
 <link rel="icon" id="fav" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#f0f4ff;--white:#fff;--purple:#6c3ce1;--pl:#ede8fb;--pink:#ff3d6e;--text:#1a1a2e;--muted:#7a7a9a;--border:#e2e2f0;--r:14px;--sh:0 2px 12px rgba(108,60,225,.09);--shh:0 8px 28px rgba(108,60,225,.18)}
 body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans-serif;min-height:100vh;display:flex}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
+
+/* SIDEBAR */
 .sidebar{width:210px;flex-shrink:0;background:var(--white);border-right:1px solid var(--border);height:100vh;position:sticky;top:0;overflow-y:auto;display:flex;flex-direction:column;padding:1rem 0 2rem}
-.logo{font-size:1.5rem;font-weight:900;color:var(--purple);padding:0 1rem 1.25rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);margin-bottom:.75rem}
+.logo{font-size:1.5rem;font-weight:900;color:var(--purple);padding:0 1rem 1.25rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);margin-bottom:.75rem;cursor:pointer}
 .logo-dot{color:var(--pink)}
 .sb-label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;padding:0 1rem;margin:.75rem 0 .35rem;display:block}
 .sb-div{height:1px;background:var(--border);margin:.75rem .75rem}
@@ -20,6 +23,9 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 .cat-btn:hover{background:var(--pl);color:var(--purple)}
 .cat-btn.active{background:var(--purple);color:#fff}
 .ci{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.locked-tag{font-size:9px;background:#f5a623;color:#fff;padding:1px 5px;border-radius:50px;margin-left:auto;font-weight:800}
+
+/* MAIN */
 .main{flex:1;min-width:0;padding:1.5rem;overflow-x:hidden}
 .topbar{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
 .sw{flex:1;max-width:480px;position:relative}
@@ -27,8 +33,13 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 .sw input:focus{border-color:var(--purple)}
 .sw input::placeholder{color:var(--muted);font-weight:600}
 .si{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--muted)}
-.sbtn{background:var(--white);border:2px solid var(--border);border-radius:50px;padding:9px 18px;font-size:13px;font-weight:800;font-family:inherit;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
-.sbtn:hover{border-color:var(--purple);color:var(--purple)}
+.topbtns{display:flex;gap:8px}
+.tbtn{background:var(--white);border:2px solid var(--border);border-radius:50px;padding:9px 16px;font-size:13px;font-weight:800;font-family:inherit;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.tbtn:hover{border-color:var(--purple);color:var(--purple)}
+.tbtn.primary{background:var(--purple);border-color:var(--purple);color:#fff}
+.tbtn.primary:hover{background:#5a2fc7}
+
+/* HERO */
 .hero{background:linear-gradient(120deg,#6c3ce1 0%,#a259ff 60%,#ff3d6e 100%);border-radius:20px;padding:2.25rem 2.5rem;margin-bottom:1.75rem;position:relative;overflow:hidden;color:#fff}
 .hero::after{content:'🎮';position:absolute;right:2rem;top:50%;transform:translateY(-50%);font-size:7rem;opacity:.13;pointer-events:none}
 .hero h1{font-size:2rem;font-weight:900;line-height:1.15;margin-bottom:.5rem;letter-spacing:-.5px}
@@ -38,32 +49,44 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 .bw:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
 .bow{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.5);padding:10px 22px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
 .bow:hover{background:rgba(255,255,255,.25)}
+
+/* PILLS */
 .pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
 .pill{background:var(--white);border:2px solid var(--border);border-radius:50px;padding:6px 16px;font-size:12px;font-weight:800;font-family:inherit;color:var(--muted);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:5px;white-space:nowrap}
 .pill:hover{border-color:var(--purple);color:var(--purple)}
 .pill.active{background:var(--purple);border-color:var(--purple);color:#fff}
+
+/* SECTION */
 .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
 .st{font-size:1.05rem;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px}
 .badge-proxy{font-size:10px;background:var(--pink);color:#fff;padding:2px 8px;border-radius:50px;font-weight:700}
 .sa{font-size:12px;color:var(--purple);font-weight:800;background:none;border:none;cursor:pointer;font-family:inherit}
 .sa:hover{text-decoration:underline}
+
+/* GAME GRID */
 .gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;margin-bottom:2rem}
-.gc{background:var(--white);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:var(--sh);animation:fu .3s ease both}
+.gc{background:var(--white);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s;box-shadow:var(--sh);animation:fu .3s ease both;position:relative}
 .gc:hover{transform:translateY(-5px) scale(1.02);box-shadow:var(--shh)}
 .gt{width:100%;aspect-ratio:1/1;position:relative;overflow:hidden;display:block;background:#eee}
 .gt img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
 .gc:hover .gt img{transform:scale(1.07)}
-.gfb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem}
+.gfb{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.8rem;background:var(--pl)}
 .po{position:absolute;inset:0;background:rgba(108,60,225,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
 .po span{background:#fff;color:var(--purple);font-weight:900;font-size:12px;padding:7px 16px;border-radius:50px;font-family:inherit}
 .gc:hover .po{opacity:1}
 .gi{padding:8px 10px 10px}
 .gn{font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gct{font-size:10px;color:var(--muted);font-weight:600;margin-top:2px;text-transform:capitalize}
-.bdg{position:absolute;top:7px;left:7px;font-size:9px;font-weight:800;padding:2px 7px;border-radius:50px;text-transform:uppercase;letter-spacing:.5px;z-index:2}
+.bdg{position:absolute;top:7px;left:7px;font-size:9px;font-weight:800;padding:2px 7px;border-radius:50px;text-transform:uppercase;z-index:2}
 .bdg-hot{background:var(--pink);color:#fff}
 .bdg-new{background:#00c896;color:#fff}
 .bdg-classic{background:#f5a623;color:#fff}
+.fav-btn{position:absolute;top:7px;right:7px;background:rgba(255,255,255,.9);border:none;border-radius:50%;width:26px;height:26px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:transform .15s;opacity:0}
+.gc:hover .fav-btn{opacity:1}
+.fav-btn:hover{transform:scale(1.2)}
+.fav-btn.saved{opacity:1;background:var(--pink);color:#fff}
+
+/* MODAL */
 .mo{position:fixed;inset:0;background:rgba(10,8,30,.72);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;backdrop-filter:blur(4px)}
 .mo.open{display:flex}
 .md{background:var(--white);border-radius:20px;width:100%;max-width:940px;margin:auto;animation:pi .22s ease;overflow:hidden}
@@ -87,6 +110,16 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 .rct{width:100%;aspect-ratio:1;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:#eee}
 .rct img{width:100%;height:100%;object-fit:cover}
 .rcn{font-size:10px;font-weight:800;padding:5px 7px 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+
+/* FULLSCREEN EMBED (movies/music/books) */
+.embed-page{display:none;flex-direction:column;height:calc(100vh - 5rem)}
+.embed-page.open{display:flex}
+.embed-topbar{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+.embed-title{font-size:1.2rem;font-weight:900}
+.embed-back{background:var(--pl);color:var(--purple);border:none;padding:8px 16px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer}
+.embed-frame{flex:1;border:none;border-radius:16px;background:#000;width:100%}
+
+/* SETTINGS */
 .sp{max-width:600px;padding-bottom:3rem}
 .spb{background:none;border:none;color:var(--purple);font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:1.25rem;padding:0}
 .spb:hover{text-decoration:underline}
@@ -113,14 +146,72 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 .kb:hover{border-color:var(--purple);color:var(--purple)}
 .kb.active{border-color:var(--purple);background:var(--purple);color:#fff}
 .svbtn{background:var(--purple);color:#fff;border:none;padding:11px 30px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;margin-top:.4rem}
-.svbtn:hover{background:#5a2fc7;transform:translateY(-1px)}
+.svbtn:hover{background:#5a2fc7}
 .svmsg{display:none;color:#00c896;font-size:12px;font-weight:800;margin-left:10px;vertical-align:middle}
+
+/* CODE INPUT */
+.code-wrap{display:flex;gap:10px;margin-top:.75rem}
+.code-input{flex:1;background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:10px 14px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text);outline:none;transition:border-color .2s}
+.code-input:focus{border-color:var(--purple)}
+.code-btn{background:var(--purple);color:#fff;border:none;border-radius:10px;padding:10px 20px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;transition:background .15s}
+.code-btn:hover{background:#5a2fc7}
+.code-msg{font-size:12px;font-weight:800;margin-top:8px;min-height:18px}
+.code-msg.ok{color:#00c896}
+.code-msg.err{color:var(--pink)}
+.unlocked-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:.75rem}
+.unlocked-badge{background:var(--pl);color:var(--purple);border-radius:50px;padding:5px 14px;font-size:12px;font-weight:800}
+
+/* AUTH MODAL */
+.auth-overlay{position:fixed;inset:0;background:rgba(10,8,30,.72);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.auth-overlay.open{display:flex}
+.auth-box{background:var(--white);border-radius:20px;width:100%;max-width:420px;padding:2rem;animation:pi .22s ease;position:relative}
+.auth-close{position:absolute;top:1rem;right:1rem;background:var(--bg);border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.auth-close:hover{background:#ffe0e6;color:var(--pink)}
+.auth-h{font-size:1.5rem;font-weight:900;margin-bottom:.25rem}
+.auth-sub{color:var(--muted);font-size:13px;font-weight:600;margin-bottom:1.5rem}
+.auth-tabs{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:1.25rem}
+.auth-tab{flex:1;padding:8px;border:none;background:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;color:var(--muted);transition:all .15s}
+.auth-tab.active{background:var(--white);color:var(--purple);box-shadow:var(--sh)}
+.auth-field{margin-bottom:1rem}
+.auth-field label{display:block;font-size:12px;font-weight:800;color:var(--text);margin-bottom:5px}
+.auth-field input{width:100%;background:var(--bg);border:2px solid var(--border);border-radius:10px;padding:10px 14px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text);outline:none;transition:border-color .2s}
+.auth-field input:focus{border-color:var(--purple)}
+.auth-submit{width:100%;background:var(--purple);color:#fff;border:none;border-radius:50px;padding:12px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;transition:background .15s;margin-top:.5rem}
+.auth-submit:hover{background:#5a2fc7}
+.auth-msg{font-size:12px;font-weight:800;margin-top:8px;min-height:18px;text-align:center}
+.auth-msg.ok{color:#00c896}
+.auth-msg.err{color:var(--pink)}
+
+/* USER MENU */
+.user-menu{position:relative}
+.user-avatar{width:34px;height:34px;background:var(--purple);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:900;cursor:pointer;border:none;font-family:inherit;transition:opacity .15s}
+.user-avatar:hover{opacity:.85}
+.user-dropdown{position:absolute;top:42px;right:0;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:.5rem;box-shadow:var(--shh);min-width:180px;z-index:100;display:none}
+.user-dropdown.open{display:block}
+.user-info{padding:.5rem .75rem 1rem;border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.user-name{font-size:14px;font-weight:900;color:var(--text)}
+.user-email{font-size:11px;color:var(--muted);font-weight:600}
+.ud-btn{display:flex;align-items:center;gap:8px;width:100%;padding:8px .75rem;background:none;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s;text-align:left}
+.ud-btn:hover{background:var(--pl);color:var(--purple)}
+.ud-btn.danger:hover{background:#ffe0e6;color:var(--pink)}
+
+/* PANIC */
 #po{display:none;position:fixed;inset:0;z-index:99999;background:#fff;cursor:pointer}
 #po iframe{width:100%;height:100%;border:none;pointer-events:none}
 #po .ptip{position:absolute;bottom:6px;right:10px;font-size:10px;color:rgba(0,0,0,.25);font-family:sans-serif;pointer-events:none}
+
+/* NO RESULTS */
 .nr{grid-column:1/-1;text-align:center;padding:3rem 2rem;color:var(--muted)}
 .nr .big{font-size:2.5rem;margin-bottom:.75rem}
 .nr p{font-size:14px;font-weight:700}
+
+/* LOCKED OVERLAY */
+.locked-overlay{text-align:center;padding:4rem 2rem;background:var(--white);border-radius:20px;border:2px dashed var(--border)}
+.locked-overlay .lock-icon{font-size:3rem;margin-bottom:1rem}
+.locked-overlay h2{font-size:1.3rem;font-weight:900;margin-bottom:.5rem}
+.locked-overlay p{color:var(--muted);font-size:14px;font-weight:600;margin-bottom:1.25rem}
+.unlock-hint{background:var(--pl);color:var(--purple);border:none;padding:10px 22px;border-radius:50px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer}
+
 @keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pi{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
 @media(max-width:768px){.sidebar{display:none}.main{padding:1rem}.hero h1{font-size:1.5rem}.hero::after{display:none}.gf{height:320px}}
@@ -128,13 +219,40 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 </head>
 <body>
 
+<!-- PANIC OVERLAY -->
 <div id="po" onclick="hidePanic()">
   <iframe id="pf" src="" title="cover"></iframe>
   <div class="ptip">Press same key combo to return</div>
 </div>
 
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authModal">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-h">Welcome to PeterGames</div>
+    <div class="auth-sub">Sign in to save favorites and unlock features</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+    <div id="login-form">
+      <div class="auth-field"><label>Email</label><input type="email" id="login-email" placeholder="your@email.com"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="login-pass" placeholder="Password"></div>
+      <button class="auth-submit" onclick="doLogin()">Sign In</button>
+    </div>
+    <div id="signup-form" style="display:none">
+      <div class="auth-field"><label>Username</label><input type="text" id="signup-user" placeholder="coolname123"></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="your@email.com"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="signup-pass" placeholder="Min 6 characters"></div>
+      <button class="auth-submit" onclick="doSignup()">Create Account</button>
+    </div>
+    <div class="auth-msg" id="auth-msg"></div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
 <div class="sidebar">
-  <div class="logo">Peter<span class="logo-dot">.</span>Games</div>
+  <div class="logo" onclick="showHome()">Peter<span class="logo-dot">.</span>Games</div>
   <span class="sb-label">Browse</span>
   <button class="cat-btn active" id="sb-all" onclick="setCategory('all',this)"><span class="ci">🎮</span>All Games</button>
   <div class="sb-div"></div>
@@ -164,23 +282,43 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
   <button class="cat-btn" onclick="setCategory('clicker',this)"><span class="ci">👆</span>Clicker</button>
   <button class="cat-btn" onclick="setCategory('simulator',this)"><span class="ci">🚗</span>Simulator</button>
   <div class="sb-div"></div>
+  <span class="sb-label">Unlockable</span>
+  <button class="cat-btn" onclick="openEmbed('movies')"><span class="ci">🎬</span>Movies<span class="locked-tag" id="movies-lock">🔒</span></button>
+  <button class="cat-btn" onclick="openEmbed('music')"><span class="ci">🎵</span>Music<span class="locked-tag" id="music-lock">🔒</span></button>
+  <button class="cat-btn" onclick="openEmbed('books')"><span class="ci">📚</span>Books<span class="locked-tag" id="books-lock">🔒</span></button>
+  <div class="sb-div"></div>
   <span class="sb-label">Discover</span>
   <button class="cat-btn" onclick="setCategory('hot',this)"><span class="ci">🔥</span>Most Popular</button>
   <button class="cat-btn" onclick="setCategory('new',this)"><span class="ci">✨</span>New Games</button>
   <div class="sb-div"></div>
+  <button class="cat-btn" onclick="showFavorites()"><span class="ci">❤️</span>My Favorites</button>
   <button class="cat-btn" onclick="showSettings()"><span class="ci">⚙️</span>Settings</button>
 </div>
 
+<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="sw"><span class="si">🔍</span><input type="text" id="searchInput" placeholder="Search games..." oninput="handleSearch()"></div>
-    <button class="sbtn" onclick="showSettings()">⚙️ Settings</button>
+    <div class="topbtns">
+      <button class="tbtn" onclick="showSettings()">⚙️</button>
+      <div class="user-menu" id="userMenuWrap">
+        <button class="tbtn" id="loginBtn" onclick="openAuth()">Sign In</button>
+        <button class="user-avatar" id="userAvatar" style="display:none" onclick="toggleUserMenu()">?</button>
+        <div class="user-dropdown" id="userDropdown">
+          <div class="user-info"><div class="user-name" id="dropUsername">User</div><div class="user-email" id="dropEmail"></div></div>
+          <button class="ud-btn" onclick="showFavorites()">❤️ My Favorites</button>
+          <button class="ud-btn" onclick="showSettings()">⚙️ Settings</button>
+          <button class="ud-btn danger" onclick="doLogout()">🚪 Sign Out</button>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- HOME -->
   <div id="homeView">
     <div class="hero">
       <h1>Play Free Games<br>Right in Your Browser</h1>
-      <p>Pokémon, Mario, Zelda, CrazyGames and more — no download, no sign-up. Just click and play!</p>
+      <p>Pokémon, Mario, Zelda, CrazyGames, movies, music and more — no download needed!</p>
       <div class="hbtns">
         <button class="bw" onclick="openGame(0)">▶ Play Now</button>
         <button class="bow" onclick="setCategory('crazy',null)">🔥 CrazyGames</button>
@@ -212,18 +350,44 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
     <div class="gg" id="g-sports"></div>
   </div>
 
+  <!-- FILTERED -->
   <div id="filteredView" style="display:none">
     <div class="sh"><div class="st" id="filtTitle">Games</div></div>
     <div class="gg" id="filtGrid"></div>
   </div>
 
+  <!-- EMBED (movies/music/books) -->
+  <div id="embedView" style="display:none">
+    <div class="embed-topbar">
+      <button class="embed-back" onclick="showHome()">← Back</button>
+      <div class="embed-title" id="embedTitle">Movies</div>
+    </div>
+    <div id="embedContent" style="flex:1;display:flex;flex-direction:column"></div>
+  </div>
+
+  <!-- SETTINGS -->
   <div id="settingsView" style="display:none" class="sp">
     <button class="spb" onclick="showHome()">← Back to games</button>
     <div class="sph1">⚙️ Settings</div>
     <div class="spsub">Customize your PeterGames experience</div>
+
+    <!-- UNLOCK CODES -->
+    <div class="scard">
+      <div class="sch"><div><div class="sct">🔑 Unlock Codes</div></div></div>
+      <div class="scd">Enter a secret code to unlock Movies, Music, Books and more hidden features!</div>
+      <div class="code-wrap">
+        <input class="code-input" type="text" id="codeInput" placeholder="Enter code..." onkeydown="if(event.key==='Enter')redeemCode()">
+        <button class="code-btn" onclick="redeemCode()">Unlock</button>
+      </div>
+      <div class="code-msg" id="codeMsg"></div>
+      <div style="margin-top:.75rem;font-size:12px;font-weight:800;color:var(--text)">Unlocked features:</div>
+      <div class="unlocked-list" id="unlockedList"></div>
+    </div>
+
+    <!-- TAB CLOAKING -->
     <div class="scard">
       <div class="sch"><div><div class="sct">🎭 Tab Cloaking</div></div><label class="tgl"><input type="checkbox" id="cloakOn" onchange="toggleCloak()"><span class="tsl"></span></label></div>
-      <div class="scd">Makes your browser tab look like a different website. Nobody knows you're playing games!</div>
+      <div class="scd">Makes your browser tab look like a different website.</div>
       <div class="dg">
         <button class="db active" onclick="selectDisguise(this,'Google','https://www.google.com','🔍')"><span class="di">🔍</span><span class="dn">Google</span><span class="du">google.com</span></button>
         <button class="db" onclick="selectDisguise(this,'Google Docs','https://docs.google.com','📄')"><span class="di">📄</span><span class="dn">Google Docs</span><span class="du">docs.google.com</span></button>
@@ -233,9 +397,11 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
         <button class="db" onclick="selectDisguise(this,'Wikipedia','https://www.wikipedia.org','📖')"><span class="di">📖</span><span class="dn">Wikipedia</span><span class="du">wikipedia.org</span></button>
       </div>
     </div>
+
+    <!-- PANIC KEY -->
     <div class="scard">
       <div class="sch"><div><div class="sct">🚨 Panic Key</div></div><label class="tgl"><input type="checkbox" id="panicOn"><span class="tsl"></span></label></div>
-      <div class="scd">Press a key combo to instantly cover your screen with your disguise. Click anywhere to return. Pick your disguise above first!</div>
+      <div class="scd">Press a key combo to instantly cover your screen. Click anywhere to return.</div>
       <div style="font-size:12px;font-weight:800;color:var(--text);margin-bottom:6px">Choose your panic key:</div>
       <div class="kr">
         <button class="kb active" onclick="selectKey(this,'x')">Ctrl+X</button>
@@ -246,11 +412,14 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
         <button class="kb" onclick="selectKey(this,'2')">Ctrl+2</button>
       </div>
     </div>
+
     <button class="svbtn" onclick="saveSettings()">Save Settings</button>
     <span class="svmsg" id="svmsg">✓ Saved!</span>
   </div>
+
 </div>
 
+<!-- GAME MODAL -->
 <div class="mo" id="modal" onclick="closeBg(event)">
   <div class="md">
     <div class="mt">
@@ -270,7 +439,41 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
 
 <script>
 var PROXY = 'https://pg-proxy-production-d6a8.up.railway.app/proxy?url=';
+var SB_URL = 'https://lkslrjfrlaagetuqbfjt.supabase.co';
+var SB_KEY = 'sb_publishable_f7Eqv4vWstV9RaAYLWjQrQ_RTX5aWCE';
+var sb = supabase.createClient(SB_URL, SB_KEY);
 
+// SECRET CODES
+var CODES = {
+  'PETERMOVIES': 'movies',
+  'PETERMUSIC': 'music',
+  'PETERBOOKS': 'books',
+  'PETERALL': 'all'
+};
+
+var EMBED_URLS = {
+  movies: 'https://www.cineby.sc/',
+  music:  'https://monochrome.tf/',
+  books:  'https://z-lib.gd/'
+};
+
+var EMBED_TITLES = {
+  movies: '🎬 Movies',
+  music:  '🎵 Music',
+  books:  '📚 Books'
+};
+
+// STATE
+var currentUser = null;
+var userProfile = null;
+var unlockedFeatures = [];
+var favorites = [];
+var panicOn = false;
+
+var S = {cloakEnabled:false,cloakTitle:'Google',cloakIcon:'🔍',cloakUrl:'https://www.google.com',panicEnabled:false,panicKey:'x'};
+try{ Object.assign(S, JSON.parse(localStorage.getItem('pgs')||'{}')); }catch(e){}
+
+// GAMES DATA
 var YOUR_GAMES = [
   {name:"Pokemon Emerald",cat:"pokemon",img:"https://upload.wikimedia.org/wikipedia/en/thumb/b/b5/Pokemon_Emerald_box_art.png/220px-Pokemon_Emerald_box_art.png",badge:"hot",url:"https://classicjoy.games/embed?slug=pokemon-emeraid"},
   {name:"Pokemon Fire Red",cat:"pokemon",img:"https://upload.wikimedia.org/wikipedia/en/thumb/6/6f/Pokemon_FireRed_box.png/220px-Pokemon_FireRed_box.png",badge:"hot",url:"https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1"},
@@ -295,26 +498,26 @@ var YOUR_GAMES = [
 ];
 
 var CRAZY_GAMES = [
-  {name:"Moto X3M",cat:"crazy crazyracing",img:"https://www.crazygames.com/game/moto-x3m",badge:"hot",url:"https://www.crazygames.com/embed/moto-x3m",proxy:true},
-  {name:"Slope",cat:"crazy action",img:"",badge:"hot",url:"https://www.crazygames.com/embed/slope",proxy:true},
-  {name:"1v1.LOL",cat:"crazy crazyshoot action",img:"",badge:"hot",url:"https://www.crazygames.com/embed/1v1-lol",proxy:true},
-  {name:"Smash Karts",cat:"crazy crazyio crazyracin",img:"",badge:"hot",url:"https://www.crazygames.com/embed/smash-karts",proxy:true},
-  {name:"Shell Shockers",cat:"crazy crazyshoot crazyio",img:"",badge:"hot",url:"https://www.crazygames.com/embed/shellshock-io",proxy:true},
-  {name:"Krunker.io",cat:"crazy crazyshoot crazyio",img:"",badge:"hot",url:"https://www.crazygames.com/embed/krunker",proxy:true},
-  {name:"Drift Hunters",cat:"crazy crazyracin",img:"",badge:"hot",url:"https://www.crazygames.com/embed/drift-hunters",proxy:true},
-  {name:"Madalin Stunt Cars 2",cat:"crazy crazyracin",img:"",badge:"hot",url:"https://www.crazygames.com/embed/madalin-stunt-cars-2",proxy:true},
-  {name:"Among Us Online",cat:"crazy crazyio action",img:"",badge:"hot",url:"https://www.crazygames.com/embed/among-us-online-edition",proxy:true},
-  {name:"Getaway Shootout",cat:"crazy crazyshoot",img:"",badge:"hot",url:"https://www.crazygames.com/embed/getaway-shootout",proxy:true},
-  {name:"Narrow.one",cat:"crazy crazyio action",img:"",badge:"hot",url:"https://www.crazygames.com/embed/narrow-one",proxy:true},
-  {name:"Stickman Hook",cat:"crazy action stickman",img:"",badge:"hot",url:"https://www.crazygames.com/embed/stickman-hook",proxy:true},
-  {name:"Retro Bowl",cat:"crazy sports",img:"",badge:"hot",url:"https://www.crazygames.com/embed/retro-bowl",proxy:true},
-  {name:"Basketball Stars",cat:"crazy sports",img:"",badge:"hot",url:"https://www.crazygames.com/embed/basketball-stars",proxy:true},
-  {name:"Rooftop Snipers",cat:"crazy crazyshoot",img:"",badge:"hot",url:"https://www.crazygames.com/embed/rooftop-snipers",proxy:true},
-  {name:"Venge.io",cat:"crazy crazyshoot crazyio",img:"",badge:"hot",url:"https://www.crazygames.com/embed/venge-io",proxy:true},
-  {name:"Cut the Rope",cat:"crazy puzzle",img:"",badge:"hot",url:"https://www.crazygames.com/embed/cut-the-rope-remastered",proxy:true},
-  {name:"Crossy Road",cat:"crazy action",img:"",badge:"hot",url:"https://www.crazygames.com/embed/crossy-road-castle",proxy:true},
-  {name:"Subway Surfers",cat:"crazy action",img:"",badge:"hot",url:"https://www.crazygames.com/embed/subway-surfers",proxy:true},
-  {name:"Pixel Combat 2",cat:"crazy crazyshoot",img:"",badge:"hot",url:"https://www.crazygames.com/embed/pixel-combat-2",proxy:true}
+  {name:"Moto X3M",cat:"crazy crazyracing",img:"https://imgs.crazygames.com/motox3m_16x9/20230822115534/motox3m_16x9-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/moto-x3m",proxy:true},
+  {name:"Slope",cat:"crazy action",img:"https://imgs.crazygames.com/slope/20230822115534/slope-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/slope",proxy:true},
+  {name:"1v1.LOL",cat:"crazy crazyshoot action",img:"https://imgs.crazygames.com/1v1-lol/20230822115534/1v1-lol-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/1v1-lol",proxy:true},
+  {name:"Smash Karts",cat:"crazy crazyracing crazyio",img:"https://imgs.crazygames.com/smash-karts/20230822115534/smash-karts-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/smash-karts",proxy:true},
+  {name:"Shell Shockers",cat:"crazy crazyshoot crazyio",img:"https://imgs.crazygames.com/shellshock-io/20230822115534/shellshock-io-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/shellshock-io",proxy:true},
+  {name:"Krunker.io",cat:"crazy crazyshoot crazyio",img:"https://imgs.crazygames.com/krunker/20230822115534/krunker-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/krunker",proxy:true},
+  {name:"Drift Hunters",cat:"crazy crazyracing",img:"https://imgs.crazygames.com/drift-hunters/20230822115534/drift-hunters-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/drift-hunters",proxy:true},
+  {name:"Madalin Stunt Cars 2",cat:"crazy crazyracing",img:"https://imgs.crazygames.com/madalin-stunt-cars-2/20230822115534/madalin-stunt-cars-2-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/madalin-stunt-cars-2",proxy:true},
+  {name:"Among Us Online",cat:"crazy crazyio action",img:"https://imgs.crazygames.com/among-us-online-edition/20230822115534/among-us-online-edition-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/among-us-online-edition",proxy:true},
+  {name:"Getaway Shootout",cat:"crazy crazyshoot",img:"https://imgs.crazygames.com/getaway-shootout/20230822115534/getaway-shootout-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/getaway-shootout",proxy:true},
+  {name:"Narrow.one",cat:"crazy crazyio action",img:"https://imgs.crazygames.com/narrow-one/20230822115534/narrow-one-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/narrow-one",proxy:true},
+  {name:"Stickman Hook",cat:"crazy action stickman",img:"https://imgs.crazygames.com/stickman-hook/20230822115534/stickman-hook-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/stickman-hook",proxy:true},
+  {name:"Retro Bowl",cat:"crazy sports",img:"https://imgs.crazygames.com/retro-bowl/20230822115534/retro-bowl-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/retro-bowl",proxy:true},
+  {name:"Basketball Stars",cat:"crazy sports",img:"https://imgs.crazygames.com/basketball-stars/20230822115534/basketball-stars-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/basketball-stars",proxy:true},
+  {name:"Rooftop Snipers",cat:"crazy crazyshoot",img:"https://imgs.crazygames.com/rooftop-snipers/20230822115534/rooftop-snipers-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/rooftop-snipers",proxy:true},
+  {name:"Venge.io",cat:"crazy crazyshoot crazyio",img:"https://imgs.crazygames.com/venge-io/20230822115534/venge-io-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/venge-io",proxy:true},
+  {name:"Cut the Rope",cat:"crazy puzzle",img:"https://imgs.crazygames.com/cut-the-rope-remastered/20230822115534/cut-the-rope-remastered-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/cut-the-rope-remastered",proxy:true},
+  {name:"Subway Surfers",cat:"crazy action",img:"https://imgs.crazygames.com/subway-surfers/20230822115534/subway-surfers-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/subway-surfers",proxy:true},
+  {name:"Pixel Combat 2",cat:"crazy crazyshoot",img:"https://imgs.crazygames.com/pixel-combat-2/20230822115534/pixel-combat-2-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/pixel-combat-2",proxy:true},
+  {name:"Crossy Road",cat:"crazy action",img:"https://imgs.crazygames.com/crossy-road-castle/20230822115534/crossy-road-castle-cover.png",badge:"hot",url:"https://www.crazygames.com/embed/crossy-road-castle",proxy:true}
 ];
 
 var OG_GAMES = [
@@ -333,7 +536,6 @@ var OG_GAMES = [
   {name:"Madalin Stunt Cars Pro",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/401/responsive/Madalin-Stunt-Cars-Pro-Game-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/madalin-stunt-cars-pro/index.html"},
   {name:"Drift Hunters Pro",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/397/responsive/Drift-Hunters-Pro-xs.jpg",url:"https://www.onlinegames.io/games/2023/unity/drift-hunters-pro/index.html"},
   {name:"Burnout City",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/861/responsive/burnoutcity-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity/burnout-city/index-og.html"},
-  {name:"Super Car Driving",cat:"racing simulator",img:"https://www.onlinegames.io/media/posts/854/responsive/supercardriving-2-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity2/super-car-driving/index-og.html"},
   {name:"Survival Karts",cat:"racing io",img:"https://www.onlinegames.io/media/posts/887/responsive/survival-karts-play-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/survival-karts/index-og.html"},
   {name:"Five Nights at Poppy",cat:"horror",img:"https://www.onlinegames.io/media/posts/992/responsive/Five-Nights-at-Poppy-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity2/five-nights-at-poppy/index-og.html"},
   {name:"99 Nights in the Forest",cat:"survival",img:"https://www.onlinegames.io/media/posts/1190/responsive/99-nights-in-the-forest-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/99-nights-in-the-forest-survival/game.html"},
@@ -346,7 +548,6 @@ var OG_GAMES = [
   {name:"Block Blast",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/876/responsive/block-blast-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/unity3/block-blast/index-og.html"},
   {name:"Chess FreezeNova",cat:"puzzle 2player",img:"https://www.onlinegames.io/media/posts/1116/responsive/chess-freezenova-xs.webp",url:"https://cloud.onlinegames.io/games/2025/unity3/chess/index-og.html"},
   {name:"2048",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/916/responsive/2048-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/html/2048/index.html"},
-  {name:"Mahjong",cat:"puzzle",img:"https://www.onlinegames.io/media/posts/966/responsive/Mahjong-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/mahjong/index-og.html"},
   {name:"Snaker io",cat:"io",img:"https://www.onlinegames.io/media/posts/1261/responsive/snaker-io-xs.webp",url:"https://cloud.onlinegames.io/games/2026/more/snaker-io/game.html"},
   {name:"Dont Fall io",cat:"io",img:"https://www.onlinegames.io/media/posts/182/responsive/Dont-Fall-io-2-xs.jpg",url:"https://www.onlinegames.io/games/2021/unity/dont-fall-io/index.html"},
   {name:"Snake Wars",cat:"io",img:"https://www.onlinegames.io/media/posts/638/responsive/Snake-Wars-Free-Game-xs.jpg",url:"https://www.onlinegames.io/games/2024/unity/snake-wars/index.html"},
@@ -355,81 +556,255 @@ var OG_GAMES = [
   {name:"Cookie Clicker Pro",cat:"clicker",img:"https://www.onlinegames.io/media/posts/971/responsive/Cookie-Clicker-Pro-Game-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity/cookie-clicker-pro/index-og.html"},
   {name:"Basket Hoop",cat:"sports",img:"https://www.onlinegames.io/media/posts/843/responsive/Basket-Hoop-xs.jpg",url:"https://cloud.onlinegames.io/games/2024/construct/311/basket-hoop/index-og.html"},
   {name:"Head Soccer 2022",cat:"sports 2player",img:"https://www.onlinegames.io/media/posts/624/responsive/Head-Soccer-2022-xs.jpg",url:"https://www.onlinegames.io/games/2023/construct/280/head-soccer-2022/index.html"},
-  {name:"8 Ball Pool Billiard",cat:"sports",img:"https://www.onlinegames.io/media/posts/442/responsive/8-Ball-Pool-Billiard-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity3/8-ball-pool-billiard/index.html"},
   {name:"Real Flight Simulator",cat:"simulator",img:"https://www.onlinegames.io/media/posts/342/responsive/Real-Flight-Simulator-2-xs.jpg",url:"https://cloud.onlinegames.io/games/2023/unity2/real-flight-simulator/index.html"},
   {name:"Cat Simulator",cat:"simulator",img:"https://www.onlinegames.io/media/posts/330/responsive/Cat-Simulator-Online-xs.jpg",url:"https://www.onlinegames.io/games/2022/unity4/cat-simulator/index.html"},
   {name:"Rooftop Duel",cat:"action 2player",img:"https://www.onlinegames.io/media/posts/1002/responsive/Rooftop-Duel-Online-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/construct/213/rooftop-duel/index-og.html"},
   {name:"Tank Arena",cat:"action 2player",img:"https://www.onlinegames.io/media/posts/956/responsive/Tank-Arena-Online-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/construct/293/tank-arena/index-og.html"},
   {name:"Dinosaur Game",cat:"action",img:"https://www.onlinegames.io/media/posts/417/responsive/Dinosaur-Game-Online-xs.jpg",url:"https://www.onlinegames.io/games/2023/q2/dinosaur-game/index.html"},
-  {name:"Crazy Cattle 3D",cat:"action io",img:"https://www.onlinegames.io/media/posts/1004/responsive/Crazy-Cattle-3D-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity3/crazy-cattle-3d/index-og.html"},
-  {name:"Run FreezeNova",cat:"action",img:"https://www.onlinegames.io/media/posts/1181/responsive/run-freezenova-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/run-3/game.html"}
+  {name:"Run FreezeNova",cat:"action",img:"https://www.onlinegames.io/media/posts/1181/responsive/run-freezenova-xs.webp",url:"https://cloud.onlinegames.io/games/2026/unity/run-3/game.html"},
+  {name:"Crazy Cattle 3D",cat:"action io",img:"https://www.onlinegames.io/media/posts/1004/responsive/Crazy-Cattle-3D-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity3/crazy-cattle-3d/index-og.html"}
 ];
 
-// Build game list
+// BUILD GAME LIST
 var allGames = [];
 var gid = 0;
 YOUR_GAMES.forEach(function(g){ g.id=gid++; g.source='yours'; allGames.push(g); });
 CRAZY_GAMES.forEach(function(g){ g.id=gid++; g.source='crazy'; if(!g.badge) g.badge='hot'; allGames.push(g); });
 OG_GAMES.forEach(function(g){ g.id=gid++; g.source='og'; if(!g.badge) g.badge=''; allGames.push(g); });
 
-// Settings
-var S = {cloakEnabled:false,cloakTitle:'Google',cloakIcon:'🔍',cloakUrl:'https://www.google.com',panicEnabled:false,panicKey:'x'};
-try{ Object.assign(S, JSON.parse(localStorage.getItem('pgs')||'{}')); }catch(e){}
-if(S.cloakEnabled) applyCloak();
-
-function applyCloak(){
-  document.title = S.cloakTitle;
-  document.getElementById('fav').href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>"+S.cloakIcon+"</text></svg>";
-}
-function removeCloak(){
-  document.title = 'Peter Games';
-  document.getElementById('fav').href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>";
-}
-
-// Panic key
-var panicOn = false;
-document.addEventListener('keydown', function(e){
-  if(!S.panicEnabled) return;
-  if(e.ctrlKey && e.key===S.panicKey){ e.preventDefault(); panicOn ? hidePanic() : showPanic(); }
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+sb.auth.onAuthStateChange(function(event, session) {
+  if (session && session.user) {
+    currentUser = session.user;
+    loadUserData();
+  } else {
+    currentUser = null;
+    userProfile = null;
+    favorites = [];
+    updateAuthUI();
+  }
 });
-function showPanic(){ panicOn=true; document.getElementById('pf').src=S.cloakUrl; document.getElementById('po').style.display='block'; }
-function hidePanic(){ panicOn=false; document.getElementById('po').style.display='none'; document.getElementById('pf').src=''; }
 
-// Render card
-function card(g, delay){
+async function loadUserData() {
+  try {
+    var res = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+    userProfile = res.data;
+    var favRes = await sb.from('favorites').select('*').eq('user_id', currentUser.id);
+    favorites = favRes.data ? favRes.data.map(function(f){ return f.game_name; }) : [];
+    var codeRes = await sb.from('unlocked_codes').select('*').eq('user_id', currentUser.id);
+    unlockedFeatures = codeRes.data ? codeRes.data.map(function(c){ return c.code; }) : [];
+    updateAuthUI();
+    updateLockedTags();
+    updateUnlockedList();
+  } catch(e) { console.log('loadUserData error', e); }
+}
+
+function updateAuthUI() {
+  var loginBtn = document.getElementById('loginBtn');
+  var avatar = document.getElementById('userAvatar');
+  if (currentUser) {
+    loginBtn.style.display = 'none';
+    avatar.style.display = 'flex';
+    var name = userProfile ? userProfile.username : currentUser.email.split('@')[0];
+    avatar.textContent = name[0].toUpperCase();
+    document.getElementById('dropUsername').textContent = name;
+    document.getElementById('dropEmail').textContent = currentUser.email;
+  } else {
+    loginBtn.style.display = 'flex';
+    avatar.style.display = 'none';
+  }
+}
+
+function openAuth() { document.getElementById('authModal').classList.add('open'); }
+function closeAuth() { document.getElementById('authModal').classList.remove('open'); }
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab==='login');
+  document.getElementById('tab-signup').classList.toggle('active', tab==='signup');
+  document.getElementById('login-form').style.display = tab==='login' ? '' : 'none';
+  document.getElementById('signup-form').style.display = tab==='signup' ? '' : 'none';
+  document.getElementById('auth-msg').textContent = '';
+}
+
+async function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value;
+  var msg = document.getElementById('auth-msg');
+  if (!email || !pass) { msg.textContent = 'Please fill in all fields'; msg.className='auth-msg err'; return; }
+  msg.textContent = 'Signing in...'; msg.className='auth-msg';
+  var res = await sb.auth.signInWithPassword({email:email, password:pass});
+  if (res.error) { msg.textContent = res.error.message; msg.className='auth-msg err'; }
+  else { closeAuth(); }
+}
+
+async function doSignup() {
+  var username = document.getElementById('signup-user').value.trim();
+  var email = document.getElementById('signup-email').value.trim();
+  var pass = document.getElementById('signup-pass').value;
+  var msg = document.getElementById('auth-msg');
+  if (!username || !email || !pass) { msg.textContent = 'Please fill in all fields'; msg.className='auth-msg err'; return; }
+  if (pass.length < 6) { msg.textContent = 'Password must be at least 6 characters'; msg.className='auth-msg err'; return; }
+  msg.textContent = 'Creating account...'; msg.className='auth-msg';
+  var res = await sb.auth.signUp({email:email, password:pass});
+  if (res.error) { msg.textContent = res.error.message; msg.className='auth-msg err'; return; }
+  if (res.data.user) {
+    await sb.from('profiles').insert({id:res.data.user.id, username:username});
+    msg.textContent = 'Account created! Check your email to verify.'; msg.className='auth-msg ok';
+    setTimeout(closeAuth, 2000);
+  }
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  document.getElementById('userDropdown').classList.remove('open');
+  unlockedFeatures = [];
+  favorites = [];
+  updateLockedTags();
+}
+
+function toggleUserMenu() {
+  document.getElementById('userDropdown').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var wrap = document.getElementById('userMenuWrap');
+  if (!wrap.contains(e.target)) document.getElementById('userDropdown').classList.remove('open');
+});
+
+// ── CODES ─────────────────────────────────────────────────────────────────────
+async function redeemCode() {
+  var code = document.getElementById('codeInput').value.trim().toUpperCase();
+  var msg = document.getElementById('codeMsg');
+  if (!code) return;
+  if (!currentUser) { msg.textContent = 'Sign in first to unlock features!'; msg.className='code-msg err'; return; }
+  var feature = CODES[code];
+  if (!feature) { msg.textContent = 'Invalid code. Try again!'; msg.className='code-msg err'; return; }
+  var features = feature === 'all' ? ['movies','music','books'] : [feature];
+  for (var i=0; i<features.length; i++) {
+    if (unlockedFeatures.indexOf(features[i]) < 0) {
+      await sb.from('unlocked_codes').insert({user_id:currentUser.id, code:features[i]});
+      unlockedFeatures.push(features[i]);
+    }
+  }
+  msg.textContent = '✓ Unlocked! Check the sidebar.'; msg.className='code-msg ok';
+  document.getElementById('codeInput').value = '';
+  updateLockedTags();
+  updateUnlockedList();
+}
+
+function isUnlocked(feature) {
+  return unlockedFeatures.indexOf(feature) >= 0 || unlockedFeatures.indexOf('all') >= 0;
+}
+
+function updateLockedTags() {
+  var features = ['movies','music','books'];
+  features.forEach(function(f) {
+    var el = document.getElementById(f+'-lock');
+    if (el) el.style.display = isUnlocked(f) ? 'none' : '';
+  });
+}
+
+function updateUnlockedList() {
+  var list = document.getElementById('unlockedList');
+  if (!list) return;
+  var labels = {movies:'🎬 Movies', music:'🎵 Music', books:'📚 Books'};
+  if (unlockedFeatures.length === 0) {
+    list.innerHTML = '<span style="color:var(--muted);font-size:12px;font-weight:600">Nothing unlocked yet</span>';
+  } else {
+    list.innerHTML = unlockedFeatures.map(function(f) {
+      return '<span class="unlocked-badge">'+(labels[f]||f)+'</span>';
+    }).join('');
+  }
+}
+
+function openEmbed(type) {
+  if (!isUnlocked(type)) {
+    hideAll();
+    var content = document.getElementById('embedContent');
+    content.innerHTML = '<div class="locked-overlay">'
+      +'<div class="lock-icon">🔒</div>'
+      +'<h2>'+EMBED_TITLES[type]+' is Locked</h2>'
+      +'<p>Enter the secret code in Settings to unlock this feature for free!</p>'
+      +'<button class="unlock-hint" onclick="showSettings()">⚙️ Go to Settings → Enter Code</button>'
+      +'</div>';
+    document.getElementById('embedTitle').textContent = EMBED_TITLES[type];
+    document.getElementById('embedView').style.display = '';
+    return;
+  }
+  hideAll();
+  document.getElementById('embedTitle').textContent = EMBED_TITLES[type];
+  document.getElementById('embedContent').innerHTML = '<iframe src="'+EMBED_URLS[type]+'" style="flex:1;border:none;border-radius:16px;width:100%;height:calc(100vh - 8rem)" allowfullscreen></iframe>';
+  document.getElementById('embedView').style.display = '';
+}
+
+// ── FAVORITES ─────────────────────────────────────────────────────────────────
+async function toggleFavorite(e, gameName) {
+  e.stopPropagation();
+  if (!currentUser) { openAuth(); return; }
+  var idx = favorites.indexOf(gameName);
+  if (idx >= 0) {
+    favorites.splice(idx, 1);
+    await sb.from('favorites').delete().eq('user_id', currentUser.id).eq('game_name', gameName);
+  } else {
+    favorites.push(gameName);
+    await sb.from('favorites').insert({user_id:currentUser.id, game_name:gameName});
+  }
+  renderHome();
+}
+
+function isFav(name) { return favorites.indexOf(name) >= 0; }
+
+function showFavorites() {
+  var favGames = allGames.filter(function(g){ return favorites.indexOf(g.name) >= 0; });
+  hideAll();
+  document.getElementById('filteredView').style.display = '';
+  document.getElementById('filtTitle').textContent = '❤️ My Favorites';
+  document.getElementById('filtGrid').innerHTML = favGames.length
+    ? favGames.map(function(g,i){ return card(g,i*30); }).join('')
+    : '<div class="nr"><div class="big">❤️</div><p>No favorites yet — click the heart on any game!</p></div>';
+  document.getElementById('userDropdown').classList.remove('open');
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function card(g, delay) {
   var imgPart = g.img
     ? '<img src="'+g.img+'" alt="'+g.name+'" loading="lazy" onerror="this.style.display=\'none\'">'
     : '<div class="gfb">🎮</div>';
   var bdg = g.badge ? '<span class="bdg bdg-'+g.badge+'">'+g.badge+'</span>' : '';
+  var fav = '<button class="fav-btn'+(isFav(g.name)?' saved':'')+'" onclick="toggleFavorite(event,\''+g.name.replace(/'/g,"\\'")+'\')" title="Favorite">'+(isFav(g.name)?'❤️':'🤍')+'</button>';
   return '<div class="gc" onclick="openGame('+g.id+')" style="animation-delay:'+delay+'ms">'
-    +'<div class="gt">'+imgPart+'<div class="po"><span>&#9654; Play</span></div>'+bdg+'</div>'
+    +'<div class="gt">'+imgPart+'<div class="po"><span>&#9654; Play</span></div>'+bdg+fav+'</div>'
     +'<div class="gi"><div class="gn">'+g.name+'</div><div class="gct">'+g.cat.split(' ')[0]+'</div></div>'
     +'</div>';
 }
 
-function related(g){
-  var mainCat = g.cat.split(' ')[0];
-  var rel = allGames.filter(function(x){ return x.id!==g.id && x.cat.indexOf(mainCat)>=0; }).slice(0,10);
+function related(g) {
+  var mc = g.cat.split(' ')[0];
+  var rel = allGames.filter(function(x){ return x.id!==g.id && x.cat.indexOf(mc)>=0; }).slice(0,10);
   return rel.map(function(r){
-    var img = r.img ? '<img src="'+r.img+'" alt="'+r.name+'" style="width:100%;height:100%;object-fit:cover">' : '🎮';
+    var img = r.img ? '<img src="'+r.img+'" alt="'+r.name+'" style="width:100%;height:100%;object-fit:cover">' : '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.6rem;background:var(--pl)">🎮</div>';
     return '<div class="rc" onclick="openGame('+r.id+')">'
       +'<div class="rct">'+img+'</div>'
       +'<div class="rcn">'+r.name+'</div></div>';
   }).join('');
 }
 
-function renderHome(){
-  document.getElementById('homeView').style.display='';
+function hideAll() {
+  document.getElementById('homeView').style.display='none';
   document.getElementById('filteredView').style.display='none';
   document.getElementById('settingsView').style.display='none';
+  document.getElementById('embedView').style.display='none';
+}
+
+function renderHome() {
+  hideAll();
+  document.getElementById('homeView').style.display='';
   var sections = {
-    'g-crazy': allGames.filter(function(g){ return g.source==='crazy'; }),
+    'g-crazy':   allGames.filter(function(g){ return g.source==='crazy'; }),
     'g-pokemon': allGames.filter(function(g){ return g.cat.indexOf('pokemon')>=0; }),
-    'g-mario': allGames.filter(function(g){ return g.cat.indexOf('mario')>=0; }),
-    'g-zelda': allGames.filter(function(g){ return g.cat.indexOf('zelda')>=0; }),
-    'g-action': allGames.filter(function(g){ return g.cat.indexOf('action')>=0 && g.source==='og'; }).slice(0,10),
-    'g-racing': allGames.filter(function(g){ return g.cat.indexOf('racing')>=0 && g.source==='og'; }).slice(0,10),
-    'g-sports': allGames.filter(function(g){ return g.cat.indexOf('sports')>=0 || g.cat.indexOf('disney')>=0 || g.cat.indexOf('roblox')>=0; })
+    'g-mario':   allGames.filter(function(g){ return g.cat.indexOf('mario')>=0; }),
+    'g-zelda':   allGames.filter(function(g){ return g.cat.indexOf('zelda')>=0; }),
+    'g-action':  allGames.filter(function(g){ return g.cat.indexOf('action')>=0 && g.source==='og'; }).slice(0,10),
+    'g-racing':  allGames.filter(function(g){ return g.cat.indexOf('racing')>=0 && g.source==='og'; }).slice(0,10),
+    'g-sports':  allGames.filter(function(g){ return g.cat.indexOf('sports')>=0||g.cat.indexOf('disney')>=0||g.cat.indexOf('roblox')>=0; })
   };
   Object.keys(sections).forEach(function(id){
     var el = document.getElementById(id);
@@ -437,108 +812,96 @@ function renderHome(){
   });
 }
 
-var CAT = {
-  all:'All Games',pokemon:'Pokemon',mario:'Mario',zelda:'Zelda',sports:'Sports',
-  disney:'Disney',roblox:'Roblox',crazy:'CrazyGames',crazyracin:'CG Racing',
-  crazyshoot:'CG Shooting',crazyio:'CG IO Games',action:'Action',racing:'Racing',
-  puzzle:'Puzzle',shooting:'Shooting',io:'IO Games','2player':'2 Player',
-  stickman:'Stickman',minecraft:'Minecraft',clicker:'Clicker',simulator:'Simulator',
-  hot:'Most Popular',new:'New Games'
-};
+var CAT = {all:'All Games',pokemon:'Pokemon',mario:'Mario',zelda:'Zelda',sports:'Sports',disney:'Disney',roblox:'Roblox',crazy:'CrazyGames',crazyracing:'CG Racing',crazyshoot:'CG Shooting',crazyio:'CG IO Games',action:'Action',racing:'Racing',puzzle:'Puzzle',shooting:'Shooting',io:'IO Games','2player':'2 Player',stickman:'Stickman',minecraft:'Minecraft',clicker:'Clicker',simulator:'Simulator',hot:'Most Popular',new:'New Games'};
 
-function setCategory(cat, btn){
+function setCategory(cat, btn) {
   document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
   document.querySelectorAll('.pill').forEach(function(b){ b.classList.remove('active'); });
   if(btn) btn.classList.add('active');
   document.getElementById('searchInput').value='';
   if(cat==='all'){ showHome(); return; }
   var filtered;
-  if(cat==='hot') filtered = allGames.filter(function(g){ return g.badge==='hot'; });
-  else if(cat==='new') filtered = allGames.filter(function(g){ return g.badge==='new'; });
-  else filtered = allGames.filter(function(g){ return g.cat.indexOf(cat)>=0; });
-  document.getElementById('homeView').style.display='none';
-  document.getElementById('settingsView').style.display='none';
+  if(cat==='hot') filtered=allGames.filter(function(g){ return g.badge==='hot'; });
+  else if(cat==='new') filtered=allGames.filter(function(g){ return g.badge==='new'; });
+  else filtered=allGames.filter(function(g){ return g.cat.indexOf(cat)>=0; });
+  hideAll();
   document.getElementById('filteredView').style.display='';
-  document.getElementById('filtTitle').textContent = CAT[cat]||cat;
-  document.getElementById('filtGrid').innerHTML = filtered.length
+  document.getElementById('filtTitle').textContent=CAT[cat]||cat;
+  document.getElementById('filtGrid').innerHTML=filtered.length
     ? filtered.map(function(g,i){ return card(g,i*30); }).join('')
     : '<div class="nr"><div class="big">🎮</div><p>No games found</p></div>';
 }
 
-function setCatPill(cat, pill){
+function setCatPill(cat, pill) {
   document.querySelectorAll('.pill').forEach(function(p){ p.classList.remove('active'); });
   pill.classList.add('active');
   if(cat==='all'){ showHome(); return; }
-  setCategory(cat, null);
+  setCategory(cat,null);
 }
 
-function showHome(){
+function showHome() {
   document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
   document.getElementById('sb-all').classList.add('active');
   document.getElementById('searchInput').value='';
   renderHome();
 }
 
-function handleSearch(){
+function handleSearch() {
   var q = document.getElementById('searchInput').value.toLowerCase().trim();
   if(!q){ renderHome(); return; }
-  var f = allGames.filter(function(g){ return g.name.toLowerCase().indexOf(q)>=0 || g.cat.indexOf(q)>=0; });
-  document.getElementById('homeView').style.display='none';
-  document.getElementById('settingsView').style.display='none';
+  var f = allGames.filter(function(g){ return g.name.toLowerCase().indexOf(q)>=0||g.cat.indexOf(q)>=0; });
+  hideAll();
   document.getElementById('filteredView').style.display='';
-  document.getElementById('filtTitle').textContent = 'Search: "'+q+'" ('+f.length+')';
-  document.getElementById('filtGrid').innerHTML = f.length
+  document.getElementById('filtTitle').textContent='Search: "'+q+'" ('+f.length+')';
+  document.getElementById('filtGrid').innerHTML=f.length
     ? f.map(function(g,i){ return card(g,i*30); }).join('')
     : '<div class="nr"><div class="big">🎮</div><p>No games found for "'+q+'"</p></div>';
 }
 
-function openGame(id){
+function openGame(id) {
   var g = allGames.find(function(x){ return x.id===id; });
   if(!g) return;
   if(g.popup){ popup(g.url,g.name,1200,650); return; }
   var url = g.proxy ? PROXY+encodeURIComponent(g.url) : g.url;
-  document.getElementById('mTitle').textContent = g.name;
-  document.getElementById('mSub').textContent = g.cat.split(' ')[0];
-  var t = document.getElementById('mThumb');
-  t.innerHTML = g.img ? '<img src="'+g.img+'" alt="'+g.name+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.textContent=\'🎮\'">' : '🎮';
-  document.getElementById('gameFrame').src = url;
-  document.getElementById('relGrid').innerHTML = related(g);
+  document.getElementById('mTitle').textContent=g.name;
+  document.getElementById('mSub').textContent=g.cat.split(' ')[0];
+  var t=document.getElementById('mThumb');
+  t.innerHTML=g.img?'<img src="'+g.img+'" alt="'+g.name+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.textContent=\'🎮\'">':'🎮';
+  document.getElementById('gameFrame').src=url;
+  document.getElementById('relGrid').innerHTML=related(g);
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow='hidden';
 }
 function closeModal(){ document.getElementById('modal').classList.remove('open'); document.getElementById('gameFrame').src=''; document.body.style.overflow=''; }
 function closeBg(e){ if(e.target===document.getElementById('modal')) closeModal(); }
-function goFS(){ var f=document.getElementById('gameFrame'); if(f.requestFullscreen) f.requestFullscreen(); else if(f.webkitRequestFullscreen) f.webkitRequestFullscreen(); }
+function goFS(){ var f=document.getElementById('gameFrame'); if(f.requestFullscreen)f.requestFullscreen(); else if(f.webkitRequestFullscreen)f.webkitRequestFullscreen(); }
 function popup(url,title,w,h){ var l=Math.round((screen.width-w)/2),t=Math.round((screen.height-h)/2); window.open(url,title,'width='+w+',height='+h+',top='+t+',left='+l+',resizable=yes'); }
 
-function showSettings(){
-  document.getElementById('homeView').style.display='none';
-  document.getElementById('filteredView').style.display='none';
+// ── SETTINGS ─────────────────────────────────────────────────────────────────
+function showSettings() {
+  hideAll();
   document.getElementById('settingsView').style.display='';
   document.querySelectorAll('.cat-btn').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('cloakOn').checked = S.cloakEnabled;
-  document.getElementById('panicOn').checked = S.panicEnabled;
+  document.getElementById('cloakOn').checked=S.cloakEnabled;
+  document.getElementById('panicOn').checked=S.panicEnabled;
+  updateUnlockedList();
+  document.getElementById('userDropdown').classList.remove('open');
 }
+function applyCloak(){ document.title=S.cloakTitle; document.getElementById('fav').href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>"+S.cloakIcon+"</text></svg>"; }
+function removeCloak(){ document.title='Peter Games'; document.getElementById('fav').href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>"; }
 function toggleCloak(){ S.cloakEnabled=document.getElementById('cloakOn').checked; S.cloakEnabled?applyCloak():removeCloak(); }
-function selectDisguise(btn,title,url,icon){
-  document.querySelectorAll('.db').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-  S.cloakTitle=title; S.cloakUrl=url; S.cloakIcon=icon;
-  if(S.cloakEnabled) applyCloak();
-}
-function selectKey(btn,key){
-  document.querySelectorAll('.kb').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active'); S.panicKey=key;
-}
-function saveSettings(){
-  S.cloakEnabled=document.getElementById('cloakOn').checked;
-  S.panicEnabled=document.getElementById('panicOn').checked;
-  try{ localStorage.setItem('pgs',JSON.stringify(S)); }catch(e){}
-  S.cloakEnabled?applyCloak():removeCloak();
-  var m=document.getElementById('svmsg'); m.style.display='inline';
-  setTimeout(function(){ m.style.display='none'; },2000);
-}
+function selectDisguise(btn,title,url,icon){ document.querySelectorAll('.db').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); S.cloakTitle=title; S.cloakUrl=url; S.cloakIcon=icon; if(S.cloakEnabled)applyCloak(); }
+function selectKey(btn,key){ document.querySelectorAll('.kb').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); S.panicKey=key; }
+function saveSettings(){ S.cloakEnabled=document.getElementById('cloakOn').checked; S.panicEnabled=document.getElementById('panicOn').checked; try{localStorage.setItem('pgs',JSON.stringify(S));}catch(e){} S.cloakEnabled?applyCloak():removeCloak(); var m=document.getElementById('svmsg'); m.style.display='inline'; setTimeout(function(){ m.style.display='none'; },2000); }
 
+// ── PANIC ─────────────────────────────────────────────────────────────────────
+document.addEventListener('keydown',function(e){ if(!S.panicEnabled)return; if(e.ctrlKey&&e.key===S.panicKey){e.preventDefault();panicOn?hidePanic():showPanic();} });
+function showPanic(){ panicOn=true; document.getElementById('pf').src=S.cloakUrl; document.getElementById('po').style.display='block'; }
+function hidePanic(){ panicOn=false; document.getElementById('po').style.display='none'; document.getElementById('pf').src=''; }
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+if(S.cloakEnabled) applyCloak();
+updateLockedTags();
 renderHome();
 </script>
 </body>
