@@ -879,8 +879,7 @@ function openGame(id) {
   var g = allGames.find(function(x){ return x.id===id; });
   if(!g) return;
   if(g.popup){ popup(g.url,g.name,1200,650); return; }
-  if(g.proxy){ popup(g.url,g.name,1200,700); return; }
-  var url = g.url;
+  var url = g.proxy ? PROXY+encodeURIComponent(g.url) : g.url;
   document.getElementById('mTitle').textContent=g.name;
   document.getElementById('mSub').textContent=g.cat.split(' ')[0];
   var t=document.getElementById('mThumb');
