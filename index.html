@@ -608,6 +608,19 @@ async function loadUserData() {
     var favRes = await sb.from('favorites').select('*').eq('user_id', currentUser.id);
     favorites = favRes.data ? favRes.data.map(function(f){ return f.game_name; }) : [];
     var codeRes = await sb.from('unlocked_codes').select('*').eq('user_id', currentUser.id);
+    if (codeRes.data) {
+      codeRes.data.forEach(function(c) {
+        if (unlockedFeatures.indexOf(c.code) < 0) unlockedFeatures.push(c.code);
+      });
+      // Sync to localStorage
+      try { localStorage.setItem('pg_unlocked', JSON.stringify(unlockedFeatures)); } catch(e){}
+    }
+    updateAuthUI();
+    updateLockedTags();
+    updateUnlockedList();
+  } catch(e) { console.log('loadUserData error', e); }
+}) : [];
+    var codeRes = await sb.from('unlocked_codes').select('*').eq('user_id', currentUser.id);
     unlockedFeatures = codeRes.data ? codeRes.data.map(function(c){ return c.code; }) : [];
     updateAuthUI();
     updateLockedTags();
@@ -693,6 +706,24 @@ async function redeemCode() {
   var feature = CODES[code];
   if (!feature) { msg.textContent = 'Invalid code. Try again!'; msg.className='code-msg err'; return; }
   var features = feature === 'all' ? ['movies','music','books'] : [feature];
+  features.forEach(function(f) { if(unlockedFeatures.indexOf(f) < 0) unlockedFeatures.push(f); });
+  // Save to localStorage always
+  try { localStorage.setItem('pg_unlocked', JSON.stringify(unlockedFeatures)); } catch(e){}
+  // Save to Supabase if logged in
+  if (currentUser) {
+    for (var i = 0; i < features.length; i++) {
+      try {
+        await sb.from('unlocked_codes').insert({user_id: currentUser.id, code: features[i]}).select();
+      } catch(e){}
+    }
+  }
+  msg.textContent = '✓ Unlocked! ' + (currentUser ? 'Saved to your account.' : 'Sign in to save permanently.'); 
+  msg.className = 'code-msg ok';
+  document.getElementById('codeInput').value = '';
+  updateLockedTags();
+  updateUnlockedList();
+}
+  var features = feature === 'all' ? ['movies','music','books'] : [feature];
   features.forEach(function(f) {
     if (unlockedFeatures.indexOf(f) < 0) unlockedFeatures.push(f);
   });
@@ -772,7 +803,27 @@ var POPULAR_MOVIES = [
   {id:769,title:"GoodFellas",type:"movie",poster:"https://image.tmdb.org/t/p/w300/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg",year:"1990",rating:"8.7"},
   {id:372058,title:"Your Name",type:"movie",poster:"https://image.tmdb.org/t/p/w300/q719jXXEzOoYaps6babgKnONONX.jpg",year:"2016",rating:"8.4"},
   {id:346364,title:"It",type:"movie",poster:"https://image.tmdb.org/t/p/w300/9E2y5Q7WlCCsy9lTB0Wiz9r2m0y.jpg",year:"2017",rating:"7.3"},
-  {id:1726,title:"Iron Man",type:"movie",poster:"https://image.tmdb.org/t/p/w300/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",year:"2008",rating:"7.9"}
+  {id:1726,title:"Iron Man",type:"movie",poster:"https://image.tmdb.org/t/p/w300/78lPtwv72eTNqFW9COBYI0dWDJa.jpg",year:"2008",rating:"7.9"},
+  // Comedy Movies
+  {id:862,title:"Toy Story",type:"movie",poster:"https://image.tmdb.org/t/p/w300/uXDfjJbdP4ijW5hWSBrPu9VDMhc.jpg",year:"1995",rating:"8.3"},
+  {id:9487,title:"The Mask",type:"movie",poster:"https://image.tmdb.org/t/p/w300/10UHkrjGWOvMqP3PuMbfGKIKPJm.jpg",year:"1994",rating:"7.0"},
+  {id:11517,title:"Dumb and Dumber",type:"movie",poster:"https://image.tmdb.org/t/p/w300/lsAjvHJANuJzxCpIkBpSVJB6xDj.jpg",year:"1994",rating:"7.3"},
+  {id:14160,title:"Up",type:"movie",poster:"https://image.tmdb.org/t/p/w300/4q2hz2m7hubCH2ZH7GCVK0iyBNX.jpg",year:"2009",rating:"8.3"},
+  {id:10193,title:"Toy Story 3",type:"movie",poster:"https://image.tmdb.org/t/p/w300/AbbXspMOwdvwWZgVN0nabZnudEk.jpg",year:"2010",rating:"8.3"},
+  {id:105,title:"Back to the Future",type:"movie",poster:"https://image.tmdb.org/t/p/w300/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",year:"1985",rating:"8.5"},
+  {id:9806,title:"The Incredibles",type:"movie",poster:"https://image.tmdb.org/t/p/w300/2LqaLgk4Z226KkgPJuiOQ58ShKD.jpg",year:"2004",rating:"8.0"},
+  {id:1267,title:"Scary Movie",type:"movie",poster:"https://image.tmdb.org/t/p/w300/xt8lFNGqTzMFQol18scBFXjJDxH.jpg",year:"2000",rating:"6.3"},
+  {id:2109,title:"Mean Girls",type:"movie",poster:"https://image.tmdb.org/t/p/w300/fVM4FcAWBpjjxCFJOANMJeEUPuT.jpg",year:"2004",rating:"7.1"},
+  {id:10528,title:"Superbad",type:"movie",poster:"https://image.tmdb.org/t/p/w300/ek8e8txUyUwd2BNqj6lFEerJfbq.jpg",year:"2007",rating:"7.6"},
+  {id:15654,title:"Hangover",type:"movie",poster:"https://image.tmdb.org/t/p/w300/uluhlXubGu1VxU63X9VHCLWDAYP.jpg",year:"2009",rating:"7.7"},
+  {id:9289,title:"Ace Ventura",type:"movie",poster:"https://image.tmdb.org/t/p/w300/oGuiCDsY8IDHBpLQ5N7Iz4gcMXj.jpg",year:"1994",rating:"7.0"},
+  {id:820,title:"Scary Movie 2",type:"movie",poster:"https://image.tmdb.org/t/p/w300/mGGIAJLMkQHOlRYSTNbkMBNHyLB.jpg",year:"2001",rating:"5.7"},
+  {id:49051,title:"The Hobbit",type:"movie",poster:"https://image.tmdb.org/t/p/w300/yHA9Fc37VmpUA5UmhMFiSHgHQlG.jpg",year:"2012",rating:"7.8"},
+  {id:508442,title:"Soul",type:"movie",poster:"https://image.tmdb.org/t/p/w300/hm58fzdmaoyAfbdQoJMHlHCgYC8.jpg",year:"2020",rating:"8.1"},
+  {id:420,title:"Borat",type:"movie",poster:"https://image.tmdb.org/t/p/w300/8zPaFSRMNaBzQqKbKHqHVBNnZ8m.jpg",year:"2006",rating:"7.3"},
+  {id:10530,title:"Knocked Up",type:"movie",poster:"https://image.tmdb.org/t/p/w300/wGfgkPMFBUBqbMRHi7fJCDfpSTo.jpg",year:"2007",rating:"6.9"},
+  {id:1374,title:"Billy Madison",type:"movie",poster:"https://image.tmdb.org/t/p/w300/8Yxe2LlAfnk6dB1yqtIbJVwFMy.jpg",year:"1995",rating:"6.4"},
+  {id:9737,title:"Happy Gilmore",type:"movie",poster:"https://image.tmdb.org/t/p/w300/6y6UbJJNqFiCpzpSlcJkJRdBcpY.jpg",year:"1996",rating:"7.0"}
 ];
 
 var POPULAR_TV = [
@@ -935,21 +986,49 @@ function watchById() {
   if (!isNaN(id) && id > 0) watchMovie(id, currentMediaType);
 }
 
-function watchMovie(id, type) {
-  var url = 'https://www.vidking.net/embed/' + type + '/' + id + '?color=6c3ce1&autoPlay=true';
-  if (type === 'tv') url += '&nextEpisode=true&episodeSelector=true';
+function watchMovie(id, type, season, episode) {
+  season = season || 1;
+  episode = episode || 1;
   var ec = document.getElementById('embedContent');
   ec.innerHTML = '';
+
   var backBtn = document.createElement('button');
-  backBtn.textContent = '← Back to Browse';
-  backBtn.style.cssText = 'background:#ede8fb;color:#6c3ce1;border:none;border-radius:50px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;margin-bottom:12px';
+  backBtn.textContent = '← Back';
+  backBtn.style.cssText = 'background:#ede8fb;color:#6c3ce1;border:none;border-radius:50px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;margin-bottom:12px;display:block';
   backBtn.addEventListener('click', renderMovieBrowser);
+  ec.appendChild(backBtn);
+
+  var servers = [
+    {name:'Server 1', getUrl: function() { return type==='movie' ? 'https://multiembed.mov/?video_id='+id+'&tmdb=1' : 'https://multiembed.mov/?video_id='+id+'&tmdb=1&s='+season+'&e='+episode; }},
+    {name:'Server 2', getUrl: function() { return type==='movie' ? 'https://vidsrc.to/embed/movie/'+id : 'https://vidsrc.to/embed/tv/'+id+'/'+season+'/'+episode; }},
+    {name:'Server 3', getUrl: function() { return type==='movie' ? 'https://www.2embed.cc/embed/'+id : 'https://www.2embed.cc/embedtv/'+id+'&s='+season+'&e='+episode; }},
+    {name:'Server 4', getUrl: function() { return type==='movie' ? 'https://player.embed-api.stream/?id='+id : 'https://player.embed-api.stream/?id='+id+'&season='+season+'&episode='+episode; }}
+  ];
+
+  var srvRow = document.createElement('div');
+  srvRow.style.cssText = 'display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap';
+  ec.appendChild(srvRow);
+
   var iframe = document.createElement('iframe');
-  iframe.src = url;
+  iframe.id = 'movieFrame';
+  iframe.src = servers[0].getUrl();
   iframe.setAttribute('allowfullscreen', '');
   iframe.setAttribute('allow', 'autoplay; fullscreen');
-  iframe.style.cssText = 'width:100%;min-height:520px;border:none;border-radius:16px;display:block';
-  ec.appendChild(backBtn);
+  iframe.style.cssText = 'width:100%;height:560px;border:none;border-radius:16px;display:block';
+
+  servers.forEach(function(s, i) {
+    var btn = document.createElement('button');
+    btn.textContent = s.name;
+    btn.style.cssText = 'border:2px solid #e2e2f0;border-radius:50px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;background:'+(i===0?'#6c3ce1':'#fff')+';color:'+(i===0?'#fff':'#7a7a9a');
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.srv-btn').forEach(function(b){ b.style.background='#fff'; b.style.color='#7a7a9a'; });
+      btn.style.background='#6c3ce1'; btn.style.color='#fff';
+      iframe.src = s.getUrl();
+    });
+    btn.className = 'srv-btn';
+    srvRow.appendChild(btn);
+  });
+
   ec.appendChild(iframe);
 }
 
@@ -1111,7 +1190,15 @@ function removeCloak(){ document.title='Peter Games'; document.getElementById('f
 function toggleCloak(){ S.cloakEnabled=document.getElementById('cloakOn').checked; S.cloakEnabled?applyCloak():removeCloak(); }
 function selectDisguise(btn,title,url,icon){ document.querySelectorAll('.db').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); S.cloakTitle=title; S.cloakUrl=url; S.cloakIcon=icon; if(S.cloakEnabled)applyCloak(); }
 function selectKey(btn,key){ document.querySelectorAll('.kb').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); S.panicKey=key; }
-function saveSettings(){ S.cloakEnabled=document.getElementById('cloakOn').checked; S.panicEnabled=document.getElementById('panicOn').checked; try{localStorage.setItem('pgs',JSON.stringify(S));}catch(e){} S.cloakEnabled?applyCloak():removeCloak(); var m=document.getElementById('svmsg'); m.style.display='inline'; setTimeout(function(){ m.style.display='none'; },2000); }
+function saveSettings() {
+  S.cloakEnabled = document.getElementById('cloakOn').checked;
+  S.panicEnabled = document.getElementById('panicOn').checked;
+  try { localStorage.setItem('pgs', JSON.stringify(S)); } catch(e){}
+  S.cloakEnabled ? applyCloak() : removeCloak();
+  var m = document.getElementById('svmsg');
+  m.style.display = 'inline';
+  setTimeout(function(){ m.style.display='none'; }, 2000);
+}
 
 // ── PANIC ─────────────────────────────────────────────────────────────────────
 document.addEventListener('keydown',function(e){ if(!S.panicEnabled)return; if(e.ctrlKey&&e.key===S.panicKey){e.preventDefault();panicOn?hidePanic():showPanic();} });
