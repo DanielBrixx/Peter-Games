@@ -612,16 +612,8 @@ async function loadUserData() {
       codeRes.data.forEach(function(c) {
         if (unlockedFeatures.indexOf(c.code) < 0) unlockedFeatures.push(c.code);
       });
-      // Sync to localStorage
       try { localStorage.setItem('pg_unlocked', JSON.stringify(unlockedFeatures)); } catch(e){}
     }
-    updateAuthUI();
-    updateLockedTags();
-    updateUnlockedList();
-  } catch(e) { console.log('loadUserData error', e); }
-}) : [];
-    var codeRes = await sb.from('unlocked_codes').select('*').eq('user_id', currentUser.id);
-    unlockedFeatures = codeRes.data ? codeRes.data.map(function(c){ return c.code; }) : [];
     updateAuthUI();
     updateLockedTags();
     updateUnlockedList();
@@ -704,38 +696,18 @@ async function redeemCode() {
   var msg = document.getElementById('codeMsg');
   if (!code) return;
   var feature = CODES[code];
-  if (!feature) { msg.textContent = 'Invalid code. Try again!'; msg.className='code-msg err'; return; }
+  if (!feature) { msg.textContent = 'Invalid code!'; msg.className='code-msg err'; return; }
   var features = feature === 'all' ? ['movies','music','books'] : [feature];
   features.forEach(function(f) { if(unlockedFeatures.indexOf(f) < 0) unlockedFeatures.push(f); });
-  // Save to localStorage always
   try { localStorage.setItem('pg_unlocked', JSON.stringify(unlockedFeatures)); } catch(e){}
-  // Save to Supabase if logged in
   if (currentUser) {
-    for (var i = 0; i < features.length; i++) {
-      try {
-        await sb.from('unlocked_codes').insert({user_id: currentUser.id, code: features[i]}).select();
-      } catch(e){}
-    }
+    try {
+      var inserts = features.map(function(f){ return {user_id: currentUser.id, code: f}; });
+      await sb.from('unlocked_codes').upsert(inserts, {onConflict:'user_id,code'});
+    } catch(e){ console.log('code save error', e); }
   }
-  msg.textContent = '✓ Unlocked! ' + (currentUser ? 'Saved to your account.' : 'Sign in to save permanently.'); 
+  msg.textContent = currentUser ? '✓ Unlocked and saved to account!' : '✓ Unlocked! Sign in to save permanently.';
   msg.className = 'code-msg ok';
-  document.getElementById('codeInput').value = '';
-  updateLockedTags();
-  updateUnlockedList();
-}
-  var features = feature === 'all' ? ['movies','music','books'] : [feature];
-  features.forEach(function(f) {
-    if (unlockedFeatures.indexOf(f) < 0) unlockedFeatures.push(f);
-  });
-  // Save to localStorage always
-  try { localStorage.setItem('pg_unlocked', JSON.stringify(unlockedFeatures)); } catch(e){}
-  // Save to Supabase if logged in
-  if (currentUser) {
-    for (var i=0; i<features.length; i++) {
-      try { await sb.from('unlocked_codes').upsert({user_id:currentUser.id, code:features[i]}, {onConflict:'user_id,code'}); } catch(e){}
-    }
-  }
-  msg.textContent = '✓ Unlocked! Check the sidebar.'; msg.className='code-msg ok';
   document.getElementById('codeInput').value = '';
   updateLockedTags();
   updateUnlockedList();
