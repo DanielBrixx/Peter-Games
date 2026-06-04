@@ -504,21 +504,21 @@ var YOUR_GAMES = [
 var CRAZY_GAMES = [
   {name:"Smash Karts",      cat:"crazy crazyracing crazyio", img:"", emoji:"🏎️", color:"#0a4d68", badge:"hot", url:"https://smashkarts.io",                    popup:true},
   {name:"Drift Hunters",    cat:"crazy crazyracing",         img:"", emoji:"🚗", color:"#0d0d0d", badge:"hot", url:"https://drifthunters.io",                    popup:true},
-  {name:"Getaway Shootout", cat:"crazy crazyshoot",          img:"", emoji:"🔫", color:"#0d2137", badge:"hot", url:"https://getaway-shootout.com/embed",         popup:true},
+  {name:"Getaway Shootout", cat:"crazy crazyshoot",          img:"", emoji:"🔫", color:"#0d2137", badge:"hot", url:"https://getawayshootout.com",         popup:true},
   {name:"Rooftop Snipers",  cat:"crazy crazyshoot",          img:"", emoji:"🎯", color:"#0a0a1a", badge:"hot", url:"https://rooftop-snipers.com",                popup:true},
   {name:"EvoWars.io",       cat:"crazy crazyio action",      img:"", emoji:"⚔️", color:"#1a0a2e", badge:"hot", url:"https://evowars.io",                        popup:true},
   {name:"Stabfish.io",      cat:"crazy crazyio action",      img:"", emoji:"🐟", color:"#001a1a", badge:"hot", url:"https://stabfish2.io",                      popup:true},
   {name:"Fly or Die",       cat:"crazy crazyio action",      img:"", emoji:"🪰", color:"#0a1a00", badge:"hot", url:"https://flyordie.io",                       popup:true},
-  {name:"Happy Wheels",     cat:"crazy action",              img:"", emoji:"🚲", color:"#0a1a00", badge:"hot", url:"https://happywheels.io",                    popup:true},
-  {name:"World's Hardest Game", cat:"crazy puzzle",          img:"", emoji:"🟥", color:"#1a0000", badge:"hot", url:"https://worldshardestgame.io",              popup:true},
-  {name:"The Impossible Quiz", cat:"crazy puzzle",           img:"", emoji:"❓", color:"#1a0a00", badge:"hot", url:"https://impossible-quiz.co.uk",             popup:true},
-  {name:"Papa's Freezeria", cat:"crazy simulator",           img:"", emoji:"🍦", color:"#00101a", badge:"hot", url:"https://papas-freezeria.io",                popup:true},
-  {name:"Papa's Burgeria",  cat:"crazy simulator",           img:"", emoji:"🍔", color:"#1a0500", badge:"hot", url:"https://papas-burgeria.io",                 popup:true},
-  {name:"Papa's Pancakeria",cat:"crazy simulator",           img:"", emoji:"🥞", color:"#1a0800", badge:"hot", url:"https://papas-pancakeria.io",               popup:true},
+  {name:"Happy Wheels",     cat:"crazy action",              img:"", emoji:"🚲", color:"#0a1a00", badge:"hot", url:"https://www.totaljerkface.com/happy_wheels.tjf",                    popup:true},
+  {name:"World's Hardest Game", cat:"crazy puzzle",          img:"", emoji:"🟥", color:"#1a0000", badge:"hot", url:"https://www.coolmathgames.com/0-worlds-hardest-game",              popup:true},
+  {name:"The Impossible Quiz", cat:"crazy puzzle",           img:"", emoji:"❓", color:"#1a0a00", badge:"hot", url:"https://impossible-quiz.co.uk/impossible-quiz.html",             popup:true},
+  {name:"Papa's Freezeria", cat:"crazy simulator",           img:"", emoji:"🍦", color:"#00101a", badge:"hot", url:"https://papasgames.io/papas-freezeria",                popup:true},
+  {name:"Papa's Burgeria",  cat:"crazy simulator",           img:"", emoji:"🍔", color:"#1a0500", badge:"hot", url:"https://papasgames.io/papas-burgeria",                 popup:true},
+  {name:"Papa's Pancakeria",cat:"crazy simulator",           img:"", emoji:"🥞", color:"#1a0800", badge:"hot", url:"https://papasgames.io/papas-pancakeria",               popup:true},
   {name:"Bloons TD 3",      cat:"crazy action puzzle",       img:"", emoji:"🎈", color:"#1a0a0a", badge:"hot", url:"https://www.ninjakiwi.com/Games/Tower-Defense/Play/Bloons-Tower-Defense-3.html", popup:true},
-  {name:"Super Smash Flash",cat:"crazy action",              img:"", emoji:"👊", color:"#1a0a00", badge:"hot", url:"https://supersmashflash2.net",              popup:true},
-  {name:"Riddle School",    cat:"crazy puzzle",              img:"", emoji:"🏫", color:"#001a10", badge:"hot", url:"https://riddle-school.com",                 popup:true},
-  {name:"Madness Nexus",    cat:"crazy action",              img:"", emoji:"💀", color:"#0d0d0d", badge:"hot", url:"https://madnesscombat.net",                  popup:true},
+  {name:"Super Smash Flash",cat:"crazy action",              img:"", emoji:"👊", color:"#1a0a00", badge:"hot", url:"https://supersmashflash2.net/ssf2/",              popup:true},
+  {name:"Riddle School",    cat:"crazy puzzle",              img:"", emoji:"🏫", color:"#001a10", badge:"hot", url:"https://www.newgrounds.com/portal/view/480664",                 popup:true},
+  {name:"Madness Nexus",    cat:"crazy action",              img:"", emoji:"💀", color:"#0d0d0d", badge:"hot", url:"https://www.newgrounds.com/portal/view/370912",                  popup:true},
   {name:"Escaping the Prison", cat:"crazy action",           img:"", emoji:"🔐", color:"#0d0d00", badge:"hot", url:"https://www.newgrounds.com/portal/view/577979", popup:true},
   {name:"Stealing Diamond", cat:"crazy action",              img:"", emoji:"💎", color:"#001515", badge:"hot", url:"https://www.newgrounds.com/portal/view/593493", popup:true},
   {name:"Bartender Mix",    cat:"crazy simulator",           img:"", emoji:"🍹", color:"#1a0010", badge:"hot", url:"https://www.newgrounds.com/portal/view/522694", popup:true}
@@ -953,43 +953,52 @@ function watchMovie(id, type, season, episode) {
   ec.innerHTML = '';
 
   var backBtn = document.createElement('button');
-  backBtn.textContent = '← Back';
+  backBtn.textContent = '← Back to Browse';
   backBtn.style.cssText = 'background:#ede8fb;color:#6c3ce1;border:none;border-radius:50px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;margin-bottom:12px;display:block';
   backBtn.addEventListener('click', renderMovieBrowser);
   ec.appendChild(backBtn);
 
-  var servers = [
-    {name:'Server 1', getUrl: function() { return type==='movie' ? 'https://multiembed.mov/?video_id='+id+'&tmdb=1' : 'https://multiembed.mov/?video_id='+id+'&tmdb=1&s='+season+'&e='+episode; }},
-    {name:'Server 2', getUrl: function() { return type==='movie' ? 'https://vidsrc.to/embed/movie/'+id : 'https://vidsrc.to/embed/tv/'+id+'/'+season+'/'+episode; }},
-    {name:'Server 3', getUrl: function() { return type==='movie' ? 'https://www.2embed.cc/embed/'+id : 'https://www.2embed.cc/embedtv/'+id+'&s='+season+'&e='+episode; }},
-    {name:'Server 4', getUrl: function() { return type==='movie' ? 'https://player.embed-api.stream/?id='+id : 'https://player.embed-api.stream/?id='+id+'&season='+season+'&episode='+episode; }}
-  ];
-
+  // Server buttons
   var srvRow = document.createElement('div');
-  srvRow.style.cssText = 'display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap';
+  srvRow.style.cssText = 'display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center';
+  var srvLabel = document.createElement('span');
+  srvLabel.textContent = 'Source:';
+  srvLabel.style.cssText = 'font-size:12px;font-weight:800;color:#7a7a9a';
+  srvRow.appendChild(srvLabel);
   ec.appendChild(srvRow);
 
   var iframe = document.createElement('iframe');
   iframe.id = 'movieFrame';
-  iframe.src = servers[0].getUrl();
   iframe.setAttribute('allowfullscreen', '');
-  iframe.setAttribute('allow', 'autoplay; fullscreen');
+  iframe.setAttribute('allow', 'autoplay; fullscreen; encrypted-media; picture-in-picture');
   iframe.style.cssText = 'width:100%;height:560px;border:none;border-radius:16px;display:block';
+  ec.appendChild(iframe);
+
+  var servers = type === 'movie' ? [
+    {name:'Source 1', url:'https://vidsrc.to/embed/movie/'+id},
+    {name:'Source 2', url:'https://vidsrc.me/embed/movie?tmdb='+id},
+    {name:'Source 3', url:'https://www.2embed.cc/embed/'+id},
+    {name:'Source 4', url:'https://multiembed.mov/?video_id='+id+'&tmdb=1'}
+  ] : [
+    {name:'Source 1', url:'https://vidsrc.to/embed/tv/'+id+'/'+season+'/'+episode},
+    {name:'Source 2', url:'https://vidsrc.me/embed/tv?tmdb='+id+'&season='+season+'&episode='+episode},
+    {name:'Source 3', url:'https://www.2embed.cc/embedtv/'+id+'&s='+season+'&e='+episode},
+    {name:'Source 4', url:'https://multiembed.mov/?video_id='+id+'&tmdb=1&s='+season+'&e='+episode}
+  ];
 
   servers.forEach(function(s, i) {
     var btn = document.createElement('button');
     btn.textContent = s.name;
-    btn.style.cssText = 'border:2px solid #e2e2f0;border-radius:50px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;background:'+(i===0?'#6c3ce1':'#fff')+';color:'+(i===0?'#fff':'#7a7a9a');
+    btn.className = 'srv-btn';
+    btn.style.cssText = 'border:2px solid #e2e2f0;border-radius:50px;padding:6px 14px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;transition:all .15s;background:'+(i===0?'#6c3ce1':'#fff')+';color:'+(i===0?'#fff':'#7a7a9a');
     btn.addEventListener('click', function() {
       document.querySelectorAll('.srv-btn').forEach(function(b){ b.style.background='#fff'; b.style.color='#7a7a9a'; });
       btn.style.background='#6c3ce1'; btn.style.color='#fff';
-      iframe.src = s.getUrl();
+      iframe.src = s.url;
     });
-    btn.className = 'srv-btn';
     srvRow.appendChild(btn);
+    if (i === 0) iframe.src = s.url;
   });
-
-  ec.appendChild(iframe);
 }
 
 // ── FAVORITES ─────────────────────────────────────────────────────────────────
