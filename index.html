@@ -975,15 +975,15 @@ function watchMovie(id, type, season, episode) {
   ec.appendChild(iframe);
 
   var servers = type === 'movie' ? [
-    {name:'Source 1', url:'https://vidsrc.to/embed/movie/'+id},
-    {name:'Source 2', url:'https://vidsrc.me/embed/movie?tmdb='+id},
-    {name:'Source 3', url:'https://www.2embed.cc/embed/'+id},
-    {name:'Source 4', url:'https://multiembed.mov/?video_id='+id+'&tmdb=1'}
+    {name:'Vidking',  url:'https://www.vidking.net/embed/movie/'+id+'?color=6c3ce1&autoPlay=true'},
+    {name:'Source 2', url:'https://vidsrc.to/embed/movie/'+id},
+    {name:'Source 3', url:'https://vidsrc.me/embed/movie?tmdb='+id},
+    {name:'Source 4', url:'https://www.2embed.cc/embed/'+id}
   ] : [
-    {name:'Source 1', url:'https://vidsrc.to/embed/tv/'+id+'/'+season+'/'+episode},
-    {name:'Source 2', url:'https://vidsrc.me/embed/tv?tmdb='+id+'&season='+season+'&episode='+episode},
-    {name:'Source 3', url:'https://www.2embed.cc/embedtv/'+id+'&s='+season+'&e='+episode},
-    {name:'Source 4', url:'https://multiembed.mov/?video_id='+id+'&tmdb=1&s='+season+'&e='+episode}
+    {name:'Vidking',  url:'https://www.vidking.net/embed/tv/'+id+'/'+season+'/'+episode+'?color=6c3ce1&autoPlay=true&nextEpisode=true&episodeSelector=true'},
+    {name:'Source 2', url:'https://vidsrc.to/embed/tv/'+id+'/'+season+'/'+episode},
+    {name:'Source 3', url:'https://vidsrc.me/embed/tv?tmdb='+id+'&season='+season+'&episode='+episode},
+    {name:'Source 4', url:'https://www.2embed.cc/embedtv/'+id+'&s='+season+'&e='+episode}
   ];
 
   servers.forEach(function(s, i) {
