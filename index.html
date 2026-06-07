@@ -293,6 +293,7 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
   <button class="cat-btn" onclick="setCategory('new',this)"><span class="ci">✨</span>New Games</button>
   <div class="sb-div"></div>
   <button class="cat-btn" onclick="showFavorites()"><span class="ci">❤️</span>My Favorites</button>
+  <button class="cat-btn" onclick="popup('https://bestsabplayerox.github.io/cine-play-os/','PS5 Browser',1400,800)"><span class="ci">🎮</span>PS5 Browser</button>
   <button class="cat-btn" onclick="showSettings()"><span class="ci">⚙️</span>Settings</button>
 </div>
 
@@ -349,6 +350,8 @@ body{background:var(--bg);color:var(--text);font-family:'Nunito','Segoe UI',sans
     <div class="gg" id="g-racing"></div>
     <div class="sh"><div class="st">⚽ Sports & More</div></div>
     <div class="gg" id="g-sports"></div>
+    <div class="sh"><div class="st">🎮 Noah Games <span class="badge-proxy">100s of Games</span></div><button class="sa" onclick="setCategory('noah',null)">See all →</button></div>
+    <div class="gg" id="g-noah"></div>
   </div>
 
   <!-- FILTERED -->
@@ -536,6 +539,11 @@ var CRAZY_GAMES = [
   {name:"Agar.io",              cat:"crazy crazyio",             emoji:"🟢", color:"#001a00", badge:"hot", url:"https://agar.io",                                                     popup:true},
   {name:"Slither.io",           cat:"crazy crazyio",             emoji:"🐍", color:"#0a0a00", badge:"hot", url:"https://slither.io",                                                  popup:true},
   {name:"GTA 5",                cat:"crazy action",              emoji:"🚗", color:"#1a0a00", badge:"hot", url:"https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=209", popup:true},
+  {name:"Cyberpunk 2077",        cat:"crazy action",              emoji:"🌆", color:"#0a0a1a", badge:"hot", url:"https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=117&name=Cyberpunk%202077", popup:true},
+  {name:"Elden Ring",            cat:"crazy action",              emoji:"⚔️", color:"#1a0800", badge:"hot", url:"https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=598", popup:true},
+  {name:"Schedule 1",            cat:"crazy simulator",           emoji:"💊", color:"#0a1a0a", badge:"new", url:"https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=998&name=Schedule%201", popup:true},
+  {name:"Spider-Man Remastered", cat:"crazy action",              emoji:"🕷️", color:"#1a0000", badge:"hot", url:"https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=625&name=Marvel%E2%80%99s%2520Spider-Man%2520Remastered", popup:true},
+  {name:"Cuphead",               cat:"crazy action",              emoji:"🎭", color:"#1a0500", badge:"hot", url:"https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=66&name=Cuphead", popup:true},
   {name:"Zombs Royale",         cat:"crazy crazyio action",      emoji:"🧟", color:"#1a0a00", badge:"hot", url:"https://zombsroyale.io",                                              popup:true}
 ];
 
@@ -584,12 +592,104 @@ var OG_GAMES = [
   {name:"Crazy Cattle 3D",cat:"action io",img:"https://www.onlinegames.io/media/posts/1004/responsive/Crazy-Cattle-3D-xs.jpg",url:"https://cloud.onlinegames.io/games/2025/unity3/crazy-cattle-3d/index-og.html"}
 ];
 
+var NOAH_GAMES = [
+  {name:"FNAF",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/164.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/166.html"},
+  {name:"FNAF 2",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/165.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/167.html"},
+  {name:"FNAF 3",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/166.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/168.html"},
+  {name:"FNAF 4",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/167.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/169.html"},
+  {name:"FNAF: Sister Location",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/10.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/6.html"},
+  {name:"FNAF: Pizza Sim",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/1.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/1.html"},
+  {name:"FNAF: World",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/36.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/30.html"},
+  {name:"Geometry Dash",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/55.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/46.html"},
+  {name:"Slope",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/175.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/182.html"},
+  {name:"Run 3",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/92.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/235.html"},
+  {name:"Cookie Clicker",cat:"clicker",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/177.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/181.html"},
+  {name:"Bloons TD 4",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/161.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/188.html"},
+  {name:"Bloons TD 5",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/161.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/371.html"},
+  {name:"Undertale",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/217.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/91.html"},
+  {name:"Plants vs Zombies",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/148.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/197.html"},
+  {name:"Friday Night Funkin",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/151.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/195.html"},
+  {name:"Happy Wheels",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/174.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/139.html"},
+  {name:"Retro Bowl",cat:"sports",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/158.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/191.html"},
+  {name:"1v1.lol",cat:"action shooting",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/154.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=313.html"},
+  {name:"Drift Hunters",cat:"racing simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/179.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/179.html"},
+  {name:"Impossible Quiz",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/117.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/217.html"},
+  {name:"World's Hardest Game",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/115.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/218.html"},
+  {name:"Hollow Knight",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/28.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=23.html"},
+  {name:"Terraria",cat:"action minecraft",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/271.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/165.html"},
+  {name:"Celeste",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/270.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/147.html"},
+  {name:"Cuphead (Noah)",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/188.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/266.html"},
+  {name:"Buckshot Roulette",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/187.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/63.html"},
+  {name:"Balatro",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/195.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/268.html"},
+  {name:"Minecraft 1.12",cat:"minecraft",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/291.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/164.html"},
+  {name:"Super Smash Flash 2",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/64.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/253.html"},
+  {name:"Baldi's Basics",cat:"horror puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/52.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=43.html"},
+  {name:"Granny",cat:"horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/50.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/257.html"},
+  {name:"Granny 2",cat:"horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/49.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/258.html"},
+  {name:"Granny 3",cat:"horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/48.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/259.html"},
+  {name:"Doki Doki Literature Club",cat:"horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/199.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/73.html"},
+  {name:"Papers Please",cat:"simulator puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/331.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=308.html"},
+  {name:"Getting Over It",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/198.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=72.html"},
+  {name:"Angry Birds",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/34.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=29.html"},
+  {name:"Subway Surfers",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/145.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/200.html"},
+  {name:"Temple Run 2",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/106.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/224.html"},
+  {name:"Candy Crush",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/54.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/45.html"},
+  {name:"Flappy Bird",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/87.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/239.html"},
+  {name:"Doom",cat:"action shooting",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/255.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/133.html"},
+  {name:"Doom 2",cat:"action shooting",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/257.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/257.html"},
+  {name:"Doom 3",cat:"action shooting horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/282.jpg",url:"https://doom3kaidensarcade.netlify.app/"},
+  {name:"Half Life",cat:"action shooting",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/159.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/190.html"},
+  {name:"Portal",cat:"puzzle action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/253.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/135.html"},
+  {name:"Pizza Tower",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/388.png",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/394.html"},
+  {name:"Sprunki",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/225.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/101.html"},
+  {name:"Hotline Miami",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/22.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/16.html"},
+  {name:"GTA Vice City",cat:"action racing",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/272.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/149.html"},
+  {name:"Resident Evil 2",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/205.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/80.html"},
+  {name:"Resident Evil 3",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/227.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/103.html"},
+  {name:"Silent Hill",cat:"horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/345.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/344.html"},
+  {name:"Fallout",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/11.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/7.html"},
+  {name:"Rocket League",cat:"sports racing",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/12.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/262.html"},
+  {name:"Street Fighter II",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/13.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/261.html"},
+  {name:"Mortal Kombat 4",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/fuckthis.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/93.html"},
+  {name:"Among Us (Real)",cat:"action io",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/17.jpg",url:"https://ud-gles3games.shared-osj.k8s.n2i.io/?deeplinksApp=com.innersloth.spacemafia&naturalOrientation=landscape&title=Among+Us"},
+  {name:"Solar Smash",cat:"action simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/37.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=31.html"},
+  {name:"Bitlife",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/178.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/180.html"},
+  {name:"OMORI",cat:"horror action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/312.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=290.html"},
+  {name:"Brotato",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/366.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/366.html"},
+  {name:"Iron Lung",cat:"horror",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/328.jpg",url:"https://script.google.com/macros/s/AKfycbw2YH3dPJE1XWPOXBnR4UOidr3vX8fgY0ZIyWj1Bmx9Lcty0e1bfUOYwPJ02lviN2Hb/exec?game=306.html"},
+  {name:"Superhot",cat:"action shooting",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/321.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/299.html"},
+  {name:"Fireboy & Watergirl",cat:"action puzzle 2player",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/385.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/385.html"},
+  {name:"Bloons TD 1",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/367.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/367.html"},
+  {name:"Bloons TD 2",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/368.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/368.html"},
+  {name:"Bloons TD 3",cat:"action puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/369.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/369.html"},
+  {name:"Papa's Donuteria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/297.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/275.html"},
+  {name:"Papa's Burgeria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/298.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/276.html"},
+  {name:"Papa's Freezeria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/301.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/279.html"},
+  {name:"Papa's Pancakeria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/303.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/281.html"},
+  {name:"Papa's Wingeria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/308.png",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/286.html"},
+  {name:"Papa's Sushiria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/306.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/284.html"},
+  {name:"Papa's Pizzeria",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/309.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/287.html"},
+  {name:"Getaway Shootout",cat:"action shooting 2player",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/135.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/207.html"},
+  {name:"Cut the Rope",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/180.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/178.html"},
+  {name:"Stickman Hook",cat:"action stickman",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/118.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/216.html"},
+  {name:"OvO",cat:"action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/82.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/241.html"},
+  {name:"Level Devil",cat:"puzzle action",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/105.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/225.html"},
+  {name:"That's Not My Neighbor",cat:"horror puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/56.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/47.html"},
+  {name:"Poly Track",cat:"racing",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/139.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/203.html"},
+  {name:"Drift Boss",cat:"racing",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/150.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/196.html"},
+  {name:"Wordle",cat:"puzzle",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/183.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/176.html"},
+  {name:"Monkey Mart",cat:"simulator",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/184.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/175.html"},
+  {name:"Crazy Cattle 3D",cat:"action io",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/91.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/236.html"},
+  {name:"Wolfenstein 3D",cat:"action shooting",img:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor/images/219.jpg",url:"https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/95.html"}
+];
+
 // BUILD GAME LIST
 var allGames = [];
 var gid = 0;
 YOUR_GAMES.forEach(function(g){ g.id=gid++; g.source='yours'; allGames.push(g); });
 CRAZY_GAMES.forEach(function(g){ g.id=gid++; g.source='crazy'; if(!g.badge) g.badge='hot'; allGames.push(g); });
 OG_GAMES.forEach(function(g){ g.id=gid++; g.source='og'; if(!g.badge) g.badge=''; allGames.push(g); });
+NOAH_GAMES.forEach(function(g){ g.id=gid++; g.source='noah'; if(!g.badge) g.badge=''; allGames.push(g); });
 
 // ── AUTH ──────────────────────────────────────────────────────────────────────
 sb.auth.onAuthStateChange(function(event, session) {
@@ -1085,7 +1185,8 @@ function renderHome() {
     'g-zelda':   allGames.filter(function(g){ return g.cat.indexOf('zelda')>=0; }),
     'g-action':  allGames.filter(function(g){ return g.cat.indexOf('action')>=0 && g.source==='og'; }).slice(0,10),
     'g-racing':  allGames.filter(function(g){ return g.cat.indexOf('racing')>=0 && g.source==='og'; }).slice(0,10),
-    'g-sports':  allGames.filter(function(g){ return g.cat.indexOf('sports')>=0||g.cat.indexOf('disney')>=0||g.cat.indexOf('roblox')>=0; })
+    'g-sports':  allGames.filter(function(g){ return g.cat.indexOf('sports')>=0||g.cat.indexOf('disney')>=0||g.cat.indexOf('roblox')>=0; }),
+    'g-noah':    allGames.filter(function(g){ return g.source==='noah'; }).slice(0,12)
   };
   Object.keys(sections).forEach(function(id){
     var el = document.getElementById(id);
