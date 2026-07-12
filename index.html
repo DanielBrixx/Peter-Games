@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PeterGames</title>
+<link rel="icon" id="fav" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0;
+  --white:#ffffff;
+  --black:#111111;
+  --text:#1a1a1a;
+  --muted:#888;
+  --border:#e0ddd8;
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  min-height:100vh;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  padding:4rem 1rem 1rem;
+  position:relative;
+}
+.site-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(2.5rem,7vw,5rem);
+  font-weight:800;
+  letter-spacing:-2px;
+  color:var(--black);
+  line-height:1;
+  margin-bottom:.5rem;
+}
+.site-title .dot{
+  display:inline-block;
+  width:18px;
+  height:18px;
+  background:#111;
+  border-radius:50%;
+  vertical-align:middle;
+  margin:0 4px;
+  position:relative;
+  top:-4px;
+}
+.site-sub{
+  font-size:1.05rem;
+  color:var(--muted);
+  font-weight:500;
+  margin-bottom:3rem;
+}
+
+/* SEARCH */
+.search-wrap{
+  max-width:460px;
+  margin:0 auto 3.5rem;
+  position:relative;
+}
+.search-wrap input{
+  width:100%;
+  background:var(--white);
+  border:2px solid var(--border);
+  border-radius:50px;
+  padding:14px 22px 14px 50px;
+  font-size:15px;
+  font-family:inherit;
+  font-weight:500;
+  color:var(--text);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.search-wrap input:focus{
+  border-color:#111;
+  box-shadow:0 0 0 3px rgba(17,17,17,.08);
+}
+.search-wrap input::placeholder{color:var(--muted)}
+.search-icon{
+  position:absolute;left:18px;top:50%;
+  transform:translateY(-50%);
+  font-size:17px;color:var(--muted);
+}
+
+/* GRID */
+.grid{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 1.5rem 5rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
+}
+
+/* CARD */
+.card{
+  border-radius:20px;
+  overflow:hidden;
+  cursor:pointer;
+  position:relative;
+  transform-style:preserve-3d;
+  will-change:transform;
+  transition:box-shadow .3s;
+  min-height:180px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+.card:hover{box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.card-bg{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  transition:transform .4s;
+}
+.card:hover .card-bg{transform:scale(1.04)}
+.card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.1) 60%,transparent 100%);
+}
+.card-content{
+  position:relative;
+  z-index:2;
+  padding:1.5rem;
+  transform:translateZ(30px);
+}
+.card-emoji{
+  font-size:2.2rem;
+  display:block;
+  margin-bottom:.5rem;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));
+}
+.card-title{
+  font-family:'Syne',sans-serif;
+  font-size:1.5rem;
+  font-weight:800;
+  color:#fff;
+  line-height:1.1;
+  margin-bottom:.3rem;
+  text-shadow:0 2px 8px rgba(0,0,0,.3);
+}
+.card-desc{
+  font-size:13px;
+  color:rgba(255,255,255,.8);
+  font-weight:500;
+  line-height:1.4;
+}
+.card-tag{
+  position:absolute;
+  top:14px;right:14px;
+  background:rgba(255,255,255,.2);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:50px;
+  padding:4px 12px;
+  font-size:11px;
+  font-weight:700;
+  color:#fff;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+  z-index:3;
+}
+
+/* SECTION LABEL */
+.section-label{
+  max-width:1100px;
+  margin:0 auto 1rem;
+  padding:0 1.5rem;
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  z-index:1000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  backdrop-filter:blur(6px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--white);
+  border-radius:24px;
+  width:100%;
+  max-width:960px;
+  max-height:92vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  animation:popIn .25s cubic-bezier(.34,1.56,.64,1);
+}
+.modal-header{
+  padding:1.25rem 1.5rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1rem;
+  flex-shrink:0;
+}
+.modal-title-wrap{display:flex;align-items:center;gap:10px}
+.modal-emoji{font-size:1.6rem}
+.modal-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800}
+.modal-close{
+  background:#f5f5f5;border:none;width:36px;height:36px;
+  border-radius:50%;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;font-weight:900;
+  flex-shrink:0;
+}
+.modal-close:hover{background:#ffe0e0}
+.modal-body{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.modal-frame{width:100%;flex:1;min-height:500px;border:none;display:block;background:#000}
+
+/* SETTINGS MODAL */
+.settings-modal{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:2000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  backdrop-filter:blur(6px);
+}
+.settings-modal.open{display:flex}
+.settings-box{
+  background:var(--white);
+  border-radius:24px;
+  width:100%;
+  max-width:540px;
+  max-height:90vh;
+  overflow-y:auto;
+  padding:2rem;
+  animation:popIn .25s cubic-bezier(.34,1.56,.64,1);
+}
+.settings-h{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:.25rem}
+.settings-sub{color:var(--muted);font-size:13px;font-weight:500;margin-bottom:1.5rem}
+.s-section{margin-bottom:1.5rem}
+.s-section-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+.s-card{background:#f7f5f0;border-radius:16px;padding:1.25rem;margin-bottom:.75rem}
+.s-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.25rem}
+.s-card-title{font-size:14px;font-weight:700}
+.s-card-desc{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:1rem;line-height:1.5}
+.tgl{position:relative;width:44px;height:24px;flex-shrink:0}
+.tgl input{opacity:0;width:0;height:0;position:absolute}
+.tsl{position:absolute;inset:0;background:#ddd;border-radius:24px;cursor:pointer;transition:.2s}
+.tsl::before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.tgl input:checked+.tsl{background:#111}
+.tgl input:checked+.tsl::before{transform:translateX(20px)}
+.dg{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.db{background:#fff;border:2px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;text-align:left;transition:all .15s;font-family:inherit}
+.db:hover,.db.active{border-color:#111;background:#111;color:#fff}
+.db.active .du{color:rgba(255,255,255,.6)}
+.di{font-size:18px;display:block;margin-bottom:3px}
+.dn{font-size:11px;font-weight:700;display:block}
+.du{font-size:10px;color:var(--muted);display:block}
+.kr{display:flex;gap:7px;flex-wrap:wrap;margin-top:.5rem}
+.kb{background:#fff;border:2px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;color:var(--muted);cursor:pointer;transition:all .15s}
+.kb:hover{border-color:#111;color:#111}
+.kb.active{border-color:#111;background:#111;color:#fff}
+.code-wrap{display:flex;gap:8px;margin-top:.5rem}
+.code-input{flex:1;background:#fff;border:2px solid var(--border);border-radius:10px;padding:10px 14px;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s}
+.code-input:focus{border-color:#111}
+.code-btn{background:#111;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.code-msg{font-size:12px;font-weight:700;margin-top:6px;min-height:16px}
+.code-msg.ok{color:#22c55e}
+.code-msg.err{color:#ef4444}
+.unlocked-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:.5rem}
+.uchip{background:#111;color:#fff;border-radius:50px;padding:4px 12px;font-size:11px;font-weight:700}
+.save-btn{width:100%;background:#111;color:#fff;border:none;border-radius:50px;padding:13px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s;margin-top:.5rem}
+.save-btn:hover{opacity:.85}
+.saved-msg{display:none;text-align:center;color:#22c55e;font-size:13px;font-weight:700;margin-top:8px}
+
+/* MOVIE BROWSER */
+.movie-browser{padding:1.25rem;overflow-y:auto;flex:1}
+.movie-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:1.25rem}
+.movie-search{flex:1;max-width:400px;background:#f5f5f5;border:2px solid var(--border);border-radius:50px;padding:9px 18px;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);outline:none}
+.movie-search:focus{border-color:#111}
+.m-tab{border:2px solid var(--border);border-radius:50px;padding:7px 16px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;background:#fff;color:var(--muted);transition:all .15s}
+.m-tab.active,.m-tab:hover{background:#111;border-color:#111;color:#fff}
+.movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+.movie-card{cursor:pointer;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .2s,box-shadow .2s}
+.movie-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.movie-card img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+.movie-info{padding:7px 9px 9px}
+.movie-name{font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.movie-year{font-size:10px;color:var(--muted);font-weight:500;margin-top:1px}
+.srv-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.srv-label{font-size:11px;font-weight:700;color:var(--muted)}
+.srv-btn{border:2px solid var(--border);border-radius:50px;padding:5px 12px;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;background:#fff;color:var(--muted);transition:all .15s}
+.srv-btn.active,.srv-btn:hover{background:#111;border-color:#111;color:#fff}
+.back-btn{background:#f5f5f5;border:none;border-radius:50px;padding:8px 16px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:10px;display:inline-block;transition:background .15s}
+.back-btn:hover{background:#e5e5e5}
+.movie-frame{width:100%;height:520px;border:none;border-radius:12px;display:block;background:#000}
+
+/* PANIC */
+#panicOverlay{display:none;position:fixed;inset:0;z-index:99999;background:#fff;cursor:pointer}
+#panicOverlay iframe{width:100%;height:100%;border:none;pointer-events:none}
+
+/* AUTH */
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:3000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.auth-overlay.open{display:flex}
+.auth-box{background:#fff;border-radius:24px;width:100%;max-width:400px;padding:2rem;animation:popIn .25s cubic-bezier(.34,1.56,.64,1)}
+.auth-h{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
+.auth-sub{color:var(--muted);font-size:13px;font-weight:500;margin-bottom:1.25rem}
+.auth-tabs{display:flex;gap:4px;background:#f5f5f5;border-radius:12px;padding:4px;margin-bottom:1.25rem}
+.auth-tab{flex:1;padding:8px;border:none;background:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .15s}
+.auth-tab.active{background:#fff;color:#111;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.auth-field{margin-bottom:.9rem}
+.auth-field label{display:block;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.auth-field input{width:100%;background:#f5f5f5;border:2px solid transparent;border-radius:10px;padding:10px 14px;font-family:inherit;font-size:14px;font-weight:600;color:var(--text);outline:none;transition:border-color .2s}
+.auth-field input:focus{border-color:#111;background:#fff}
+.auth-submit{width:100%;background:#111;color:#fff;border:none;border-radius:50px;padding:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:.5rem;transition:opacity .15s}
+.auth-submit:hover{opacity:.85}
+.auth-msg{font-size:12px;font-weight:700;margin-top:8px;text-align:center;min-height:16px}
+.auth-msg.ok{color:#22c55e}
+.auth-msg.err{color:#ef4444}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(247,245,240,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.nav-logo{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;cursor:pointer;letter-spacing:-0.5px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-btn{background:none;border:2px solid var(--border);border-radius:50px;padding:7px 16px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .15s;display:flex;align-items:center;gap:5px}
+.nav-btn:hover{border-color:#111;color:#111}
+.nav-btn.primary{background:#111;border-color:#111;color:#fff}
+.nav-btn.primary:hover{opacity:.85}
+.user-wrap{position:relative}
+.user-avatar{width:34px;height:34px;background:#111;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit}
+.user-drop{position:absolute;top:42px;right:0;background:#fff;border:1px solid var(--border);border-radius:16px;padding:.5rem;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:180px;z-index:10;display:none}
+.user-drop.open{display:block}
+.ud-info{padding:.5rem .75rem .75rem;border-bottom:1px solid var(--border);margin-bottom:.4rem}
+.ud-name{font-size:13px;font-weight:700}
+.ud-email{font-size:11px;color:var(--muted)}
+.ud-btn{display:flex;align-items:center;gap:7px;width:100%;padding:7px .75rem;background:none;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;transition:all .15s;text-align:left}
+.ud-btn:hover{background:#f5f5f5;color:#111}
+.ud-btn.danger:hover{background:#fee2e2;color:#ef4444}
+
+/* NO RESULTS */
+.no-results{text-align:center;padding:4rem 2rem;color:var(--muted);grid-column:1/-1}
+.no-results .big{font-size:3rem;margin-bottom:.75rem}
+
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr 1fr;gap:12px;padding:0 1rem 4rem}
+  .card{min-height:140px}
+  .card-title{font-size:1.1rem}
+  .nav-btn span{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="panicOverlay" onclick="hidePanic()">
+  <iframe id="panicFrame" src="" title="cover"></iframe>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authModal">
+  <div class="auth-box">
+    <button class="modal-close" style="float:right;margin-bottom:.5rem" onclick="closeAuth()">✕</button>
+    <div class="auth-h">Welcome back</div>
+    <div class="auth-sub">Sign in to save your progress and unlock features</div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+    <div id="login-form">
+      <div class="auth-field"><label>Email</label><input type="email" id="login-email" placeholder="you@email.com"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"></div>
+      <button class="auth-submit" onclick="doLogin()">Sign In</button>
+    </div>
+    <div id="signup-form" style="display:none">
+      <div class="auth-field"><label>Username</label><input type="text" id="signup-user" placeholder="coolname"></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="signup-email" placeholder="you@email.com"></div>
+      <div class="auth-field"><label>Password</label><input type="password" id="signup-pass" placeholder="Min 6 characters"></div>
+      <button class="auth-submit" onclick="doSignup()">Create Account</button>
+    </div>
+    <div class="auth-msg" id="auth-msg"></div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="settings-modal" id="settingsModal">
+  <div class="settings-box">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+      <div>
+        <div class="settings-h">Settings</div>
+        <div class="settings-sub">Customize your PeterGames experience</div>
+      </div>
+      <button class="modal-close" onclick="closeSettings()">✕</button>
+    </div>
+
+    <div class="s-section">
+      <div class="s-section-title">Unlock Codes</div>
+      <div class="s-card">
+        <div class="s-card-title">🔑 Enter a code</div>
+        <div class="s-card-desc">Unlock Movies, Music, Books and more hidden features with secret codes.</div>
+        <div class="code-wrap">
+          <input class="code-input" type="text" id="codeInput" placeholder="Enter code..." onkeydown="if(event.key==='Enter')redeemCode()">
+          <button class="code-btn" onclick="redeemCode()">Unlock</button>
+        </div>
+        <div class="code-msg" id="codeMsg"></div>
+        <div class="unlocked-chips" id="unlockedList"></div>
+      </div>
+    </div>
+
+    <div class="s-section">
+      <div class="s-section-title">Tab Cloaking</div>
+      <div class="s-card">
+        <div class="s-card-head">
+          <div>
+            <div class="s-card-title">🎭 Disguise this tab</div>
+          </div>
+          <label class="tgl"><input type="checkbox" id="cloakOn" onchange="toggleCloak()"><span class="tsl"></span></label>
+        </div>
+        <div class="s-card-desc">Makes your browser tab look like a different site.</div>
+        <div class="dg">
+          <button class="db active" onclick="selectDisguise(this,'Google','https://www.google.com','🔍')"><span class="di">🔍</span><span class="dn">Google</span><span class="du">google.com</span></button>
+          <button class="db" onclick="selectDisguise(this,'Google Docs','https://docs.google.com','📄')"><span class="di">📄</span><span class="dn">Docs</span><span class="du">docs.google.com</span></button>
+          <button class="db" onclick="selectDisguise(this,'Classroom','https://classroom.google.com','🏫')"><span class="di">🏫</span><span class="dn">Classroom</span><span class="du">classroom.google</span></button>
+          <button class="db" onclick="selectDisguise(this,'Khan Academy','https://www.khanacademy.org','🎓')"><span class="di">🎓</span><span class="dn">Khan</span><span class="du">khanacademy.org</span></button>
+          <button class="db" onclick="selectDisguise(this,'Skolestudio','https://www.skolestudio.no','📚')"><span class="di">📚</span><span class="dn">Skolestudio</span><span class="du">skolestudio.no</span></button>
+          <button class="db" onclick="selectDisguise(this,'Wikipedia','https://www.wikipedia.org','📖')"><span class="di">📖</span><span class="dn">Wikipedia</span><span class="du">wikipedia.org</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="s-section">
+      <div class="s-section-title">Panic Key</div>
+      <div class="s-card">
+        <div class="s-card-head">
+          <div>
+            <div class="s-card-title">🚨 Instant screen cover</div>
+          </div>
+          <label class="tgl"><input type="checkbox" id="panicOn"><span class="tsl"></span></label>
+        </div>
+        <div class="s-card-desc">Press a key combo to instantly cover the screen with your disguise.</div>
+        <div class="kr">
+          <button class="kb active" onclick="selectKey(this,'x')">Ctrl+X</button>
+          <button class="kb" onclick="selectKey(this,'q')">Ctrl+Q</button>
+          <button class="kb" onclick="selectKey(this,'z')">Ctrl+Z</button>
+          <button class="kb" onclick="selectKey(this,'e')">Ctrl+E</button>
+          <button class="kb" onclick="selectKey(this,'1')">Ctrl+1</button>
+          <button class="kb" onclick="selectKey(this,'2')">Ctrl+2</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="save-btn" onclick="saveSettings()">Save Settings</button>
+    <div class="saved-msg" id="savedMsg">✓ Settings saved!</div>
+  </div>
+</div>
+
+<!-- GAME / CONTENT MODAL -->
+<div class="modal-overlay" id="mainModal" onclick="closeBg(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title-wrap">
+        <span class="modal-emoji" id="modalEmoji"></span>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="fsBtn" style="background:#f5f5f5;border:none;border-radius:50px;padding:7px 14px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer" onclick="goFS()">⛶ Fullscreen</button>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo" onclick="scrollTo(0,0)">PeterTools</div>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="openSettings()">⚙️ <span>Settings</span></button>
+    <div class="user-wrap" id="userWrap">
+      <button class="nav-btn primary" id="loginBtn" onclick="openAuth()">Sign In</button>
+      <button class="user-avatar" id="userAvatar" style="display:none" onclick="toggleUserDrop()">?</button>
+      <div class="user-drop" id="userDrop">
+        <div class="ud-info">
+          <div class="ud-name" id="dropName">User</div>
+          <div class="ud-email" id="dropEmail"></div>
+        </div>
+        <button class="ud-btn" onclick="openSettings();toggleUserDrop()">⚙️ Settings</button>
+        <button class="ud-btn danger" onclick="doLogout()">🚪 Sign Out</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN PAGE -->
+<div class="header">
+  <div class="site-title">Peter<span class="dot"></span>Tools</div>
+  <div class="site-sub">games, movies, music, books and more — all in one place</div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search anything..." oninput="handleSearch()">
+  </div>
+</div>
+
+<div id="searchResults" style="display:none;max-width:1100px;margin:0 auto;padding:0 1.5rem 2rem">
+  <div class="section-label" id="searchLabel">Results</div>
+  <div class="grid" style="margin:0" id="searchGrid"></div>
+</div>
+
+<div id="mainContent">
+  <!-- GAMES -->
+  <div class="section-label">🎮 Games</div>
+  <div class="grid" id="gamesGrid"></div>
+
+  <!-- ENTERTAINMENT -->
+  <div class="section-label" style="margin-top:1rem">🎬 Entertainment</div>
+  <div class="grid" id="entGrid"></div>
+
+  <!-- TOOLS & FUN -->
+  <div class="section-label" style="margin-top:1rem">🛠️ Tools & Fun</div>
+  <div class="grid" id="toolsGrid"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+var SB_URL = 'https://lkslrjfrlaagetuqbfjt.supabase.co';
+var SB_KEY = 'sb_publishable_f7Eqv4vWstV9RaAYLWjQrQ_RTX5aWCE';
+var sb = supabase.createClient(SB_URL, SB_KEY);
+
+var PROXY = 'https://pg-proxy-production-d6a8.up.railway.app/pg/';
+var CODES = {'PETERMOVIES':'movies','PETERMUSIC':'music','PETERBOOKS':'books','PETERALL':'all'};
+
+var S = {cloakEnabled:false,cloakTitle:'Google',cloakIcon:'🔍',cloakUrl:'https://www.google.com',panicEnabled:false,panicKey:'x'};
+var unlockedFeatures = [];
+var favorites = [];
+var currentUser = null;
+var userProfile = null;
+var panicVisible = false;
+var currentMediaType = 'movie';
+
+// Load saved data
+try { Object.assign(S, JSON.parse(localStorage.getItem('pt_s')||'{}')); } catch(e){}
+try { var ul = JSON.parse(localStorage.getItem('pt_u')||'[]'); ul.forEach(function(f){ if(unlockedFeatures.indexOf(f)<0) unlockedFeatures.push(f); }); } catch(e){}
+if(S.cloakEnabled) applyCloak();
+
+// ── ITEMS DATA ────────────────────────────────────────────────────────────────
+var GAMES = [
+  // Your original emulated games
+  {id:'emerald',    name:'Pokémon Emerald',       emoji:'🌿', desc:'Classic GBA adventure',           color:'#1a4a1a', tag:'GBA',      url:'https://classicjoy.games/embed?slug=pokemon-emeraid',                    type:'iframe'},
+  {id:'firered',    name:'Pokémon Fire Red',       emoji:'🔥', desc:'Catch them all on GBA',           color:'#8b1a0a', tag:'GBA',      url:'https://classicjoy.games/embed?slug=pokemon-fire-red-version-v1-1',     type:'iframe'},
+  {id:'stadium2',   name:'Pokémon Stadium 2',      emoji:'🏟️', desc:'3D stadium battles',              color:'#0a1a4a', tag:'N64',      url:'https://classicjoy.games/embed?slug=pokemon-stadium-2',                  type:'iframe'},
+  {id:'fusion',     name:'Pokémon Fusion Origins', emoji:'🧬', desc:'Fan-made fusion hack',            color:'#2a0a4a', tag:'GBA',      url:'https://emu.gamenora.com/all/gba/Pokemon%20Fusion%20Origins/?v=20241204130501', type:'iframe'},
+  {id:'mk64',       name:'Mario Kart 64',          emoji:'🏎️', desc:'Race on N64 classics',            color:'#4a2a0a', tag:'N64',      url:'https://classicjoy.games/embed?slug=mario-kart-64',                     type:'iframe'},
+  {id:'sm64',       name:'Super Mario 64',         emoji:'⭐', desc:'The legendary 3D platformer',     color:'#8b1a0a', tag:'N64',      url:'https://classicjoy.games/embed?slug=super-mario-64',                    type:'iframe'},
+  {id:'smalls',     name:'Super Mario All-Stars',  emoji:'🍄', desc:'4 classic Mario games',           color:'#6b1a0a', tag:'SNES',     url:'https://classicjoy.games/embed?slug=super-mario-all-stars',             type:'iframe'},
+  {id:'yoshi',      name:"Yoshi's Story",          emoji:'🦕', desc:'Cute N64 platformer',             color:'#0a4a1a', tag:'N64',      url:'https://classicjoy.games/embed?slug=yoshis-story',                      type:'iframe'},
+  {id:'oot',        name:'Zelda: Ocarina of Time', emoji:'🎵', desc:'Greatest game ever made',         color:'#3a2a0a', tag:'N64',      url:'https://classicjoy.games/embed?slug=the-legend-of-zelda-ocarina-of-time', type:'iframe'},
+  {id:'mm',         name:"Zelda: Majora's Mask",   emoji:'🌕', desc:'Dark and mysterious adventure',   color:'#2a0a3a', tag:'N64',      url:'https://classicjoy.games/embed?slug=the-legend-of-zelda-majoras-mask',  type:'iframe'},
+  {id:'lttp',       name:'Zelda: A Link to Past',  emoji:'🗡️', desc:'SNES classic dungeon crawler',    color:'#0a3a1a', tag:'SNES',     url:'https://classicjoy.games/embed?slug=zelda-link-to-the-past',           type:'iframe'},
+  {id:'mc',         name:'Zelda: Minish Cap',       emoji:'🎩', desc:'GBA Zelda adventure',            color:'#1a3a0a', tag:'GBA',      url:'https://classicjoy.games/embed?slug=the-legend-of-zelda-the-minish-cap', type:'iframe'},
+  {id:'z2',         name:'Zelda II: Adventure',    emoji:'🛡️', desc:'Side-scrolling Zelda',            color:'#3a0a0a', tag:'NES',      url:'https://classicjoy.games/embed?slug=zelda-ii-the-adventure-of-link',   type:'iframe'},
+  {id:'loz',        name:'The Legend of Zelda',    emoji:'🏺', desc:'Where it all began',              color:'#4a3a0a', tag:'NES',      url:'https://classicjoy.games/embed?slug=the-legend-of-zelda',              type:'iframe'},
+  {id:'fifa07',     name:'FIFA Soccer 07',          emoji:'⚽', desc:'Classic EA football',            color:'#0a1a0a', tag:'GBA',      url:'https://classicjoy.games/embed?slug=fifa-soccer-07',                   type:'iframe'},
+  {id:'fifa2000',   name:'FIFA 2000',               emoji:'🏆', desc:'Y2K football',                   color:'#0a2a0a', tag:'PC',       url:'https://classicjoy.games/embed?slug=fifa-2000-major-league-soccer',     type:'iframe'},
+  {id:'fifa96',     name:'FIFA Soccer 96',          emoji:'🥅', desc:'Retro football classic',         color:'#0a0a2a', tag:'PC',       url:'https://classicjoy.games/embed?slug=fifa-soccer-96',                   type:'iframe'},
+  {id:'ducktales',  name:'DuckTales',               emoji:'🦆', desc:'Scrooge McDuck NES classic',     color:'#0a1a3a', tag:'NES',      url:'https://classicjoy.games/embed?slug=disneys-ducktales',                type:'iframe'},
+  {id:'ducktales2', name:'DuckTales 2',             emoji:'🎩', desc:'More DuckTales adventures',      color:'#0a0a3a', tag:'NES',      url:'https://classicjoy.games/embed?slug=disneys-ducktales-2',              type:'iframe'},
+  {id:'roblox',     name:'Roblox',                  emoji:'🟥', desc:'Play Roblox in your browser',   color:'#2a0a0a', tag:'Cloud',    url:'https://web.cloudmoonapp.com/game/com.roblox.client/',                  type:'popup'},
+  {id:'minecraft',  name:'Minecraft',               emoji:'⛏️', desc:'Classic block building game',   color:'#1a2a0a', tag:'Browser',  url:'https://eaglercraftgame.github.io/go/minecraft-1.5.2/',                type:'popup'},
+  {id:'cutrop',     name:'Cut the Rope',            emoji:'🍬', desc:'Feed the candy to Om Nom',       color:'#0a2a1a', tag:'Flash',    url:'https://www.addictinggames.com/embed/html5-games/19569',               type:'iframe'},
+  {id:'bloons4',    name:'Bloons Tower Defense 4',  emoji:'🎈', desc:'Pop those bloons!',              color:'#3a0a1a', tag:'Flash',    url:'https://www.addictinggames.com/embed/html5-games/20543',               type:'iframe'},
+  // Smash Karts
+  {id:'smashkarts',  name:'Smash Karts',            emoji:'🏎️', desc:'Multiplayer kart battle',        color:'#0a3a4a', tag:'Online',   url:'https://smashkarts.io',                                                type:'popup'},
+  {id:'evowars',     name:'EvoWars.io',             emoji:'⚔️', desc:'Evolve and dominate',            color:'#1a0a3a', tag:'IO',       url:'https://evowars.io',                                                   type:'popup'},
+  {id:'stabfish',    name:'Stabfish 2',             emoji:'🐟', desc:'Stab fish in this IO game',      color:'#001a1a', tag:'IO',       url:'https://stabfish2.io',                                                 type:'popup'},
+  {id:'evoworld',    name:'EvoWorld.io',            emoji:'🪰', desc:'Fly or Die — evolve to survive', color:'#0a1a00', tag:'IO',       url:'https://evoworld.io',                                                  type:'popup'},
+  {id:'diep',        name:'Diep.io',                emoji:'🔵', desc:'Tank shooter IO game',           color:'#001a2a', tag:'IO',       url:'https://diep.io',                                                      type:'popup'},
+  {id:'kour',        name:'Kour.io',                emoji:'🎯', desc:'FPS shooter in browser',         color:'#0a000a', tag:'IO',       url:'https://kour.io',                                                      type:'popup'},
+  {id:'venge',       name:'Venge.io',               emoji:'⚔️', desc:'3D FPS IO game',                color:'#0d001a', tag:'IO',       url:'https://venge.io',                                                     type:'popup'},
+  {id:'agar',        name:'Agar.io',                emoji:'🟢', desc:'Eat cells, grow bigger',         color:'#001a00', tag:'IO',       url:'https://agar.io',                                                      type:'popup'},
+  {id:'slither',     name:'Slither.io',             emoji:'🐍', desc:'Classic snake multiplayer',      color:'#0a0a00', tag:'IO',       url:'https://slither.io',                                                   type:'popup'},
+  {id:'zombsroyale', name:'Zombs Royale',           emoji:'🧟', desc:'Battle royale IO game',          color:'#1a0a00', tag:'IO',       url:'https://zombsroyale.io',                                               type:'popup'},
+  {id:'gta5',        name:'GTA 5',                  emoji:'🚗', desc:'Stream GTA 5 in browser',        color:'#0a0a1a', tag:'Cloud',    url:'https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=209', type:'popup'},
+  {id:'cyberpunk',   name:'Cyberpunk 2077',         emoji:'🌆', desc:'Stream Cyberpunk in browser',    color:'#0a0a2a', tag:'Cloud',    url:'https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=117', type:'popup'},
+  {id:'eldenring',   name:'Elden Ring',             emoji:'⚔️', desc:'Stream Elden Ring in browser',   color:'#1a0800', tag:'Cloud',    url:'https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=598', type:'popup'},
+  {id:'schedule1',   name:'Schedule 1',             emoji:'💊', desc:'Drug empire simulator',          color:'#0a1a0a', tag:'Cloud',    url:'https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=998', type:'popup'},
+  {id:'spiderman',   name:'Spider-Man Remastered',  emoji:'🕷️', desc:'Swing through NYC',             color:'#1a0000', tag:'Cloud',    url:'https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=625', type:'popup'},
+  {id:'cuphead',     name:'Cuphead',                emoji:'🎭', desc:'Brutally hard run-and-gun',      color:'#1a0500', tag:'Cloud',    url:'https://www.raccoongame.com/wap/dist/#/platform/cloudgame/gamedetail?gid=66', type:'popup'},
+  // Noah games
+  {id:'fnaf',        name:'FNAF 1',                 emoji:'🐻', desc:'Five Nights at Freddy\'s',      color:'#0a0000', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/166.html', type:'popup'},
+  {id:'fnaf2',       name:'FNAF 2',                 emoji:'🎭', desc:'More nights, more animatronics', color:'#1a0000', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/167.html', type:'popup'},
+  {id:'fnaf3',       name:'FNAF 3',                 emoji:'👻', desc:'Fazbear\'s Fright',             color:'#2a0000', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/168.html', type:'popup'},
+  {id:'fnaf4',       name:'FNAF 4',                 emoji:'😱', desc:'Nightmare fuel',                color:'#3a0000', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/169.html', type:'popup'},
+  {id:'geodash',     name:'Geometry Dash',          emoji:'🔲', desc:'Rhythm-based platformer',       color:'#0a001a', tag:'Rhythm',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/46.html',  type:'popup'},
+  {id:'slope',       name:'Slope',                  emoji:'🏔️', desc:'Roll down the slope',           color:'#1a1a1a', tag:'Arcade',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/182.html', type:'popup'},
+  {id:'run3',        name:'Run 3',                  emoji:'🏃', desc:'Run through the tunnels',       color:'#001a2a', tag:'Arcade',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/235.html', type:'popup'},
+  {id:'undertale',   name:'Undertale',              emoji:'❤️', desc:'Beloved indie RPG',             color:'#1a0a0a', tag:'RPG',      url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/91.html',  type:'popup'},
+  {id:'pvz',         name:'Plants vs Zombies',      emoji:'🌻', desc:'Tower defense classic',         color:'#0a2a0a', tag:'Strategy', url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/197.html', type:'popup'},
+  {id:'fnf',         name:'Friday Night Funkin',    emoji:'🎤', desc:'Rhythm battle game',            color:'#2a0a2a', tag:'Rhythm',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/195.html', type:'popup'},
+  {id:'retrobowl',   name:'Retro Bowl',             emoji:'🏈', desc:'Classic football game',         color:'#1a0800', tag:'Sports',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/191.html', type:'popup'},
+  {id:'1v1lol',      name:'1v1.lol',                emoji:'🎯', desc:'Build & shoot battle',          color:'#0a0a2a', tag:'Shooter',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/313.html', type:'popup'},
+  {id:'drifthunters',name:'Drift Hunters',          emoji:'🚗', desc:'Drift racing simulator',        color:'#0d0d0d', tag:'Racing',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/179.html', type:'popup'},
+  {id:'impossibleq', name:'Impossible Quiz',        emoji:'❓', desc:'Can you beat it?',              color:'#1a0a00', tag:'Puzzle',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/217.html', type:'popup'},
+  {id:'hardestgame', name:"World's Hardest Game",   emoji:'🟥', desc:'Notoriously difficult',         color:'#1a0000', tag:'Puzzle',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/218.html', type:'popup'},
+  {id:'terraria',    name:'Terraria',               emoji:'⛏️', desc:'2D sandbox adventure',          color:'#0a1a00', tag:'Sandbox',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/165.html', type:'popup'},
+  {id:'celeste',     name:'Celeste',                emoji:'🏔️', desc:'Precision platformer',          color:'#1a0a1a', tag:'Indie',    url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/147.html', type:'popup'},
+  {id:'balatro',     name:'Balatro',                emoji:'🃏', desc:'Roguelike poker game',          color:'#0a0a1a', tag:'Roguelike',url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/268.html', type:'popup'},
+  {id:'buckshot',    name:'Buckshot Roulette',      emoji:'🔫', desc:'Psychological horror game',     color:'#1a0000', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/63.html',  type:'popup'},
+  {id:'ssf2',        name:'Super Smash Flash 2',    emoji:'👊', desc:'Fan-made Smash Bros',           color:'#1a0500', tag:'Fighting', url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/253.html', type:'popup'},
+  {id:'happywheels', name:'Happy Wheels',           emoji:'🚲', desc:'Gory ragdoll physics',          color:'#0a1a00', tag:'Physics',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/139.html', type:'popup'},
+  {id:'pizza',       name:'Pizza Tower',            emoji:'🍕', desc:'Wario-inspired platformer',     color:'#1a0a00', tag:'Indie',    url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/394.html', type:'popup'},
+  {id:'doom',        name:'Doom',                   emoji:'👹', desc:'Classic FPS shooter',           color:'#1a0000', tag:'FPS',      url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/133.html', type:'popup'},
+  {id:'portal',      name:'Portal',                 emoji:'🕳️', desc:'Think with portals',            color:'#0a0a1a', tag:'Puzzle',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/135.html', type:'popup'},
+  {id:'granny',      name:'Granny',                 emoji:'👵', desc:'Escape from Granny\'s house',   color:'#0a0a00', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/257.html', type:'popup'},
+  {id:'doki',        name:'Doki Doki Literature',   emoji:'💕', desc:'Visual novel horror',           color:'#2a0a1a', tag:'Visual Novel',url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/73.html', type:'popup'},
+  {id:'subway',      name:'Subway Surfers',         emoji:'🛹', desc:'Endless runner classic',        color:'#0a1a1a', tag:'Mobile',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/200.html', type:'popup'},
+  {id:'flappy',      name:'Flappy Bird',            emoji:'🐦', desc:'One tap, endless pain',         color:'#0a2a0a', tag:'Arcade',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/239.html', type:'popup'},
+  {id:'among',       name:'Among Us (Real)',         emoji:'🚀', desc:'Find the impostor',            color:'#0a0a1a', tag:'Mobile',   url:'https://ud-gles3games.shared-osj.k8s.n2i.io/?deeplinksApp=com.innersloth.spacemafia&naturalOrientation=landscape', type:'popup'},
+  {id:'bitlife',     name:'BitLife',                emoji:'🧬', desc:'Life simulator game',           color:'#1a1a0a', tag:'Simulator',url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/180.html', type:'popup'},
+  {id:'brotato',     name:'Brotato',                emoji:'🥔', desc:'Roguelike survivor',            color:'#2a1a0a', tag:'Roguelike',url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/366.html', type:'popup'},
+  {id:'ovo',         name:'OvO',                    emoji:'🏃', desc:'Parkour platformer',            color:'#0a0a0a', tag:'Platformer',url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/241.html', type:'popup'},
+  {id:'leveldevil',  name:'Level Devil',            emoji:'😈', desc:'Troll platformer',              color:'#1a001a', tag:'Puzzle',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/225.html', type:'popup'},
+  {id:'notmyneighbor',name:"That's Not My Neighbor",emoji:'🚪', desc:'Spot the impostor',            color:'#0a0a1a', tag:'Horror',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/47.html',  type:'popup'},
+  {id:'polytrack',   name:'Poly Track',             emoji:'🏁', desc:'Low-poly racing game',          color:'#0a1a0a', tag:'Racing',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/203.html', type:'popup'},
+  {id:'sprunki',     name:'Sprunki',                emoji:'🎵', desc:'Music creation game',           color:'#1a0a2a', tag:'Music',    url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/101.html', type:'popup'},
+  {id:'rocketleague',name:'Rocket League',          emoji:'🚀', desc:'Soccer with rocket cars',       color:'#001a2a', tag:'Sports',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/262.html', type:'popup'},
+  {id:'wordle',      name:'Wordle',                 emoji:'🟩', desc:'Guess the 5-letter word',       color:'#0a1a0a', tag:'Word',     url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/176.html', type:'popup'},
+  {id:'monkeymart',  name:'Monkey Mart',            emoji:'🐵', desc:'Manage your monkey store',      color:'#2a1a00', tag:'Simulator',url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/175.html', type:'popup'},
+  {id:'papafreezia', name:"Papa's Freezeria",       emoji:'🍦', desc:'Run an ice cream shop',         color:'#00101a', tag:'Cooking',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/279.html', type:'popup'},
+  {id:'papaburgeria',name:"Papa's Burgeria",        emoji:'🍔', desc:'Flip burgers for customers',    color:'#1a0500', tag:'Cooking',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/276.html', type:'popup'},
+  {id:'papapancake', name:"Papa's Pancakeria",      emoji:'🥞', desc:'Make the perfect pancakes',     color:'#1a0800', tag:'Cooking',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/281.html', type:'popup'},
+  {id:'papawingeria',name:"Papa's Wingeria",        emoji:'🍗', desc:'Fry wings for hungry customers',color:'#1a0a00', tag:'Cooking',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/286.html', type:'popup'},
+  {id:'papasushi',   name:"Papa's Sushiria",        emoji:'🍱', desc:'Roll sushi for your customers', color:'#001a0a', tag:'Cooking',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/284.html', type:'popup'},
+  {id:'papapizza',   name:"Papa's Pizzeria",        emoji:'🍕', desc:'Toss and bake pizzas',          color:'#1a0500', tag:'Cooking',  url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/287.html', type:'popup'},
+  {id:'getaway',     name:'Getaway Shootout',       emoji:'🔫', desc:'2-player escape race',          color:'#0d2137', tag:'2 Player', url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/207.html', type:'popup'},
+  {id:'bloons4n',    name:'Bloons TD 4',            emoji:'🎈', desc:'Tower defense balloon popping', color:'#1a0a0a', tag:'Strategy', url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/188.html', type:'popup'},
+  {id:'stickman',    name:'Stickman Hook',          emoji:'🕸️', desc:'Swing through levels',          color:'#001a1a', tag:'Arcade',   url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/216.html', type:'popup'},
+  {id:'firefighter', name:'Fireboy & Watergirl',   emoji:'🔥', desc:'2-player puzzle platformer',    color:'#1a0a00', tag:'2 Player', url:'https://cdn.jsdelivr.net/gh/NoahsAmazingTutoringHelp/Noahs-Calculus-Tutor@master/games/385.html', type:'popup'},
+];
+
+var ENTERTAINMENT = [
+  {id:'movies',   name:'Movies & TV',    emoji:'🎬', desc:'Stream thousands of movies and series for free', color:'#0a0a1a', tag:'Unlockable', type:'movies', locked:true},
+  {id:'music',    name:'Music',          emoji:'🎵', desc:'Listen to any track, album or artist',            color:'#1a0a00', tag:'Unlockable', type:'music',  locked:true},
+  {id:'books',    name:'Books',          emoji:'📚', desc:'Read millions of books for free',                 color:'#0a1a0a', tag:'Unlockable', type:'books',  locked:true},
+  {id:'ps5',      name:'PS5 Browser',   emoji:'🎮', desc:'Browse and play through the PS5 interface',       color:'#00001a', tag:'Cloud',      type:'popup',  url:'https://bestsabplayerox.github.io/cine-play-os/'},
+];
+
+var TOOLS = [
+  {id:'nealfun',      name:'Neal.fun',          emoji:'🎲', desc:'Amazing interactive experiences by Neal',  color:'#1a1a0a', tag:'Fun',     type:'popup', url:'https://neal.fun'},
+  {id:'infincraft',   name:'Infinite Craft',    emoji:'⚗️', desc:'Combine elements to craft anything',      color:'#0a0a1a', tag:'Creative',type:'popup', url:'https://neal.fun/infinite-craft/'},
+  {id:'everynoise',   name:'Every Noise',       emoji:'🔊', desc:'Explore every music genre on earth',      color:'#1a0a0a', tag:'Music',   type:'popup', url:'https://everynoise.com'},
+  {id:'radio',        name:'Radio Garden',      emoji:'📻', desc:'Listen to radio stations worldwide',       color:'#0a1a0a', tag:'Radio',   type:'popup', url:'https://radio.garden'},
+  {id:'earth',        name:'Google Earth',      emoji:'🌍', desc:'Explore the entire planet in 3D',         color:'#0a1a1a', tag:'Maps',    type:'popup', url:'https://earth.google.com/web/'},
+  {id:'winxp',        name:'Windows XP Online', emoji:'💻', desc:'Nostalgic Windows XP in your browser',    color:'#0a0a3a', tag:'Retro',   type:'popup', url:'https://winxp.vercel.app'},
+  {id:'chatgpt',      name:'ChatGPT',           emoji:'🤖', desc:'Chat with the most popular AI assistant', color:'#0a1a0a', tag:'AI',      type:'popup', url:'https://chat.openai.com'},
+  {id:'canva',        name:'Canva',             emoji:'🎨', desc:'Design anything online for free',          color:'#1a0a1a', tag:'Design',  type:'popup', url:'https://www.canva.com'},
+  {id:'youtube',      name:'YouTube',           emoji:'▶️', desc:'Watch any video, anywhere',               color:'#1a0a0a', tag:'Video',   type:'popup', url:'https://www.youtube.com'},
+  {id:'spotify',      name:'Spotify',           emoji:'🎧', desc:'Stream music from Spotify',               color:'#0a1a0a', tag:'Music',   type:'popup', url:'https://open.spotify.com'},
+  {id:'duolingo',     name:'Duolingo',          emoji:'🦜', desc:'Learn a new language for free',            color:'#0a2a0a', tag:'Learn',   type:'popup', url:'https://www.duolingo.com'},
+  {id:'pixlr',        name:'Pixlr Editor',      emoji:'✏️', desc:'Free online Photoshop alternative',       color:'#0a0a2a', tag:'Design',  type:'popup', url:'https://pixlr.com/editor/'},
+];
+
+// Assign IDs
+var allItems = [];
+var iid = 0;
+GAMES.forEach(function(g){ g.iid=iid++; g.section='game'; allItems.push(g); });
+ENTERTAINMENT.forEach(function(g){ g.iid=iid++; g.section='ent'; allItems.push(g); });
+TOOLS.forEach(function(g){ g.iid=iid++; g.section='tool'; allItems.push(g); });
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+var GRAD_OVERLAYS = [
+  'linear-gradient(135deg,#1a1a2e,#16213e)',
+  'linear-gradient(135deg,#0f3460,#533483)',
+  'linear-gradient(135deg,#1a1a1a,#2d2d2d)',
+  'linear-gradient(135deg,#2d1b69,#11998e)',
+  'linear-gradient(135deg,#4a1942,#c0392b)',
+  'linear-gradient(135deg,#134e5e,#71b280)',
+  'linear-gradient(135deg,#373b44,#4286f4)',
+  'linear-gradient(135deg,#232526,#414345)',
+];
+
+function makeCard(item, i) {
+  var grad = 'linear-gradient(135deg,' + item.color + ' 0%, ' + darken(item.color) + ' 100%)';
+  var locked = item.locked && !isUnlocked(item.id);
+  var html = '<div class="card" data-iid="'+item.iid+'" style="background:'+grad+'">';
+  html += '<div class="card-overlay"></div>';
+  if (locked) {
+    html += '<div class="card-tag">🔒 Locked</div>';
+  } else if (item.tag) {
+    html += '<div class="card-tag">'+item.tag+'</div>';
+  }
+  html += '<div class="card-content">';
+  html += '<span class="card-emoji">'+item.emoji+'</span>';
+  html += '<div class="card-title">'+item.name+'</div>';
+  html += '<div class="card-desc">'+item.desc+'</div>';
+  html += '</div></div>';
+  return html;
+}
+
+function darken(hex) {
+  // Returns a slightly different shade for gradient
+  try {
+    var r = parseInt(hex.slice(1,3),16);
+    var g = parseInt(hex.slice(3,5),16);
+    var b = parseInt(hex.slice(5,7),16);
+    return 'rgb('+(r+20)+','+(g+20)+','+(b+30)+')';
+  } catch(e) { return '#2a2a3a'; }
+}
+
+function renderGrid(containerId, items) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = items.map(function(g,i){ return makeCard(g,i); }).join('');
+  attachCardListeners(el);
+  // Init tilt
+  VanillaTilt.init(el.querySelectorAll('.card'), {
+    max:12, speed:400, glare:true, 'max-glare':0.15, perspective:800
+  });
+}
+
+function attachCardListeners(container) {
+  container.querySelectorAll('.card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var iid = parseInt(card.dataset.iid);
+      var item = allItems.find(function(x){ return x.iid===iid; });
+      if (item) openItem(item);
+    });
+  });
+}
+
+function renderAll() {
+  renderGrid('gamesGrid', GAMES);
+  renderGrid('entGrid', ENTERTAINMENT);
+  renderGrid('toolsGrid', TOOLS);
+}
+
+// ── OPEN ITEM ─────────────────────────────────────────────────────────────────
+function openItem(item) {
+  if (item.locked && !isUnlocked(item.id)) {
+    openSettings();
+    document.getElementById('codeInput').focus();
+    return;
+  }
+  if (item.type === 'popup') {
+    window.open(item.url, item.name, 'width=1280,height=720,resizable=yes');
+    return;
+  }
+  if (item.type === 'movies') { openMovieBrowser(); return; }
+  if (item.type === 'music') { window.open('https://monochrome.tf/', '_blank'); return; }
+  if (item.type === 'books') { window.open('https://z-lib.gd/', '_blank'); return; }
+  // iframe
+  document.getElementById('modalEmoji').textContent = item.emoji;
+  document.getElementById('modalTitle').textContent = item.name;
+  document.getElementById('modalBody').innerHTML = '<iframe class="modal-frame" src="'+item.url+'" allowfullscreen allow="autoplay; fullscreen"></iframe>';
+  document.getElementById('mainModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('mainModal').classList.remove('open');
+  document.getElementById('modalBody').innerHTML = '';
+  document.body.style.overflow = '';
+}
+function closeBg(e){ if(e.target===document.getElementById('mainModal')) closeModal(); }
+function goFS(){
+  var f = document.querySelector('#modalBody iframe');
+  if(f && f.requestFullscreen) f.requestFullscreen();
+  else if(f && f.webkitRequestFullscreen) f.webkitRequestFullscreen();
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+function handleSearch() {
+  var q = document.getElementById('searchInput').value.toLowerCase().trim();
+  var mc = document.getElementById('mainContent');
+  var sr = document.getElementById('searchResults');
+  if (!q) { mc.style.display=''; sr.style.display='none'; return; }
+  var filtered = allItems.filter(function(g){ return g.name.toLowerCase().indexOf(q)>=0 || g.desc.toLowerCase().indexOf(q)>=0 || (g.tag||'').toLowerCase().indexOf(q)>=0; });
+  mc.style.display='none'; sr.style.display='';
+  document.getElementById('searchLabel').textContent = filtered.length + ' results for "' + q + '"';
+  var grid = document.getElementById('searchGrid');
+  if (filtered.length) {
+    grid.innerHTML = filtered.map(function(g,i){ return makeCard(g,i); }).join('');
+    attachCardListeners(grid);
+    VanillaTilt.init(grid.querySelectorAll('.card'), {max:12,speed:400,glare:true,'max-glare':0.15,perspective:800});
+  } else {
+    grid.innerHTML = '<div class="no-results"><div class="big">🔍</div><p>Nothing found for "'+q+'"</p></div>';
+  }
+}
+
+// ── MOVIES ────────────────────────────────────────────────────────────────────
+var MOVIES = [
+  {id:155,title:"The Dark Knight",type:"movie",poster:"https://image.tmdb.org/t/p/w300/qJ2tW6WMUDux911r6m7haRef0WH.jpg",year:"2008"},
+  {id:550,title:"Fight Club",type:"movie",poster:"https://image.tmdb.org/t/p/w300/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",year:"1999"},
+  {id:27205,title:"Inception",type:"movie",poster:"https://image.tmdb.org/t/p/w300/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg",year:"2010"},
+  {id:157336,title:"Interstellar",type:"movie",poster:"https://image.tmdb.org/t/p/w300/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",year:"2014"},
+  {id:238,title:"The Godfather",type:"movie",poster:"https://image.tmdb.org/t/p/w300/3bhkrj58Vtu7enYsLori8pJxiPAz.jpg",year:"1972"},
+  {id:278,title:"Shawshank Redemption",type:"movie",poster:"https://image.tmdb.org/t/p/w300/lyQBXzOQSuE59IsHyhrp0qIiPAz.jpg",year:"1994"},
+  {id:680,title:"Pulp Fiction",type:"movie",poster:"https://image.tmdb.org/t/p/w300/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",year:"1994"},
+  {id:13,title:"Forrest Gump",type:"movie",poster:"https://image.tmdb.org/t/p/w300/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",year:"1994"},
+  {id:603,title:"The Matrix",type:"movie",poster:"https://image.tmdb.org/t/p/w300/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",year:"1999"},
+  {id:120,title:"Lord of the Rings",type:"movie",poster:"https://image.tmdb.org/t/p/w300/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg",year:"2001"},
+  {id:299534,title:"Avengers: Endgame",type:"movie",poster:"https://image.tmdb.org/t/p/w300/or06FN3Dka5tukK1e9sl16pB3iy.jpg",year:"2019"},
+  {id:475557,title:"Joker",type:"movie",poster:"https://image.tmdb.org/t/p/w300/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg",year:"2019"},
+  {id:862,title:"Toy Story",type:"movie",poster:"https://image.tmdb.org/t/p/w300/uXDfjJbdP4ijW5hWSBrPu9VDMhc.jpg",year:"1995"},
+  {id:105,title:"Back to the Future",type:"movie",poster:"https://image.tmdb.org/t/p/w300/fNOH9f1aA7XRTzl1sAOx9iF553Q.jpg",year:"1985"},
+  {id:9806,title:"The Incredibles",type:"movie",poster:"https://image.tmdb.org/t/p/w300/2LqaLgk4Z226KkgPJuiOQ58ShKD.jpg",year:"2004"},
+  {id:2109,title:"Mean Girls",type:"movie",poster:"https://image.tmdb.org/t/p/w300/fVM4FcAWBpjjxCFJOANMJeEUPuT.jpg",year:"2004"},
+  {id:10528,title:"Superbad",type:"movie",poster:"https://image.tmdb.org/t/p/w300/ek8e8txUyUwd2BNqj6lFEerJfbq.jpg",year:"2007"},
+  {id:15654,title:"The Hangover",type:"movie",poster:"https://image.tmdb.org/t/p/w300/uluhlXubGu1VxU63X9VHCLWDAYP.jpg",year:"2009"},
+  {id:9737,title:"Happy Gilmore",type:"movie",poster:"https://image.tmdb.org/t/p/w300/6y6UbJJNqFiCpzpSlcJkJRdBcpY.jpg",year:"1996"},
+  {id:420,title:"Borat",type:"movie",poster:"https://image.tmdb.org/t/p/w300/8zPaFSRMNaBzQqKbKHqHVBNnZ8m.jpg",year:"2006"},
+];
+var TV_SHOWS = [
+  {id:1396,title:"Breaking Bad",type:"tv",poster:"https://image.tmdb.org/t/p/w300/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",year:"2008"},
+  {id:1399,title:"Game of Thrones",type:"tv",poster:"https://image.tmdb.org/t/p/w300/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",year:"2011"},
+  {id:66732,title:"Stranger Things",type:"tv",poster:"https://image.tmdb.org/t/p/w300/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",year:"2016"},
+  {id:73228,title:"The Rookie",type:"tv",poster:"https://image.tmdb.org/t/p/w300/9ns9463GOxeEPGNEEE3sVFDRbUQ.jpg",year:"2018"},
+  {id:60735,title:"The Flash",type:"tv",poster:"https://image.tmdb.org/t/p/w300/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",year:"2014"},
+  {id:76479,title:"The Boys",type:"tv",poster:"https://image.tmdb.org/t/p/w300/stTEycfG9928HYGEISBFaG1ngjM.jpg",year:"2019"},
+  {id:60574,title:"Peaky Blinders",type:"tv",poster:"https://image.tmdb.org/t/p/w300/vUUqzWa2LnHIVqkaKVlVGkPaQca.jpg",year:"2013"},
+  {id:71446,title:"Money Heist",type:"tv",poster:"https://image.tmdb.org/t/p/w300/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg",year:"2017"},
+  {id:2316,title:"The Office",type:"tv",poster:"https://image.tmdb.org/t/p/w300/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg",year:"2005"},
+  {id:1668,title:"Friends",type:"tv",poster:"https://image.tmdb.org/t/p/w300/f496cm9enuEsZkSPzCwnTESEK5s.jpg",year:"1994"},
+  {id:2747,title:"Brooklyn Nine-Nine",type:"tv",poster:"https://image.tmdb.org/t/p/w300/hgRMSOt7a1b8qyQR68vUixJPang.jpg",year:"2013"},
+  {id:75006,title:"Cobra Kai",type:"tv",poster:"https://image.tmdb.org/t/p/w300/obLBdhLxheKg8Li1BobDX4nYOYk.jpg",year:"2018"},
+  {id:82856,title:"The Mandalorian",type:"tv",poster:"https://image.tmdb.org/t/p/w300/sWgBv7LV2renceCATZjaMCItumH.jpg",year:"2019"},
+  {id:87108,title:"Chernobyl",type:"tv",poster:"https://image.tmdb.org/t/p/w300/hlLXt2tOPT6RRnjiUmoxyG1LTFi.jpg",year:"2019"},
+  {id:94954,title:"Better Call Saul",type:"tv",poster:"https://image.tmdb.org/t/p/w300/fC2HDm5t0kHl7mTm7jxMR31b7by.jpg",year:"2015"},
+  {id:456,title:"The Simpsons",type:"tv",poster:"https://image.tmdb.org/t/p/w300/2IWouZCMuEHBHVKJfKBEMbrQNkr.jpg",year:"1989"},
+  {id:2190,title:"South Park",type:"tv",poster:"https://image.tmdb.org/t/p/w300/vkZSd0Lp8iAqbM6FoALVqBp7ziN.jpg",year:"1997"},
+  {id:4983,title:"Family Guy",type:"tv",poster:"https://image.tmdb.org/t/p/w300/y0HUz4eolsYFoEGzt4qCMv8gLbm.jpg",year:"1999"},
+  {id:1418,title:"Big Bang Theory",type:"tv",poster:"https://image.tmdb.org/t/p/w300/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg",year:"2007"},
+  {id:1403,title:"Parks and Recreation",type:"tv",poster:"https://image.tmdb.org/t/p/w300/mYLOqiStMxDK3fYZFirgrMt8z5d.jpg",year:"2009"},
+];
+
+function openMovieBrowser() {
+  document.getElementById('modalEmoji').textContent = '🎬';
+  document.getElementById('modalTitle').textContent = 'Movies & TV';
+  document.getElementById('fsBtn').style.display = 'none';
+  renderMovieBrowser();
+  document.getElementById('mainModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderMovieBrowser() {
+  var list = currentMediaType === 'movie' ? MOVIES : TV_SHOWS;
+  var body = document.getElementById('modalBody');
+  body.className = 'modal-body';
+  body.innerHTML = '';
+
+  var browser = document.createElement('div');
+  browser.className = 'movie-browser';
+
+  // Toolbar
+  var toolbar = document.createElement('div');
+  toolbar.className = 'movie-toolbar';
+
+  var searchInp = document.createElement('input');
+  searchInp.className = 'movie-search';
+  searchInp.placeholder = 'Search or enter TMDB ID...';
+  searchInp.addEventListener('input', function(){ filterMovies(searchInp.value, grid); });
+  searchInp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ var id=parseInt(searchInp.value); if(!isNaN(id)) playMovie(id, currentMediaType); } });
+
+  var btnM = document.createElement('button');
+  btnM.className = 'm-tab'+(currentMediaType==='movie'?' active':'');
+  btnM.textContent = '🎬 Movies';
+  btnM.addEventListener('click', function(){ currentMediaType='movie'; renderMovieBrowser(); });
+
+  var btnT = document.createElement('button');
+  btnT.className = 'm-tab'+(currentMediaType==='tv'?' active':'');
+  btnT.textContent = '📺 TV Shows';
+  btnT.addEventListener('click', function(){ currentMediaType='tv'; renderMovieBrowser(); });
+
+  toolbar.appendChild(searchInp);
+  toolbar.appendChild(btnM);
+  toolbar.appendChild(btnT);
+  browser.appendChild(toolbar);
+
+  var grid = document.createElement('div');
+  grid.className = 'movie-grid';
+  browser.appendChild(grid);
+  body.appendChild(browser);
+
+  fillMovieGrid(grid, list);
+}
+
+function fillMovieGrid(grid, list) {
+  grid.innerHTML = '';
+  list.forEach(function(m) {
+    var card = document.createElement('div');
+    card.className = 'movie-card';
+    card.innerHTML = '<img src="'+m.poster+'" alt="'+m.title+'" loading="lazy"><div class="movie-info"><div class="movie-name">'+m.title+'</div><div class="movie-year">'+m.year+'</div></div>';
+    card.addEventListener('click', function(){ playMovie(m.id, m.type); });
+    grid.appendChild(card);
+  });
+}
+
+function filterMovies(q, grid) {
+  var list = currentMediaType === 'movie' ? MOVIES : TV_SHOWS;
+  var filtered = q ? list.filter(function(m){ return m.title.toLowerCase().indexOf(q.toLowerCase())>=0; }) : list;
+  fillMovieGrid(grid, filtered);
+}
+
+function playMovie(id, type, season, episode) {
+  season = season||1; episode = episode||1;
+  var body = document.getElementById('modalBody');
+  body.innerHTML = '';
+  document.getElementById('fsBtn').style.display = '';
+
+  var wrap = document.createElement('div');
+  wrap.style.cssText = 'padding:1rem;display:flex;flex-direction:column;gap:10px;height:100%';
+
+  var backBtn = document.createElement('button');
+  backBtn.className = 'back-btn';
+  backBtn.textContent = '← Back to Browse';
+  backBtn.addEventListener('click', function(){ document.getElementById('fsBtn').style.display='none'; renderMovieBrowser(); });
+  wrap.appendChild(backBtn);
+
+  var srvRow = document.createElement('div');
+  srvRow.className = 'srv-row';
+  var lbl = document.createElement('span');
+  lbl.className = 'srv-label';
+  lbl.textContent = 'Source:';
+  srvRow.appendChild(lbl);
+  wrap.appendChild(srvRow);
+
+  var iframe = document.createElement('iframe');
+  iframe.className = 'movie-frame';
+  iframe.setAttribute('allowfullscreen','');
+  iframe.setAttribute('allow','autoplay; fullscreen; encrypted-media');
+  wrap.appendChild(iframe);
+  body.appendChild(wrap);
+
+  var servers = type==='movie' ? [
+    {name:'Vidking',  url:'https://www.vidking.net/embed/movie/'+id+'?color=111111&autoPlay=true'},
+    {name:'Source 2', url:'https://vidsrc.to/embed/movie/'+id},
+    {name:'Source 3', url:'https://vidsrc.me/embed/movie?tmdb='+id},
+    {name:'Source 4', url:'https://www.2embed.cc/embed/'+id}
+  ] : [
+    {name:'Vidking',  url:'https://www.vidking.net/embed/tv/'+id+'/'+season+'/'+episode+'?color=111111&autoPlay=true&nextEpisode=true&episodeSelector=true'},
+    {name:'Source 2', url:'https://vidsrc.to/embed/tv/'+id+'/'+season+'/'+episode},
+    {name:'Source 3', url:'https://vidsrc.me/embed/tv?tmdb='+id+'&season='+season+'&episode='+episode},
+    {name:'Source 4', url:'https://www.2embed.cc/embedtv/'+id+'&s='+season+'&e='+episode}
+  ];
+
+  servers.forEach(function(s,i) {
+    var btn = document.createElement('button');
+    btn.className = 'srv-btn'+(i===0?' active':'');
+    btn.textContent = s.name;
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.srv-btn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      iframe.src = s.url;
+    });
+    srvRow.appendChild(btn);
+    if(i===0) iframe.src = s.url;
+  });
+}
+
+// ── SETTINGS ─────────────────────────────────────────────────────────────────
+function openSettings() { document.getElementById('settingsModal').classList.add('open'); updateUnlockedList(); }
+function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
+
+function applyCloak() {
+  document.title = S.cloakTitle;
+  document.getElementById('fav').href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>"+S.cloakIcon+"</text></svg>";
+}
+function removeCloak() {
+  document.title = 'PeterTools';
+  document.getElementById('fav').href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>";
+}
+function toggleCloak() { S.cloakEnabled=document.getElementById('cloakOn').checked; S.cloakEnabled?applyCloak():removeCloak(); }
+function selectDisguise(btn,title,url,icon) { document.querySelectorAll('.db').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); S.cloakTitle=title; S.cloakUrl=url; S.cloakIcon=icon; if(S.cloakEnabled) applyCloak(); }
+function selectKey(btn,key) { document.querySelectorAll('.kb').forEach(function(b){ b.classList.remove('active'); }); btn.classList.add('active'); S.panicKey=key; }
+function saveSettings() { S.cloakEnabled=document.getElementById('cloakOn').checked; S.panicEnabled=document.getElementById('panicOn').checked; try{localStorage.setItem('pt_s',JSON.stringify(S));}catch(e){} if(S.cloakEnabled) applyCloak(); else removeCloak(); var m=document.getElementById('savedMsg'); m.style.display='block'; setTimeout(function(){ m.style.display='none'; },2000); }
+
+// ── CODES ─────────────────────────────────────────────────────────────────────
+function isUnlocked(id) { return unlockedFeatures.indexOf(id)>=0 || unlockedFeatures.indexOf('all')>=0; }
+
+async function redeemCode() {
+  var code = document.getElementById('codeInput').value.trim().toUpperCase();
+  var msg = document.getElementById('codeMsg');
+  if (!code) return;
+  var feature = CODES[code];
+  if (!feature) { msg.textContent='Invalid code!'; msg.className='code-msg err'; return; }
+  var features = feature==='all' ? ['movies','music','books'] : [feature];
+  features.forEach(function(f){ if(unlockedFeatures.indexOf(f)<0) unlockedFeatures.push(f); });
+  try { localStorage.setItem('pt_u', JSON.stringify(unlockedFeatures)); } catch(e){}
+  if (currentUser) {
+    try { var ins=features.map(function(f){ return {user_id:currentUser.id,code:f}; }); await sb.from('unlocked_codes').upsert(ins,{onConflict:'user_id,code'}); } catch(e){}
+  }
+  msg.textContent='✓ Unlocked!'; msg.className='code-msg ok';
+  document.getElementById('codeInput').value='';
+  updateUnlockedList();
+  renderAll(); // re-render to update locked state
+}
+
+function updateUnlockedList() {
+  var list = document.getElementById('unlockedList');
+  if(!list) return;
+  var labels = {movies:'🎬 Movies',music:'🎵 Music',books:'📚 Books'};
+  list.innerHTML = unlockedFeatures.length
+    ? unlockedFeatures.map(function(f){ return '<span class="uchip">'+(labels[f]||f)+'</span>'; }).join('')
+    : '<span style="font-size:12px;color:var(--muted);font-weight:500">Nothing unlocked yet</span>';
+}
+
+// ── PANIC ─────────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  if(!S.panicEnabled) return;
+  if(e.ctrlKey && e.key===S.panicKey) { e.preventDefault(); panicVisible?hidePanic():showPanic(); }
+});
+function showPanic() { panicVisible=true; document.getElementById('panicFrame').src=S.cloakUrl; document.getElementById('panicOverlay').style.display='block'; }
+function hidePanic() { panicVisible=false; document.getElementById('panicOverlay').style.display='none'; document.getElementById('panicFrame').src=''; }
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+sb.auth.onAuthStateChange(function(ev, session) {
+  if(session&&session.user) { currentUser=session.user; loadUserData(); }
+  else { currentUser=null; userProfile=null; favorites=[]; updateAuthUI(); }
+});
+
+async function loadUserData() {
+  try {
+    var r=await sb.from('profiles').select('*').eq('id',currentUser.id).single(); userProfile=r.data;
+    var fr=await sb.from('favorites').select('*').eq('user_id',currentUser.id); favorites=fr.data?fr.data.map(function(f){return f.game_name;}):[]; 
+    var cr=await sb.from('unlocked_codes').select('*').eq('user_id',currentUser.id); if(cr.data){cr.data.forEach(function(c){if(unlockedFeatures.indexOf(c.code)<0)unlockedFeatures.push(c.code);});try{localStorage.setItem('pt_u',JSON.stringify(unlockedFeatures));}catch(e){}}
+    updateAuthUI(); updateUnlockedList(); renderAll();
+  } catch(e){}
+}
+
+function updateAuthUI() {
+  var lb=document.getElementById('loginBtn'); var av=document.getElementById('userAvatar');
+  if(currentUser){ lb.style.display='none'; av.style.display='flex'; var n=userProfile?userProfile.username:currentUser.email.split('@')[0]; av.textContent=n[0].toUpperCase(); document.getElementById('dropName').textContent=n; document.getElementById('dropEmail').textContent=currentUser.email; }
+  else { lb.style.display=''; av.style.display='none'; }
+}
+function openAuth(){ document.getElementById('authModal').classList.add('open'); }
+function closeAuth(){ document.getElementById('authModal').classList.remove('open'); }
+function switchTab(t){ document.getElementById('tab-login').classList.toggle('active',t==='login'); document.getElementById('tab-signup').classList.toggle('active',t==='signup'); document.getElementById('login-form').style.display=t==='login'?'':'none'; document.getElementById('signup-form').style.display=t==='signup'?'':'none'; document.getElementById('auth-msg').textContent=''; }
+async function doLogin(){ var e=document.getElementById('login-email').value.trim(); var p=document.getElementById('login-pass').value; var m=document.getElementById('auth-msg'); if(!e||!p){m.textContent='Fill in all fields';m.className='auth-msg err';return;} m.textContent='Signing in...';m.className='auth-msg'; var r=await sb.auth.signInWithPassword({email:e,password:p}); if(r.error){m.textContent=r.error.message;m.className='auth-msg err';}else{closeAuth();} }
+async function doSignup(){ var u=document.getElementById('signup-user').value.trim(); var e=document.getElementById('signup-email').value.trim(); var p=document.getElementById('signup-pass').value; var m=document.getElementById('auth-msg'); if(!u||!e||!p){m.textContent='Fill in all fields';m.className='auth-msg err';return;} if(p.length<6){m.textContent='Password too short';m.className='auth-msg err';return;} m.textContent='Creating account...';m.className='auth-msg'; var r=await sb.auth.signUp({email:e,password:p}); if(r.error){m.textContent=r.error.message;m.className='auth-msg err';return;} if(r.data.user){await sb.from('profiles').insert({id:r.data.user.id,username:u}); m.textContent='✓ Check your email to verify!';m.className='auth-msg ok'; setTimeout(closeAuth,3000);} }
+async function doLogout(){ await sb.auth.signOut(); document.getElementById('userDrop').classList.remove('open'); }
+function toggleUserDrop(){ document.getElementById('userDrop').classList.toggle('open'); }
+document.addEventListener('click',function(e){ var w=document.getElementById('userWrap'); if(w&&!w.contains(e.target)) document.getElementById('userDrop').classList.remove('open'); });
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.getElementById('cloakOn').checked = S.cloakEnabled;
+document.getElementById('panicOn').checked = S.panicEnabled;
+if(S.cloakEnabled) applyCloak();
+updateUnlockedList();
+renderAll();
+</script>
+</body>
+</html>
